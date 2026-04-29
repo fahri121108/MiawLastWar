@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins, Arial;}
 
 body{
     background:url('URL_BACKGROUND') no-repeat center/cover;
@@ -24,8 +24,8 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    flex-direction:column;
     color:#00f7ff;
+    font-size:18px;
     z-index:999;
 }
 
@@ -33,47 +33,45 @@ body{
 .app{
     width:95%;
     max-width:380px;
-    height:90vh;
-    background:rgba(0,0,0,0.9);
+    height:92vh;
+    background:rgba(0,0,0,0.85);
     border-radius:20px;
     display:none;
     flex-direction:column;
     overflow:hidden;
+    backdrop-filter:blur(10px);
     box-shadow:0 0 25px #00f7ff;
 }
 
-/* GRID CONTENT */
+/* CONTENT GRID */
 .content{
     flex:1;
     padding:10px;
     overflow-y:auto;
-    color:white;
-
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:8px;
+    gap:6px;
 }
 
-/* PROFILE FULL */
+/* PROFILE */
 .profile{
     grid-column:span 2;
     text-align:center;
 }
 
 .profile img{
-    width:70px;
-    height:70px;
+    width:70px;height:70px;
     border-radius:50%;
     border:2px solid #00f7ff;
+    box-shadow:0 0 10px #00f7ff;
 }
 
 /* CARD */
 .card{
-    background:rgba(255,255,255,0.08);
-    border-radius:10px;
+    background:rgba(255,255,255,0.06);
+    border-radius:12px;
     padding:8px;
     font-size:12px;
-    box-shadow:0 0 8px rgba(0,255,255,0.2);
 }
 
 /* FULL WIDTH */
@@ -82,13 +80,21 @@ body{
 /* BUTTON */
 .btn{
     display:block;
-    padding:8px;
-    border-radius:8px;
+    width:100%;
+    padding:10px;
+    border-radius:10px;
     text-align:center;
     background:linear-gradient(45deg,#00f7ff,#006eff);
     color:white;
     text-decoration:none;
+    font-weight:bold;
     margin-top:5px;
+    box-shadow:0 0 10px #00f7ff;
+    transition:0.2s;
+}
+.btn:active{
+    transform:scale(0.95);
+    box-shadow:0 0 20px #00f7ff;
 }
 
 /* GALERI */
@@ -98,7 +104,7 @@ body{
 .gallery img{
     width:100%;
     border-radius:10px;
-    margin-bottom:5px;
+    margin-bottom:6px;
 }
 
 /* NAVBAR */
@@ -108,21 +114,26 @@ body{
     background:black;
     padding:8px;
 }
-
 .nav-item{
     font-size:11px;
     text-align:center;
-    color:white;
+    color:#aaa;
     cursor:pointer;
 }
-
 .nav-item.active{
     color:#00f7ff;
     text-shadow:0 0 10px #00f7ff;
 }
 
-/* PAGE */
-.page{display:none;}
+/* PAGE ANIMATION */
+.page{
+    display:none;
+    animation:fade 0.3s ease;
+}
+@keyframes fade{
+    from{opacity:0;transform:translateY(10px);}
+    to{opacity:1;}
+}
 
 /* POPUP */
 .popup{
@@ -133,7 +144,6 @@ body{
     justify-content:center;
     align-items:center;
 }
-
 .popup-content{
     background:#111;
     color:white;
@@ -146,7 +156,7 @@ body{
 /* CONFETTI */
 .confetti{
     position:fixed;
-    width:8px;height:8px;
+    width:6px;height:6px;
     animation:fall 2s linear infinite;
 }
 @keyframes fall{
@@ -158,19 +168,14 @@ body{
 
 <body>
 
-<!-- LOADING -->
-<div id="loading">
-    <h2>Loading Game...</h2>
-</div>
+<div id="loading">Loading Game...</div>
 
-<!-- APP -->
 <div class="app" id="app">
 
 <div class="content">
 
 <!-- HOME -->
 <div id="home" class="page" style="display:block;">
-
     <div class="profile">
         <img src="URL_PROFILE">
         <h3>K1NG OF FIGHTER</h3>
@@ -178,20 +183,19 @@ body{
 
     <div class="card full">
         <a class="btn" onclick="sound()" href="https://wa.me/628xxxxxxx">WhatsApp</a>
-        <a class="btn" onclick="sound()" href="LINK_GRUP">Grup</a>
+        <a class="btn" onclick="sound()" href="LINK_GRUP">Grup Last War</a>
     </div>
 
-    <div class="card">Power: 5M</div>
-    <div class="card">HQ: 16</div>
-
+    <div class="card">Aliansi aktif & solid</div>
+    <div class="card">Komunitas santai & kompak</div>
 </div>
 
 <!-- INFO -->
 <div id="info" class="page">
-    <div class="card">Aliansi aktif</div>
-    <div class="card">No toxic</div>
-    <div class="card">Solid team</div>
-    <div class="card">Tambah info bebas</div>
+    <div class="card">Aliansi berkembang bersama</div>
+    <div class="card">No toxic, semua welcome</div>
+    <div class="card">Fokus teamwork</div>
+    <div class="card">Tambahkan info bebas</div>
 </div>
 
 <!-- GALERI -->
@@ -205,9 +209,9 @@ body{
 
 <!-- PENGUMUMAN -->
 <div id="pengumuman" class="page">
-    <div class="card">Event aktif</div>
-    <div class="card">Wajib kontribusi</div>
-    <div class="card">Tambah pengumuman</div>
+    <div class="card">🔥 Event rutin aktif</div>
+    <div class="card">⚡ Selalu bantu member</div>
+    <div class="card">📢 Tambah pengumuman bebas</div>
 </div>
 
 <!-- DONASI -->
@@ -220,11 +224,11 @@ body{
 
 <!-- NAVBAR -->
 <div class="navbar">
-    <div class="nav-item active" onclick="nav('home',this)">Home</div>
-    <div class="nav-item" onclick="nav('info',this)">Info</div>
-    <div class="nav-item" onclick="nav('galeri',this)">Galeri</div>
-    <div class="nav-item" onclick="nav('pengumuman',this)">News</div>
-    <div class="nav-item" onclick="nav('donasi',this)">Donasi</div>
+    <div class="nav-item active" onclick="nav('home',this)">🏠</div>
+    <div class="nav-item" onclick="nav('info',this)">📜</div>
+    <div class="nav-item" onclick="nav('galeri',this)">🖼️</div>
+    <div class="nav-item" onclick="nav('pengumuman',this)">📢</div>
+    <div class="nav-item" onclick="nav('donasi',this)">💰</div>
 </div>
 
 </div>
@@ -240,18 +244,15 @@ body{
 
 <script>
 
-/* LOADING */
 setTimeout(()=>{
     document.getElementById("loading").style.display="none";
     document.getElementById("app").style.display="flex";
-},1500);
+},1200);
 
-/* SOUND */
 function sound(){
     document.getElementById("klik").play();
 }
 
-/* NAV */
 function nav(id,el){
     sound();
     document.querySelectorAll('.page').forEach(p=>p.style.display='none');
@@ -261,12 +262,11 @@ function nav(id,el){
     el.classList.add('active');
 }
 
-/* DONASI */
 function donasi(){
     sound();
     document.getElementById("popup").style.display="flex";
 
-    for(let i=0;i<20;i++){
+    for(let i=0;i<25;i++){
         let c=document.createElement("div");
         c.className="confetti";
         c.style.left=Math.random()*100+"%";
