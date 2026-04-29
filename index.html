@@ -18,16 +18,26 @@ body {
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    padding: 20px;
+    align-items: center;
 }
 
-/* container */
-.container {
+/* container utama */
+.app {
     width: 100%;
     max-width: 420px;
-    background: rgba(0,0,0,0.65);
+    height: 95vh;
+    background: rgba(0,0,0,0.7);
     backdrop-filter: blur(12px);
     border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* content */
+.content {
+    flex: 1;
+    overflow-y: auto;
     padding: 20px;
     color: white;
 }
@@ -49,42 +59,23 @@ body {
     margin-top: 10px;
 }
 
-.profile p {
-    color: #ccc;
-    font-size: 14px;
-}
-
 /* tombol */
 .link {
     display: block;
-    text-decoration: none;
     margin: 10px 0;
     padding: 12px;
     border-radius: 12px;
+    text-align: center;
     background: linear-gradient(45deg, #00c6ff, #0072ff);
     color: white;
-    text-align: center;
-    font-weight: bold;
-    transition: 0.3s;
+    text-decoration: none;
 }
 
-.link:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #ff512f, #dd2476);
-}
-
-/* box menu */
-.menuBox {
-    display: none;
-    margin-top: 10px;
-}
-
-/* teks */
+/* text */
 .text-box {
     background: rgba(255,255,255,0.1);
     padding: 10px;
     border-radius: 10px;
-    font-size: 13px;
     margin-bottom: 10px;
 }
 
@@ -95,115 +86,120 @@ body {
     margin-bottom: 10px;
 }
 
-/* donasi */
-#donasiBox {
+/* page hide */
+.page {
     display: none;
 }
 
-.footer {
+/* navbar bawah */
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    background: rgba(0,0,0,0.9);
+    padding: 10px;
+}
+
+.navbar div {
+    color: white;
     text-align: center;
     font-size: 12px;
-    margin-top: 15px;
-    color: #aaa;
+    cursor: pointer;
+}
+
+.navbar div:hover {
+    color: #00c6ff;
 }
 </style>
+
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-    <!-- PROFILE -->
-    <div class="profile">
-        <img src="URL_PROFILE">
-        <h1>K1NG OF FIGHTER</h1>
-        <p>Aliansi Solid • Aktif • No Toxic</p>
-    </div>
+    <div class="content">
 
-    <!-- BUTTON UTAMA -->
-    <a class="link" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
-    <a class="link" href="LINK_GRUP">🎮 Grup Last War</a>
+        <!-- BERANDA -->
+        <div id="home" class="page" style="display:block;">
+            <div class="profile">
+                <img src="URL_PROFILE">
+                <h1>K1NG OF FIGHTER</h1>
+                <p>Aliansi Solid • Aktif • No Toxic</p>
+            </div>
 
-    <!-- DONASI -->
-    <a class="link" href="#" onclick="toggleDonasi()">💰 Donasi</a>
-    <div id="donasiBox">
-        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">
-            ✅ Sudah Donasi
-        </a>
-    </div>
-
-    <!-- INFORMASI -->
-    <a class="link" onclick="toggleMenu('info')">📜 Informasi Aliansi</a>
-    <div id="info" class="menuBox">
-        <div class="text-box">
-            K1NG OF FIGHTER adalah aliansi solid, aktif, dan fokus berkembang bersama.
+            <a class="link" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
+            <a class="link" href="LINK_GRUP">🎮 Grup Last War</a>
         </div>
 
-        <div class="text-box">
-            ⚔️ HQ Minimal: 16 <br>
-            ⚔️ Power Minimal: 5M
+        <!-- INFO -->
+        <div id="info" class="page">
+            <h2>📜 Informasi Aliansi</h2>
+
+            <div class="text-box">
+                K1NG OF FIGHTER adalah aliansi solid dan aktif.
+            </div>
+
+            <div class="text-box">
+                HQ Minimal: 16 <br>
+                Power Minimal: 5M
+            </div>
         </div>
+
+        <!-- GALERI -->
+        <div id="galeri" class="page">
+            <h2>🖼️ Galeri</h2>
+
+            <div class="gallery">
+                <img src="URL_FOTO_1">
+                <img src="URL_FOTO_2">
+            </div>
+        </div>
+
+        <!-- PENGUMUMAN -->
+        <div id="pengumuman" class="page">
+            <h2>📢 Pengumuman</h2>
+
+            <div class="text-box">
+                Event mingguan aktif!
+            </div>
+
+            <div class="text-box">
+                Member wajib kontribusi harian.
+            </div>
+        </div>
+
+        <!-- DONASI -->
+        <div id="donasi" class="page">
+            <h2>💰 Donasi</h2>
+
+            <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">
+                ✅ Sudah Donasi
+            </a>
+        </div>
+
     </div>
 
-    <!-- GALERI -->
-    <a class="link" onclick="toggleMenu('galeri')">🖼️ Galeri</a>
-    <div id="galeri" class="menuBox">
-        <div class="gallery">
-            <img src="URL_FOTO_1">
-            <img src="URL_FOTO_2">
-        </div>
-    </div>
-
-    <!-- PENGUMUMAN -->
-    <a class="link" onclick="toggleMenu('pengumuman')">📢 Pengumuman</a>
-    <div id="pengumuman" class="menuBox">
-        <div class="text-box">
-            Event mingguan aktif!
-        </div>
-
-        <div class="text-box">
-            Member wajib kontribusi harian.
-        </div>
-    </div>
-
-    <div class="footer">
-        © 2026 K1NG OF FIGHTER
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div onclick="showPage('home')">🏠<br>Home</div>
+        <div onclick="showPage('info')">📜<br>Info</div>
+        <div onclick="showPage('galeri')">🖼️<br>Galeri</div>
+        <div onclick="showPage('pengumuman')">📢<br>Info</div>
+        <div onclick="showPage('donasi')">💰<br>Donasi</div>
     </div>
 
 </div>
 
 <script>
+function showPage(id) {
+    var pages = document.querySelectorAll('.page');
 
-/* toggle donasi */
-function toggleDonasi() {
-    var box = document.getElementById("donasiBox");
-
-    if (box.style.display === "block") {
-        box.style.display = "none";
-    } else {
-        box.style.display = "block";
-    }
-}
-
-/* toggle menu */
-function toggleMenu(id) {
-    var menus = document.querySelectorAll('.menuBox');
-
-    menus.forEach(function(menu) {
-        if (menu.id !== id) {
-            menu.style.display = "none";
-        }
+    pages.forEach(function(p) {
+        p.style.display = "none";
     });
 
-    var current = document.getElementById(id);
-
-    if (current.style.display === "block") {
-        current.style.display = "none";
-    } else {
-        current.style.display = "block";
-    }
+    document.getElementById(id).style.display = "block";
 }
-
 </script>
 
 </body>
