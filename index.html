@@ -14,13 +14,14 @@
 }
 
 body {
-    background: url('URL_GAMBAR_BACKGROUND') no-repeat center center/cover;
+    background: url('URL_BACKGROUND') no-repeat center center/cover;
     min-height: 100vh;
     display: flex;
     justify-content: center;
     padding: 20px;
 }
 
+/* container */
 .container {
     width: 100%;
     max-width: 420px;
@@ -31,6 +32,7 @@ body {
     color: white;
 }
 
+/* profile */
 .profile {
     text-align: center;
     margin-bottom: 20px;
@@ -71,24 +73,13 @@ body {
     background: linear-gradient(45deg, #ff512f, #dd2476);
 }
 
-/* section */
-.section {
-    margin-top: 20px;
+/* box menu */
+.menuBox {
+    display: none;
+    margin-top: 10px;
 }
 
-.section h2 {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-/* galeri foto */
-.gallery img {
-    width: 100%;
-    border-radius: 12px;
-    margin-bottom: 10px;
-}
-
-/* teks panjang */
+/* teks */
 .text-box {
     background: rgba(255,255,255,0.1);
     padding: 10px;
@@ -97,9 +88,16 @@ body {
     margin-bottom: 10px;
 }
 
+/* galeri */
+.gallery img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+/* donasi */
 #donasiBox {
     display: none;
-    margin-top: 10px;
 }
 
 .footer {
@@ -117,70 +115,54 @@ body {
 
     <!-- PROFILE -->
     <div class="profile">
-        <img src="URL_FOTO_PROFILE">
+        <img src="URL_PROFILE">
         <h1>K1NG OF FIGHTER</h1>
         <p>Aliansi Solid • Aktif • No Toxic</p>
     </div>
 
-    <!-- BUTTON -->
+    <!-- BUTTON UTAMA -->
     <a class="link" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
     <a class="link" href="LINK_GRUP">🎮 Grup Last War</a>
 
-    <a class="link" href="#" onclick="showDonasi()">💰 Donasi</a>
-
     <!-- DONASI -->
+    <a class="link" href="#" onclick="toggleDonasi()">💰 Donasi</a>
     <div id="donasiBox">
-        <div class="text-box">
-            Kirim donasi ke nomor: <b>628xxxxxxx</b>
-        </div>
-
-        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20ingin%20donasi">💸 Kirim Donasi</a>
-
-        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">✅ Sudah Donasi</a>
+        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">
+            ✅ Sudah Donasi
+        </a>
     </div>
 
-    <!-- INFO ALIANSI -->
-    <div class="section">
-        <h2>📜 Informasi Aliansi</h2>
-
+    <!-- INFORMASI -->
+    <a class="link" onclick="toggleMenu('info')">📜 Informasi Aliansi</a>
+    <div id="info" class="menuBox">
         <div class="text-box">
-            K1NG OF FIGHTER adalah aliansi yang fokus pada kekompakan, 
-            perkembangan bersama, dan suasana yang santai tanpa toxic.
+            K1NG OF FIGHTER adalah aliansi solid, aktif, dan fokus berkembang bersama.
         </div>
 
         <div class="text-box">
-            ⚔️ Syarat:
-            <br>HQ Minimal: 16
-            <br>Power Minimal: 5M
-        </div>
-
-        <div class="text-box">
-            ⚔️ Wajib aktif & kontribusi harian
+            ⚔️ HQ Minimal: 16 <br>
+            ⚔️ Power Minimal: 5M
         </div>
     </div>
 
-    <!-- GALERI FOTO -->
-    <div class="section">
-        <h2>🖼️ Galeri</h2>
-
+    <!-- GALERI -->
+    <a class="link" onclick="toggleMenu('galeri')">🖼️ Galeri</a>
+    <div id="galeri" class="menuBox">
         <div class="gallery">
             <img src="URL_FOTO_1">
             <img src="URL_FOTO_2">
-            <img src="URL_FOTO_3">
         </div>
     </div>
 
-    <!-- TEKS TAMBAHAN -->
-    <div class="section">
-        <h2>📢 Pengumuman</h2>
-
+    <!-- PENGUMUMAN -->
+    <a class="link" onclick="toggleMenu('pengumuman')">📢 Pengumuman</a>
+    <div id="pengumuman" class="menuBox">
         <div class="text-box">
-            Event aliansi diadakan setiap minggu. 
-            Member aktif berkesempatan mendapatkan hadiah.
+            Event mingguan aktif!
         </div>
 
         <div class="text-box">
-            Selalu aktif dan bantu sesama anggota!
+            Member wajib kontribusi harian.
         </div>
     </div>
 
@@ -191,10 +173,38 @@ body {
 </div>
 
 <script>
-function showDonasi() {
-    document.getElementById("donasiBox").style.display = "block";
+
+/* toggle donasi */
+function toggleDonasi() {
+    var box = document.getElementById("donasiBox");
+
+    if (box.style.display === "block") {
+        box.style.display = "none";
+    } else {
+        box.style.display = "block";
+    }
 }
+
+/* toggle menu */
+function toggleMenu(id) {
+    var menus = document.querySelectorAll('.menuBox');
+
+    menus.forEach(function(menu) {
+        if (menu.id !== id) {
+            menu.style.display = "none";
+        }
+    });
+
+    var current = document.getElementById(id);
+
+    if (current.style.display === "block") {
+        current.style.display = "none";
+    } else {
+        current.style.display = "block";
+    }
+}
+
 </script>
 
 </body>
-  </html>
+</html>
