@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K1NG OF FIGHTER</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: url('URL_GAMBAR_BACKGROUND') no-repeat center center/cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 420px;
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(12px);
+    border-radius: 20px;
+    padding: 20px;
+    color: white;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px solid white;
+}
+
+.profile h1 {
+    margin-top: 10px;
+}
+
+.profile p {
+    color: #ccc;
+    font-size: 14px;
+}
+
+/* tombol */
+.link {
+    display: block;
+    text-decoration: none;
+    margin: 10px 0;
+    padding: 12px;
+    border-radius: 12px;
+    background: linear-gradient(45deg, #00c6ff, #0072ff);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.link:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg, #ff512f, #dd2476);
+}
+
+/* section */
+.section {
+    margin-top: 20px;
+}
+
+.section h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* galeri foto */
+.gallery img {
+    width: 100%;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+/* teks panjang */
+.text-box {
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+#donasiBox {
+    display: none;
+    margin-top: 10px;
+}
+
+.footer {
+    text-align: center;
+    font-size: 12px;
+    margin-top: 15px;
+    color: #aaa;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- PROFILE -->
+    <div class="profile">
+        <img src="URL_FOTO_PROFILE">
+        <h1>K1NG OF FIGHTER</h1>
+        <p>Aliansi Solid • Aktif • No Toxic</p>
+    </div>
+
+    <!-- BUTTON -->
+    <a class="link" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
+    <a class="link" href="LINK_GRUP">🎮 Grup Last War</a>
+
+    <a class="link" href="#" onclick="showDonasi()">💰 Donasi</a>
+
+    <!-- DONASI -->
+    <div id="donasiBox">
+        <div class="text-box">
+            Kirim donasi ke nomor: <b>628xxxxxxx</b>
+        </div>
+
+        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20ingin%20donasi">💸 Kirim Donasi</a>
+
+        <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">✅ Sudah Donasi</a>
+    </div>
+
+    <!-- INFO ALIANSI -->
+    <div class="section">
+        <h2>📜 Informasi Aliansi</h2>
+
+        <div class="text-box">
+            K1NG OF FIGHTER adalah aliansi yang fokus pada kekompakan, 
+            perkembangan bersama, dan suasana yang santai tanpa toxic.
+        </div>
+
+        <div class="text-box">
+            ⚔️ Syarat:
+            <br>HQ Minimal: 16
+            <br>Power Minimal: 5M
+        </div>
+
+        <div class="text-box">
+            ⚔️ Wajib aktif & kontribusi harian
+        </div>
+    </div>
+
+    <!-- GALERI FOTO -->
+    <div class="section">
+        <h2>🖼️ Galeri</h2>
+
+        <div class="gallery">
+            <img src="URL_FOTO_1">
+            <img src="URL_FOTO_2">
+            <img src="URL_FOTO_3">
+        </div>
+    </div>
+
+    <!-- TEKS TAMBAHAN -->
+    <div class="section">
+        <h2>📢 Pengumuman</h2>
+
+        <div class="text-box">
+            Event aliansi diadakan setiap minggu. 
+            Member aktif berkesempatan mendapatkan hadiah.
+        </div>
+
+        <div class="text-box">
+            Selalu aktif dan bantu sesama anggota!
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 K1NG OF FIGHTER
+    </div>
+
+</div>
+
+<script>
+function showDonasi() {
+    document.getElementById("donasiBox").style.display = "block";
+}
+</script>
+
+</body>
+  </html>
