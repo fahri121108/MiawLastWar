@@ -29,24 +29,12 @@ body{
     z-index:999;
 }
 
-.loader{
-    border:4px solid #111;
-    border-top:4px solid #00f7ff;
-    border-radius:50%;
-    width:50px;height:50px;
-    animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-    100%{transform:rotate(360deg);}
-}
-
 /* APP */
 .app{
     width:95%;
     max-width:380px;
     height:90vh;
-    background:rgba(0,0,0,0.85);
+    background:rgba(0,0,0,0.9);
     border-radius:20px;
     display:none;
     flex-direction:column;
@@ -54,46 +42,63 @@ body{
     box-shadow:0 0 25px #00f7ff;
 }
 
-/* CONTENT */
+/* GRID CONTENT */
 .content{
     flex:1;
-    padding:12px;
+    padding:10px;
     overflow-y:auto;
     color:white;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
 }
 
-/* PROFILE */
-.profile{text-align:center;margin-bottom:10px;}
+/* PROFILE FULL */
+.profile{
+    grid-column:span 2;
+    text-align:center;
+}
+
 .profile img{
-    width:70px;height:70px;border-radius:50%;
+    width:70px;
+    height:70px;
+    border-radius:50%;
     border:2px solid #00f7ff;
 }
 
 /* CARD */
 .card{
     background:rgba(255,255,255,0.08);
-    border-radius:12px;
-    padding:10px;
-    margin-bottom:8px;
+    border-radius:10px;
+    padding:8px;
+    font-size:12px;
+    box-shadow:0 0 8px rgba(0,255,255,0.2);
 }
+
+/* FULL WIDTH */
+.full{grid-column:span 2;}
 
 /* BUTTON */
 .btn{
     display:block;
-    padding:10px;
-    border-radius:10px;
+    padding:8px;
+    border-radius:8px;
     text-align:center;
     background:linear-gradient(45deg,#00f7ff,#006eff);
     color:white;
     text-decoration:none;
-    margin-top:6px;
+    margin-top:5px;
 }
 
 /* GALERI */
+.gallery{
+    grid-column:span 2;
+}
 .gallery img{
     width:100%;
     border-radius:10px;
-    margin-bottom:6px;
+    margin-bottom:5px;
 }
 
 /* NAVBAR */
@@ -119,7 +124,7 @@ body{
 /* PAGE */
 .page{display:none;}
 
-/* POPUP FIX */
+/* POPUP */
 .popup{
     position:fixed;
     width:100%;height:100%;
@@ -131,7 +136,7 @@ body{
 
 .popup-content{
     background:#111;
-    color:white; /* FIX WARNA */
+    color:white;
     padding:20px;
     border-radius:15px;
     text-align:center;
@@ -144,7 +149,6 @@ body{
     width:8px;height:8px;
     animation:fall 2s linear infinite;
 }
-
 @keyframes fall{
     from{transform:translateY(-100px);}
     to{transform:translateY(100vh);}
@@ -156,8 +160,7 @@ body{
 
 <!-- LOADING -->
 <div id="loading">
-    <div class="loader"></div>
-    <p>Loading Game...</p>
+    <h2>Loading Game...</h2>
 </div>
 
 <!-- APP -->
@@ -167,28 +170,33 @@ body{
 
 <!-- HOME -->
 <div id="home" class="page" style="display:block;">
+
     <div class="profile">
         <img src="URL_PROFILE">
         <h3>K1NG OF FIGHTER</h3>
-        <p style="font-size:12px;">Aliansi Solid • Aktif • No Toxic</p>
     </div>
 
-    <div class="card">
+    <div class="card full">
         <a class="btn" onclick="sound()" href="https://wa.me/628xxxxxxx">WhatsApp</a>
         <a class="btn" onclick="sound()" href="LINK_GRUP">Grup</a>
     </div>
+
+    <div class="card">Power: 5M</div>
+    <div class="card">HQ: 16</div>
+
 </div>
 
 <!-- INFO -->
 <div id="info" class="page">
-    <div class="card">Aliansi aktif & solid</div>
-    <div class="card">HQ 16 • Power 5M</div>
-    <div class="card">Tambahkan info lain di sini</div>
+    <div class="card">Aliansi aktif</div>
+    <div class="card">No toxic</div>
+    <div class="card">Solid team</div>
+    <div class="card">Tambah info bebas</div>
 </div>
 
 <!-- GALERI -->
 <div id="galeri" class="page">
-    <div class="card gallery">
+    <div class="gallery">
         <img src="URL_FOTO_1">
         <img src="URL_FOTO_2">
         <img src="URL_FOTO_3">
@@ -197,16 +205,15 @@ body{
 
 <!-- PENGUMUMAN -->
 <div id="pengumuman" class="page">
-    <div class="card">🔥 Event mingguan aktif</div>
-    <div class="card">⚡ Wajib kontribusi</div>
-    <div class="card">Tambah pengumuman baru di sini</div>
+    <div class="card">Event aktif</div>
+    <div class="card">Wajib kontribusi</div>
+    <div class="card">Tambah pengumuman</div>
 </div>
 
 <!-- DONASI -->
 <div id="donasi" class="page">
-    <div class="card">DANA: 628xxxxxxx</div>
-
-    <button class="btn" onclick="donasi()">✅ Sudah Donasi</button>
+    <div class="card full">DANA: 628xxxxxxx</div>
+    <button class="btn full" onclick="donasi()">Sudah Donasi</button>
 </div>
 
 </div>
@@ -237,7 +244,7 @@ body{
 setTimeout(()=>{
     document.getElementById("loading").style.display="none";
     document.getElementById("app").style.display="flex";
-},2000);
+},1500);
 
 /* SOUND */
 function sound(){
@@ -276,4 +283,4 @@ function donasi(){
 </script>
 
 </body>
-</html>
+        </html>
