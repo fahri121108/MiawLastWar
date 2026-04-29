@@ -14,84 +14,80 @@
 }
 
 body {
-    background: url('URL_BACKGROUND') no-repeat center center/cover;
-    min-height: 100vh;
+    background: url('URL_BACKGROUND') no-repeat center/cover;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-/* container utama */
+/* APP */
 .app {
     width: 100%;
     max-width: 420px;
     height: 95vh;
-    background: rgba(0,0,0,0.7);
-    backdrop-filter: blur(12px);
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(10px);
     border-radius: 20px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-/* content */
+/* CONTENT */
 .content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px;
+    padding: 15px;
     color: white;
 }
 
-/* profile */
+/* PROFILE */
 .profile {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .profile img {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
-    border: 3px solid white;
+    border: 2px solid white;
 }
 
-.profile h1 {
-    margin-top: 10px;
-}
-
-/* tombol */
-.link {
-    display: block;
-    margin: 10px 0;
-    padding: 12px;
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.08);
     border-radius: 12px;
-    text-align: center;
-    background: linear-gradient(45deg, #00c6ff, #0072ff);
-    color: white;
-    text-decoration: none;
-}
-
-/* text */
-.text-box {
-    background: rgba(255,255,255,0.1);
-    padding: 10px;
-    border-radius: 10px;
+    padding: 12px;
     margin-bottom: 10px;
 }
 
-/* galeri */
+/* BUTTON */
+.btn {
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background: linear-gradient(45deg,#00c6ff,#0072ff);
+    margin-top: 8px;
+}
+
+/* GALERI */
 .gallery img {
     width: 100%;
     border-radius: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
-/* page hide */
+/* PAGE */
 .page {
     display: none;
 }
 
-/* navbar bawah */
+/* NAVBAR */
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -100,104 +96,103 @@ body {
 }
 
 .navbar div {
-    color: white;
-    text-align: center;
     font-size: 12px;
+    text-align: center;
+    color: white;
     cursor: pointer;
 }
-
-.navbar div:hover {
-    color: #00c6ff;
-}
 </style>
-
 </head>
 
 <body>
 
 <div class="app">
 
-    <div class="content">
+<div class="content">
 
-        <!-- BERANDA -->
-        <div id="home" class="page" style="display:block;">
-            <div class="profile">
-                <img src="URL_PROFILE">
-                <h1>K1NG OF FIGHTER</h1>
-                <p>Aliansi Solid • Aktif • No Toxic</p>
-            </div>
-
-            <a class="link" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
-            <a class="link" href="LINK_GRUP">🎮 Grup Last War</a>
-        </div>
-
-        <!-- INFO -->
-        <div id="info" class="page">
-            <h2>📜 Informasi Aliansi</h2>
-
-            <div class="text-box">
-                K1NG OF FIGHTER adalah aliansi solid dan aktif.
-            </div>
-
-            <div class="text-box">
-                HQ Minimal: 16 <br>
-                Power Minimal: 5M
-            </div>
-        </div>
-
-        <!-- GALERI -->
-        <div id="galeri" class="page">
-            <h2>🖼️ Galeri</h2>
-
-            <div class="gallery">
-                <img src="URL_FOTO_1">
-                <img src="URL_FOTO_2">
-            </div>
-        </div>
-
-        <!-- PENGUMUMAN -->
-        <div id="pengumuman" class="page">
-            <h2>📢 Pengumuman</h2>
-
-            <div class="text-box">
-                Event mingguan aktif!
-            </div>
-
-            <div class="text-box">
-                Member wajib kontribusi harian.
-            </div>
-        </div>
-
-        <!-- DONASI -->
-        <div id="donasi" class="page">
-            <h2>💰 Donasi</h2>
-
-            <a class="link" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">
-                ✅ Sudah Donasi
-            </a>
-        </div>
-
+<!-- HOME -->
+<div id="home" class="page" style="display:block;">
+    <div class="profile">
+        <img src="URL_PROFILE">
+        <h2>K1NG OF FIGHTER</h2>
+        <p>Aliansi Solid • Aktif • No Toxic</p>
     </div>
 
-    <!-- NAVBAR -->
-    <div class="navbar">
-        <div onclick="showPage('home')">🏠<br>Home</div>
-        <div onclick="showPage('info')">📜<br>Info</div>
-        <div onclick="showPage('galeri')">🖼️<br>Galeri</div>
-        <div onclick="showPage('pengumuman')">📢<br>Info</div>
-        <div onclick="showPage('donasi')">💰<br>Donasi</div>
+    <div class="card">
+        <a class="btn" href="https://wa.me/628xxxxxxx">📱 WhatsApp Admin</a>
+        <a class="btn" href="LINK_GRUP">🎮 Grup Last War</a>
+    </div>
+</div>
+
+<!-- INFO -->
+<div id="info" class="page">
+    <div class="card">
+        <b>Informasi Aliansi</b>
+        <p>K1NG OF FIGHTER adalah aliansi aktif dan solid.</p>
+    </div>
+
+    <div class="card">
+        ⚔️ HQ Minimal: 16 <br>
+        ⚔️ Power Minimal: 5M
+    </div>
+
+    <!-- TAMBAH INFO DI SINI -->
+    <div class="card">Info tambahan bebas...</div>
+</div>
+
+<!-- GALERI -->
+<div id="galeri" class="page">
+    <div class="card gallery">
+        <img src="URL_FOTO_1">
+        <img src="URL_FOTO_2">
+        <!-- tambah foto bebas -->
+    </div>
+</div>
+
+<!-- PENGUMUMAN -->
+<div id="pengumuman" class="page">
+
+    <div class="card">📢 Event mingguan aktif!</div>
+    <div class="card">🔥 Wajib kontribusi harian</div>
+
+    <!-- TAMBAH PENGUMUMAN -->
+    <div class="card">Pengumuman baru disini...</div>
+
+</div>
+
+<!-- DONASI -->
+<div id="donasi" class="page">
+
+    <div class="card">
+        💰 Donasi via DANA:
+        <br><b>628xxxxxxx</b>
+    </div>
+
+    <div class="card">
+        <a class="btn" href="https://wa.me/628xxxxxxx?text=Saya%20baru%20saja%20berdonasi">
+            ✅ Sudah Donasi
+        </a>
     </div>
 
 </div>
 
+</div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div onclick="showPage('home')">🏠<br>Home</div>
+    <div onclick="showPage('info')">📜<br>Info</div>
+    <div onclick="showPage('galeri')">🖼️<br>Galeri</div>
+    <div onclick="showPage('pengumuman')">📢<br>News</div>
+    <div onclick="showPage('donasi')">💰<br>Donasi</div>
+</div>
+
+</div>
+
 <script>
-function showPage(id) {
-    var pages = document.querySelectorAll('.page');
-
-    pages.forEach(function(p) {
-        p.style.display = "none";
-    });
-
+function showPage(id){
+    let pages = document.querySelectorAll('.page');
+    pages.forEach(p => p.style.display = "none");
     document.getElementById(id).style.display = "block";
 }
 </script>
