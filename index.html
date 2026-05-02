@@ -1,279 +1,139 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
-
-body{
-    background:url('https://ibb.co.com/Hf6cz5Ct') no-repeat center/cover;
-    height:100vh;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-/* LOADING */
-#loading{
-    position:fixed;
-    width:100%;
-    height:100%;
-    background:black;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-direction:column;
-    color:#00f7ff;
-    z-index:999;
-}
-
-.loader{
-    border:4px solid #111;
-    border-top:4px solid #00f7ff;
-    border-radius:50%;
-    width:50px;height:50px;
-    animation:spin 1s linear infinite;
-}
-
-@keyframes spin{
-    100%{transform:rotate(360deg);}
-}
-
-/* APP */
-.app{
-    width:95%;
-    max-width:380px;
-    height:90vh;
-    background:rgba(0,0,0,0.85);
-    border-radius:20px;
-    display:none;
-    flex-direction:column;
-    overflow:hidden;
-    box-shadow:0 0 25px #00f7ff;
-}
-
-/* CONTENT */
-.content{
-    flex:1;
-    padding:12px;
-    overflow-y:auto;
+<title>POWER FIGHTER LINK BIO</title><style>
+body {
+    margin:0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#000428,#004e92);
     color:white;
+    text-align:center;
 }
 
-/* PROFILE */
-.profile{text-align:center;margin-bottom:10px;}
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:20px;
+}
+
 .profile img{
-    width:70px;height:70px;border-radius:50%;
-    border:2px solid #00f7ff;
+    width:110px;
+    border-radius:50%;
+    border:3px solid #00eaff;
 }
 
-/* CARD */
-.card{
-    background:rgba(255,255,255,0.08);
-    border-radius:12px;
-    padding:10px;
-    margin-bottom:8px;
-}
-
-/* BUTTON */
 .btn{
     display:block;
+    background:#00eaff;
+    color:black;
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.card{
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:15px;
+    margin-top:15px;
+}
+
+input, button{
+    padding:10px;
+    border-radius:8px;
+    border:none;
+    margin:5px;
+}
+
+.chat-box{
+    height:150px;
+    overflow:auto;
+    background:#111;
     padding:10px;
     border-radius:10px;
-    text-align:center;
-    background:linear-gradient(45deg,#00f7ff,#006eff);
-    color:white;
-    text-decoration:none;
-    margin-top:6px;
+    text-align:left;
 }
 
-/* GALERI */
-.gallery img{
-    width:100%;
-    border-radius:10px;
-    margin-bottom:6px;
+.leaderboard{
+    text-align:left;
 }
 
-/* NAVBAR */
-.navbar{
-    display:flex;
-    justify-content:space-around;
-    background:black;
-    padding:8px;
+</style></head>
+<body><div class="container"><div class="profile">
+<img src="poto.jpg">
+<h2>POWER FIGHTER</h2>
+</div><a href="https://wa.me/628xxxx" class="btn">WhatsApp</a> <a href="https://discord.gg/xxxx" class="btn">Discord</a>
+
+<div class="card">
+<h3>Donasi</h3>
+<img src="qris.jpg" width="100%">
+<p>DANA: 08xxxxxxxxxx</p>
+<input type="text" id="nama" placeholder="Nama">
+<input type="number" id="jumlah" placeholder="Jumlah Donasi">
+<button onclick="donasi()">Kirim</button>
+</div><div class="card">
+<h3>Leaderboard Donasi</h3>
+<div class="leaderboard" id="leaderboard"></div>
+</div><div class="card">
+<h3>Chat Room</h3>
+<div class="chat-box" id="chat"></div>
+<input type="text" id="msg" placeholder="Tulis pesan">
+<button onclick="kirimChat()">Kirim</button>
+</div><div class="card">
+<h3>Informasi</h3>
+<p>Open recruitment aktif<br>Event terbaru tersedia</p>
+</div></div><script>
+let dataDonasi = JSON.parse(localStorage.getItem('donasi')) || [];
+let chatData = JSON.parse(localStorage.getItem('chat')) || [];
+
+function renderLeaderboard(){
+    let el = document.getElementById('leaderboard');
+    el.innerHTML = '';
+    dataDonasi.sort((a,b)=>b.jumlah-a.jumlah);
+    dataDonasi.forEach(d=>{
+        el.innerHTML += `<p>${d.nama} - Rp${d.jumlah}</p>`;
+    });
 }
 
-.nav-item{
-    font-size:11px;
-    text-align:center;
-    color:white;
-    cursor:pointer;
-}
-
-.nav-item.active{
-    color:#00f7ff;
-    text-shadow:0 0 10px #00f7ff;
-}
-
-/* PAGE */
-.page{display:none;}
-
-/* POPUP FIX */
-.popup{
-    position:fixed;
-    width:100%;height:100%;
-    background:rgba(0,0,0,0.7);
-    display:none;
-    justify-content:center;
-    align-items:center;
-}
-
-.popup-content{
-    background:#111;
-    color:white; /* FIX WARNA */
-    padding:20px;
-    border-radius:15px;
-    text-align:center;
-    box-shadow:0 0 20px #00f7ff;
-}
-
-/* CONFETTI */
-.confetti{
-    position:fixed;
-    width:8px;height:8px;
-    animation:fall 2s linear infinite;
-}
-
-@keyframes fall{
-    from{transform:translateY(-100px);}
-    to{transform:translateY(100vh);}
-}
-</style>
-</head>
-
-<body>
-
-<!-- LOADING -->
-<div id="loading">
-    <div class="loader"></div>
-    <p>Tunggu sebentar Yah:v</p>
-</div>
-
-<!-- APP -->
-<div class="app" id="app">
-
-<div class="content">
-
-<!-- HOME -->
-<div id="🏠home" class="page" style="display:block;">
-    <div class="profile">
-        <img src="https://ibb.co.com/Hf6cz5Ct">
-        <h3>K1NG OF FIGHTER TEAM</h3>
-        <p style="font-size:12px;">Aliansi Solid • Aktif • Dan kompak</p>
-    </div>
-
-    <div class="card">
-        <a class="btn" onclick="sound()" href="https://wa.me/6289531746761">WhatsApp</a>
-        <a class="btn" onclick="sound()" href="https://chat.whatsapp.com/Lfj2SYT84yJBj4yG3eQfmp?mode=gi_t">Grup</a>
-    </div>
-</div>
-
-<!-- INFO -->
-<div id="📝info" class="page">
-    <div class="card">Aktif , kompak , saling membantu</div>
-    <div class="card">HQ 16 • Power 5M</div>
-    <div class="card">Leader MiawQuenn</div>
-</div>
-
-<!-- GALERI -->
-<div id="🖼️galeri" class="page">
-    <div class="card gallery">
-        <img src="URL_FOTO_1">
-        <img src="URL_FOTO_2">
-        <img src="URL_FOTO_3">
-    </div>
-</div>
-
-<!-- PENGUMUMAN -->
-<div id="📢pengumuman" class="page">
-    <div class="card">🔥 Pemenang Mvp di duel aliansi mendapatkan 1 piala dari semua anggota</div>
-    <div class="card">⚡ Wajib kontribusi help dan donasi teknologi</div>
-    <div class="card">Donasi itu buat apa? buat support Leader dan Berbuat baik membantu bayi yang di temukan juga yah</div>
-</div>
-
-<!-- DONASI -->
-<div id="💰donasi" class="page">
-    <div class="card">DANA: 089610921722</div>
-
-    <button class="btn" onclick="donasi()">✅ Sudah Donasi</button>
-</div>
-
-</div>
-
-<!-- NAVBAR -->
-<div class="navbar">
-    <div class="nav-item active" onclick="nav('🏠home',this)">🏠</div>
-    <div class="nav-item" onclick="nav('📝info',this)">📝</div>
-    <div class="nav-item" onclick="nav('🖼️galeri',this)">🖼️</div>
-    <div class="nav-item" onclick="nav('📢pengumuman',this)">📢</div>
-    <div class="nav-item" onclick="nav('💰donasi',this)">💰</div>
-</div>
-
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-    <div class="popup-content">
-        🎉 Terima kasih sudah berdonasi! Semoga sehat selalu di permudah rezekinya yah🎉
-    </div>
-</div>
-
-<audio id="klik" src="https://www.soundjay.com/buttons/sounds/button-16.mp3"></audio>
-
-<script>
-
-/* LOADING */
-setTimeout(()=>{
-    document.getElementById("loading").style.display="none";
-    document.getElementById("app").style.display="flex";
-},2000);
-
-/* SOUND */
-function sound(){
-    document.getElementById("klik").play();
-}
-
-/* NAV */
-function nav(id,el){
-    sound();
-    document.querySelectorAll('.page').forEach(p=>p.style.display='none');
-    document.getElementById(id).style.display='block';
-
-    document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
-    el.classList.add('active');
-}
-
-/* DONASI */
 function donasi(){
-    sound();
-    document.getElementById("popup").style.display="flex";
+    let nama = document.getElementById('nama').value;
+    let jumlah = document.getElementById('jumlah').value;
 
-    for(let i=0;i<20;i++){
-        let c=document.createElement("div");
-        c.className="confetti";
-        c.style.left=Math.random()*100+"%";
-        c.style.background="hsl("+Math.random()*360+",100%,50%)";
-        document.body.appendChild(c);
-        setTimeout(()=>c.remove(),2000);
-    }
+    if(!nama || !jumlah) return alert('Isi dulu');
 
-    setTimeout(()=>{
-        document.getElementById("popup").style.display="none";
-        window.location.href="https://wa.me/6289531746761?text=Saya%20baru%20saja%20berdonasi";
-    },2000);
+    dataDonasi.push({nama, jumlah});
+    localStorage.setItem('donasi', JSON.stringify(dataDonasi));
+
+    alert('Terima kasih donasinya! Kirim bukti ke WhatsApp');
+    window.location.href = 'https://wa.me/628xxxx';
+
+    renderLeaderboard();
 }
-</script>
 
-</body>
-    </html>
+function renderChat(){
+    let el = document.getElementById('chat');
+    el.innerHTML='';
+    chatData.forEach(c=>{
+        el.innerHTML += `<p><b>${c.nama}:</b> ${c.msg}</p>`;
+    });
+}
+
+function kirimChat(){
+    let msg = document.getElementById('msg').value;
+    let nama = prompt('Masukkan nama');
+    if(!msg || !nama) return;
+
+    chatData.push({nama, msg});
+    localStorage.setItem('chat', JSON.stringify(chatData));
+
+    document.getElementById('msg').value='';
+    renderChat();
+}
+
+renderLeaderboard();
+renderChat();
+</script></body>
+                                       </html>
