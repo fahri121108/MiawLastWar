@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>POWER FIGHTER</title>
 
-<!-- FIREBASE COMPAT -->
+<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
@@ -18,7 +18,7 @@ body {
     text-align:center;
 }
 .container {max-width:420px;margin:auto;padding:20px;}
-.profile img {width:100px;border-radius:50%;margin-top:20px;}
+.profile img {width:100px;border-radius:50%;}
 .btn {
     display:block;
     background:#00eaff;
@@ -51,7 +51,6 @@ input,button {
 }
 img.bukti {
     width:100%;
-    margin-top:5px;
     border-radius:10px;
 }
 </style>
@@ -99,7 +98,7 @@ img.bukti {
 </div>
 
 <script>
-// 🔥 CONFIG
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
   authDomain: "miawwquenn.firebaseapp.com",
@@ -110,7 +109,13 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ================= CHAT =================
+// ================= CHAT FIX =================
+let userNama = localStorage.getItem("namaUser") || "";
+
+if(userNama){
+    document.getElementById("chatNama").value = userNama;
+}
+
 function kirimChat(){
     let nama = document.getElementById('chatNama').value.trim();
     let msg = document.getElementById('msg').value.trim();
@@ -120,21 +125,32 @@ function kirimChat(){
         return;
     }
 
+    localStorage.setItem("namaUser", nama);
+
     db.ref("chat").push({
-        nama: nama,
-        msg: msg,
+        nama,
+        msg,
         time: Date.now()
     });
 
-    document.getElementById('msg').value='';
+    document.getElementById('msg').value="";
+    document.getElementById('msg').focus();
 }
 
-db.ref("chat").on("value", snap=>{
-    let el = document.getElementById("chat");
-    el.innerHTML = "";
+// ENTER kirim
+document.getElementById("msg").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        kirimChat();
+    }
+});
 
-    let data = [];
-    snap.forEach(d => data.push(d.val()));
+// realtime chat
+db.ref("chat").limitToLast(50).on("value", snap=>{
+    let el = document.getElementById("chat");
+    el.innerHTML="";
+
+    let data=[];
+    snap.forEach(d=> data.push(d.val()));
 
     data.sort((a,b)=>a.time-b.time);
 
@@ -159,8 +175,8 @@ function kirimDonasi(){
     let reader = new FileReader();
     reader.onload = function(e){
         db.ref("pendingDonasi").push({
-            nama: nama,
-            jumlah: jumlah,
+            nama,
+            jumlah,
             bukti: e.target.result,
             time: Date.now()
         });
@@ -170,10 +186,10 @@ function kirimDonasi(){
     reader.readAsDataURL(file);
 }
 
-// ================= TAMPIL PENDING =================
+// tampil pending
 db.ref("pendingDonasi").on("value", snap=>{
     let el = document.getElementById("pending");
-    el.innerHTML = "";
+    el.innerHTML="";
 
     snap.forEach(d=>{
         let data = d.val();
@@ -186,12 +202,12 @@ db.ref("pendingDonasi").on("value", snap=>{
     });
 });
 
-// ================= LEADERBOARD =================
+// leaderboard
 db.ref("donasi").on("value", snap=>{
     let el = document.getElementById("leaderboard");
-    el.innerHTML = "";
+    el.innerHTML="";
 
-    let data = [];
+    let data=[];
     snap.forEach(d=> data.push(d.val()));
 
     data.sort((a,b)=>b.jumlah-a.jumlah);
@@ -201,12 +217,10 @@ db.ref("donasi").on("value", snap=>{
     });
 });
 
-// ================= ADMIN =================
-// buka console (F12)
-// contoh:
-// approveDonasi("Fahz",50000)
+// ADMIN (console)
+// approveDonasi("Nama",50000)
 function approveDonasi(nama,jumlah){
-    db.ref("donasi").push({nama, jumlah});
+    db.ref("donasi").push({nama,jumlah});
 }
 </script>
 
