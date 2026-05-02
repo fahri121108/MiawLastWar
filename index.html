@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>POWER FIGHTER</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
@@ -12,135 +13,117 @@
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#020617,#0f172a);
+background:url("bg.jpg");
+background-size:cover;
+background-attachment:fixed;
 color:white;
 }
 
-.container{max-width:420px;margin:auto;}
+.container{max-width:420px;margin:auto;padding:15px;}
 
-.topbar{
+.nav{
+display:flex;
+justify-content:space-around;
 background:#020617;
 padding:10px;
-text-align:center;
 }
 
-.chat-bg{
-background:url("bg.jpg");
-background-size:cover;
-height:65vh;
+.nav button{
+background:none;border:none;color:white;font-weight:bold;
+}
+
+.page{display:none;}
+.active{display:block;}
+
+.card{
+background:rgba(30,41,59,0.9);
+padding:15px;
+border-radius:12px;
+margin-top:10px;
+}
+
+.chat-box{
+height:260px;
 overflow:auto;
+background:#020617;
 padding:10px;
+border-radius:10px;
 }
 
 .msg{display:flex;margin:5px 0;gap:8px;}
-.me{justify-content:flex-end;}
-
-.bubble{
-padding:8px;
-border-radius:12px;
-max-width:70%;
-}
-
-.me .bubble{background:#22c55e;color:black;}
-.other .bubble{background:#1e293b;}
+.bubble{padding:8px;border-radius:12px;max-width:70%;}
+.me .bubble{background:#22c55e;margin-left:auto;}
+.other .bubble{background:#334155;}
 
 .profile{
 width:35px;height:35px;border-radius:50%;
 object-fit:cover;
 }
 
-.thumb{
-width:120px;border-radius:10px;cursor:pointer;
-}
-
-.replyBox{
-background:#00000040;
-padding:5px;
-font-size:11px;
-border-left:3px solid #22c55e;
-margin-bottom:4px;
-}
-
-.viewer{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#000;
-display:none;
-justify-content:center;
-align-items:center;
-z-index:999;
-}
-
-.viewer img{
-max-width:100%;
-max-height:100%;
-}
-
 input,button{
-padding:10px;
-margin:5px;
-border:none;
-border-radius:10px;
+padding:10px;margin:5px;border:none;border-radius:8px;
 }
-
-.online{
-font-size:12px;
-color:#22c55e;
-}
-
-.card{
-background:#1e293b;
-padding:10px;
-margin:5px;
-border-radius:10px;
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="topbar">
-<b>POWER FIGHTER</b>
-<div id="onlineBox" class="online"></div>
-<div id="typingBox"></div>
+<div class="nav">
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('donasi')">Donasi</button>
 </div>
 
 <div class="container">
 
-<div id="chatBox" class="chat-bg"></div>
+<!-- HOME -->
+<div id="home" class="page active">
+<div class="card">
+<h2 onclick="showPage('dashboard')" style="cursor:pointer;">POWER FIGHTER</h2>
+</div>
+</div>
 
-<div id="replyPreview"></div>
-
-<input id="nama" placeholder="Nama">
-<input type="file" id="foto">
-<button onclick="simpanProfil()">Simpan Profil</button>
-
-<input id="msg" placeholder="Ketik pesan">
-<input type="file" id="img">
-<button onclick="kirim()">Kirim</button>
+<!-- DASHBOARD -->
+<div id="dashboard" class="page">
 
 <div class="card">
+<h3>Chat</h3>
+
+<div class="chat-box" id="chatBox"></div>
+
+<!-- typing muncul disini -->
+<div id="typingBox" style="font-size:12px;color:#22c55e;"></div>
+
+<input id="chatNama" placeholder="Nama">
+<input id="msg" placeholder="Pesan">
+<button onclick="kirimChat()">Kirim</button>
+
+</div>
+
+</div>
+
+<!-- DONASI -->
+<div id="donasi" class="page">
+<div class="card">
 <h3>Donasi</h3>
+
 <p>DANA:</p>
 <img src="dana.jpg" width="100%">
+
 <p>QRIS:</p>
 <img src="qris.jpg" width="100%">
 </div>
-
-<div class="card">
-<a href="https://wa.me/628XXXXXXXXXX">WhatsApp</a><br>
-<a href="https://discord.gg/XXXXX">Discord</a>
 </div>
 
-</div>
-
-<div class="viewer" id="viewer" onclick="this.style.display='none'">
-<img id="viewImg">
 </div>
 
 <script>
+// NAV
+function showPage(p){
+document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+document.getElementById(p).classList.add('active');
+}
+
 // FIREBASE
 const firebaseConfig={
 apiKey:"AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
@@ -151,124 +134,29 @@ projectId:"miawwquenn"
 firebase.initializeApp(firebaseConfig);
 const db=firebase.database();
 
-// PROFIL
-let user={
-nama:localStorage.getItem("nama")||"",
-foto:localStorage.getItem("foto")||"https://i.imgur.com/4M34hi2.png"
-};
-
-nama.value=user.nama;
-
-function simpanProfil(){
-let name=nama.value;
-let file=foto.files[0];
-
-if(!name) return alert("Isi nama");
-
-if(file){
-let r=new FileReader();
-r.onload=e=>{
-user={nama:name,foto:e.target.result};
-localStorage.setItem("nama",name);
-localStorage.setItem("foto",e.target.result);
-alert("Profil tersimpan");
-};
-r.readAsDataURL(file);
-}else{
-user.nama=name;
-localStorage.setItem("nama",name);
-}
-}
-
-// ONLINE
-let userId=Date.now();
-
-db.ref("online/"+userId).set({nama:user.nama});
-window.addEventListener("beforeunload",()=>{
-db.ref("online/"+userId).remove();
-});
-
-db.ref("online").on("value",snap=>{
-let text="🟢 Online: ";
-snap.forEach(d=>{
-text+=d.val().nama+", ";
-});
-onlineBox.innerHTML=text;
-});
-
-// TYPING
-msg.addEventListener("input",()=>{
-db.ref("typing/"+userId).set({nama:user.nama});
-
-clearTimeout(window.typingTimeout);
-window.typingTimeout=setTimeout(()=>{
-db.ref("typing/"+userId).remove();
-},1500);
-});
-
-db.ref("typing").on("value",snap=>{
-let text="";
-snap.forEach(d=>{
-if(d.key!=userId){
-text+=d.val().nama+" mengetik... ";
-}
-});
-typingBox.innerHTML=text;
-});
-
 // CHAT
-let reply=null;
+let userId = Date.now();
 
-function kirim(){
-let text=msg.value;
-let file=img.files[0];
+function kirimChat(){
+let nama=document.getElementById("chatNama").value || "User";
+let msg=document.getElementById("msg").value;
 
-if(!user.nama) return alert("Isi profil");
+if(!msg) return;
 
-let send=(imgData)=>{
-db.ref("chat").push({
-nama:user.nama,
-foto:user.foto,
-msg:text,
-img:imgData||null,
-reply:reply
-});
-msg.value="";
-reply=null;
-replyPreview.innerHTML="";
-};
-
-if(file){
-let r=new FileReader();
-r.onload=e=>send(e.target.result);
-r.readAsDataURL(file);
-}else send(null);
+db.ref("chat").push({nama,msg});
+document.getElementById("msg").value="";
 }
 
+// tampil chat
 db.ref("chat").limitToLast(50).on("child_added",snap=>{
-let d=snap.val(); let id=snap.key;
+let d=snap.val();
 
 let div=document.createElement("div");
-div.className="msg "+(d.nama===user.nama?"me":"other");
+div.className="msg";
 
 div.innerHTML=`
-${d.nama!==user.nama?`<img src="${d.foto}" class="profile">`:''}
 <div class="bubble">
-
-${d.reply?`<div class="replyBox">${d.reply.msg||"Gambar"}</div>`:""}
-
-<b>${d.nama}</b><br>
-${d.msg||""}
-
-${d.img?`
-<br>📷 Gambar<br>
-<img src="${d.img}" class="thumb" onclick="lihat('${d.img}')">
-`:''}
-
-<br>
-<button onclick='setReply(${JSON.stringify(d)})'>Reply</button>
-${d.nama===user.nama?`<button onclick="hapus('${id}')">Hapus</button>`:""}
-
+<b>${d.nama}</b><br>${d.msg}
 </div>
 `;
 
@@ -276,20 +164,33 @@ chatBox.appendChild(div);
 chatBox.scrollTop=chatBox.scrollHeight;
 });
 
-// FITUR
-function setReply(d){
-reply=d;
-replyPreview.innerHTML=`<div class="replyBox">Reply: ${d.msg||"Gambar"}</div>`;
-}
+// TYPING
+document.getElementById("msg").addEventListener("input", ()=>{
+db.ref("typing/"+userId).set({
+nama: document.getElementById("chatNama").value || "User"
+});
 
-function hapus(id){
-db.ref("chat/"+id).remove();
-}
+clearTimeout(window.typingTimeout);
+window.typingTimeout = setTimeout(()=>{
+db.ref("typing/"+userId).remove();
+},1500);
+});
 
-function lihat(src){
-viewer.style.display="flex";
-viewImg.src=src;
+// tampil typing
+db.ref("typing").on("value", snap=>{
+let text="";
+snap.forEach(d=>{
+if(d.key != userId){
+text += d.val().nama + " sedang mengetik... ";
 }
+});
+document.getElementById("typingBox").innerHTML=text;
+});
+
+// hapus typing saat keluar
+window.addEventListener("beforeunload", ()=>{
+db.ref("typing/"+userId).remove();
+});
 </script>
 
 </body>
