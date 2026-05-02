@@ -109,13 +109,15 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ================= CHAT FIX =================
-let userNama = localStorage.getItem("namaUser") || "";
+// ================= CHAT REALTIME FIX =================
 
+// simpan nama
+let userNama = localStorage.getItem("namaUser") || "";
 if(userNama){
     document.getElementById("chatNama").value = userNama;
 }
 
+// kirim chat
 function kirimChat(){
     let nama = document.getElementById('chatNama').value.trim();
     let msg = document.getElementById('msg').value.trim();
@@ -133,31 +135,28 @@ function kirimChat(){
         time: Date.now()
     });
 
-    document.getElementById('msg').value="";
-    document.getElementById('msg').focus();
+    document.getElementById("msg").value = "";
+    document.getElementById("msg").focus();
 }
 
-// ENTER kirim
-document.getElementById("msg").addEventListener("keypress", function(e){
+// enter kirim
+document.getElementById("msg").addEventListener("keydown", function(e){
     if(e.key === "Enter"){
         kirimChat();
     }
 });
 
-// realtime chat
-db.ref("chat").limitToLast(50).on("value", snap=>{
+// 🔥 LISTENER BARU (INI KUNCI FIX)
+const chatRef = db.ref("chat").limitToLast(50);
+
+chatRef.on("child_added", snap => {
+    let d = snap.val();
     let el = document.getElementById("chat");
-    el.innerHTML="";
 
-    let data=[];
-    snap.forEach(d=> data.push(d.val()));
+    let div = document.createElement("div");
+    div.innerHTML = `<p><b>${d.nama}</b>: ${d.msg}</p>`;
 
-    data.sort((a,b)=>a.time-b.time);
-
-    data.forEach(d=>{
-        el.innerHTML += `<p><b>${d.nama}</b>: ${d.msg}</p>`;
-    });
-
+    el.appendChild(div);
     el.scrollTop = el.scrollHeight;
 });
 
