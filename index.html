@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POWER FIGHTER TOP X</title>
+<title>POWER FIGHTER</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
@@ -57,9 +57,6 @@ border-radius:12px;
 max-width:70%;
 }
 
-.me .bubble{background:#22c55e;margin-left:auto;}
-.other .bubble{background:#334155;}
-
 .profile{
 width:35px;height:35px;border-radius:50%;
 object-fit:cover;
@@ -72,54 +69,18 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* ===== LEADERBOARD SULTAN ===== */
 .rank{
 padding:10px;
 margin:5px;
-border-radius:12px;
+border-radius:10px;
 background:#020617;
-transition:all 0.4s ease;
-animation:fadeInUp 0.4s ease;
 }
 
-@keyframes fadeInUp{
-from{opacity:0; transform:translateY(15px);}
-to{opacity:1; transform:translateY(0);}
-}
+.top1{box-shadow:0 0 12px gold;}
+.top2{box-shadow:0 0 12px silver;}
+.top3{box-shadow:0 0 12px orange;}
 
-.top1{
-background:linear-gradient(45deg,gold,orange);
-color:black;
-font-weight:bold;
-box-shadow:0 0 15px gold,0 0 40px orange;
-animation:glowGold 1.5s infinite alternate;
-}
-
-.top2{
-background:linear-gradient(45deg,silver,#e5e7eb);
-color:black;
-box-shadow:0 0 15px silver;
-}
-
-.top3{
-background:linear-gradient(45deg,#cd7f32,#ffb347);
-color:black;
-box-shadow:0 0 15px #cd7f32;
-}
-
-@keyframes glowGold{
-from{box-shadow:0 0 10px gold;}
-to{box-shadow:0 0 30px gold,0 0 60px orange;}
-}
-
-.move{
-transform:scale(1.07);
-}
-
-.online{
-font-size:12px;
-color:#22c55e;
-}
+.online{font-size:12px;color:#22c55e;}
 
 button,input{
 padding:10px;margin:5px;border:none;border-radius:10px;
@@ -151,42 +112,86 @@ text-decoration:none;
 
 <div class="container">
 
+<!-- HOME -->
 <div id="home" class="page active">
 <div class="card">
-<h2 onclick="showPage('dashboard')" style="cursor:pointer;">ROOM NGOBROL</h2>
+<h2 onclick="showPage('dashboard')" style="cursor:pointer;">POWER FIGHTER</h2>
 <p class="online">🟢 Online</p>
 </div>
 
 <div class="card">
-<h3>Peringkat Donasi Mingguan</h3>
+<h3>Leaderboard</h3>
+
+<h4>Total Donasi: <span id="totalDonasi">Rp0</span></h4>
+
 <div id="leaderboard"></div>
+
+<div style="display:flex;justify-content:space-between;">
+<button onclick="prevPage()">⬅ Prev</button>
+<button onclick="nextPage()">Next ➡</button>
+</div>
+
+<h3>Semua Donatur</h3>
+<div id="donaturList"></div>
 </div>
 
 <div class="card">
-<a href="#" class="https://wa.me/6289531746761">WhatsApp</a>
-<a href="#" class="https://discord.gg/YEtrZH25y">Discord</a>
+<a href="https://wa.me/628XXXXXXXXXX" class="link-btn">WhatsApp</a>
+<a href="https://discord.gg/XXXXX" class="link-btn">Discord</a>
 </div>
 </div>
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="page">
+
+<div class="card">
+<h3>Galeri</h3>
+<div id="galeri"></div>
+<input type="file" id="galeriUser">
+<button onclick="uploadGaleriUser()">Upload</button>
+<button class="admin" onclick="clearGaleri()">Hapus Galeri (Admin)</button>
+</div>
+
 <div class="card">
 <h3>Chat Room</h3>
 <div class="chat-box" id="chatBox"></div>
 
 <input id="chatNama" placeholder="Nama">
+<input type="file" id="chatFoto">
 <input id="msg" placeholder="Pesan">
+<input type="file" id="chatImg">
+
 <button onclick="kirimChat()">Kirim</button>
+<button class="admin" onclick="clearChat()">Hapus Room Chat</button>
 </div>
+
 </div>
 
 <!-- DONASI -->
 <div id="donasi" class="page">
+
+<div class="card">
+<h3>Donasi</h3>
+
+<p>No DANA:</p>
+<img src="dana.jpg">
+
+<p>QRIS:</p>
+<img src="qris.jpg">
+</div>
+
 <div class="card">
 <input id="nama" placeholder="Nama">
 <input id="jumlah" type="number" placeholder="Jumlah">
-<button onclick="kirimDonasi()">Donasi</button>
+<input type="file" id="bukti">
+<button onclick="kirimDonasi()">Kirim Bukti</button>
 </div>
+
+<div class="card">
+<h3>Pending (Admin)</h3>
+<div id="pending"></div>
+</div>
+
 </div>
 
 <!-- ADMIN -->
@@ -195,18 +200,25 @@ text-decoration:none;
 <input id="adminPass" placeholder="Password">
 <button onclick="loginAdmin()">Login</button>
 </div>
+
+<div class="card">
+<button class="admin" onclick="clearPending()">Hapus Pending</button>
+<button class="admin" onclick="clearLeaderboard()">Hapus Leaderboard</button>
+</div>
 </div>
 
 </div>
 
 <script>
-// FIREBASE CONFIG
+
+// FIREBASE
 const firebaseConfig = {
-apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
+apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QXiyV36hgg",
 authDomain: "miawwquenn.firebaseapp.com",
 databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
 projectId: "miawwquenn"
 };
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -245,57 +257,117 @@ chatBox.innerHTML+=`
 });
 });
 
+// GALERI
+db.ref("galeri").on("value",snap=>{
+galeri.innerHTML="";
+snap.forEach(d=>{
+galeri.innerHTML+=`
+<img src="${d.val().img}" class="thumb" onclick="window.open('${d.val().img}')">
+`;
+});
+});
+
+function uploadGaleriUser(){
+let file=galeriUser.files[0];
+let r=new FileReader();
+r.onload=e=>{
+db.ref("galeri").push({img:e.target.result});
+};
+r.readAsDataURL(file);
+}
+
+function clearGaleri(){
+if(isAdmin) db.ref("galeri").remove();
+}
+
 // DONASI
 function kirimDonasi(){
 db.ref("donasi").push({
 nama:nama.value,
 jumlah:Number(jumlah.value)
 });
-alert("Berhasil");
 }
 
-// ===== LEADERBOARD SULTAN =====
-let lastRank = [];
+// ===== LEADERBOARD PAGINATION =====
+let currentPage = 1;
+const perPage = 5;
+let lastData = [];
 
-function rupiah(angka){
-return "Rp" + Number(angka).toLocaleString("id-ID");
+function rupiah(x){
+return "Rp" + Number(x).toLocaleString("id-ID");
 }
 
 db.ref("donasi").on("value",snap=>{
-leaderboard.innerHTML="";
-
 let data=[];
-
-if(!snap.exists()){
-leaderboard.innerHTML="<p>Belum ada donasi</p>";
-return;
-}
+let total=0;
 
 snap.forEach(d=>{
-let val=d.val();
-val.jumlah = Number(val.jumlah) || 0;
-data.push(val);
+let v=d.val();
+v.jumlah=Number(v.jumlah)||0;
+data.push(v);
+total+=v.jumlah;
 });
 
 data.sort((a,b)=>b.jumlah-a.jumlah);
 
-data.forEach((d,i)=>{
-let cls=i==0?"top1":i==1?"top2":i==2?"top3":"";
-let badge=i==0?"👑🥇":i==1?"🥈":i==2?"🥉":"";
+lastData = data;
 
-let prevIndex = lastRank.findIndex(x=>x.nama===d.nama);
-let naik = prevIndex > i;
+document.getElementById("totalDonasi").innerText = rupiah(total);
+
+render();
+});
+
+function render(){
+leaderboard.innerHTML="";
+donaturList.innerHTML="";
+
+let start=(currentPage-1)*perPage;
+let end=start+perPage;
+
+let page=lastData.slice(start,end);
+
+// leaderboard page
+page.forEach((d,i)=>{
+let real=start+i;
+
+let cls=real==0?"top1":real==1?"top2":real==2?"top3":"";
+let badge=real==0?"🥇":real==1?"🥈":real==2?"🥉":"";
 
 leaderboard.innerHTML+=`
-<div class="rank ${cls} ${naik?'move':''}">
-${badge} #${i+1} ${d.nama} - ${rupiah(d.jumlah)}
+<div class="rank ${cls}">
+${badge} #${real+1} ${d.nama} - ${rupiah(d.jumlah)}
 </div>`;
 });
 
-lastRank = data;
+// semua donatur
+lastData.forEach(d=>{
+donaturList.innerHTML+=`
+<div class="rank">
+${d.nama} - ${rupiah(d.jumlah)}
+</div>`;
 });
+}
+
+function nextPage(){
+if(currentPage*perPage < lastData.length){
+currentPage++;
+render();
+}
+}
+
+function prevPage(){
+if(currentPage>1){
+currentPage--;
+render();
+}
+}
+
+// CLEAR
+function clearChat(){ if(isAdmin) db.ref("chat").remove(); }
+function clearPending(){ if(isAdmin) db.ref("pending").remove(); }
+function clearLeaderboard(){ if(isAdmin) db.ref("donasi").remove(); }
 
 </script>
 
 </body>
-               </html>
+</html>
