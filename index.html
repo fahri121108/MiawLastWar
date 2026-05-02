@@ -18,6 +18,20 @@ color:white;
 
 .container{max-width:420px;margin:auto;padding:15px;}
 
+.nav{
+display:flex;
+justify-content:space-around;
+background:#020617;
+padding:10px;
+}
+
+.nav button{
+background:none;border:none;color:white;font-weight:bold;
+}
+
+.page{display:none;}
+.active{display:block;}
+
 .card{
 background:rgba(30,41,59,0.9);
 padding:15px;
@@ -27,74 +41,97 @@ backdrop-filter:blur(10px);
 box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
-button,input{
-padding:10px;margin:5px;border:none;border-radius:10px;
-}
-
 .chat-box{
-height:260px;overflow:auto;background:#020617;padding:10px;border-radius:10px;
+height:260px;
+overflow:auto;
+background:#020617;
+padding:10px;
+border-radius:10px;
 }
 
 .msg{display:flex;gap:8px;margin:5px 0;}
-.bubble{padding:8px;border-radius:12px;max-width:70%;}
-.me .bubble{background:#22c55e;margin-left:auto;}
-.other .bubble{background:#334155;}
 
-.profile{width:35px;height:35px;border-radius:50%;object-fit:cover;}
+.bubble{
+padding:8px;
+border-radius:12px;
+max-width:70%;
+}
+
+.me .bubble{
+background:#22c55e;
+margin-left:auto;
+}
+
+.other .bubble{
+background:#334155;
+}
+
+.profile{
+width:35px;
+height:35px;
+border-radius:50%;
+object-fit:cover;
+}
+
+.thumb{
+width:60px;
+height:60px;
+object-fit:cover;
+border-radius:8px;
+cursor:pointer;
+}
 
 .replyBox{
 background:#020617;
 padding:5px;
 font-size:11px;
 border-left:3px solid #22c55e;
-margin-bottom:3px;
+margin-bottom:5px;
 }
 
-.thumb{
-width:60px;height:60px;object-fit:cover;border-radius:8px;
-cursor:pointer;
+.rank{
+padding:10px;
+margin:5px;
+border-radius:10px;
+background:#020617;
 }
 
-.page{display:none;}
-.active{display:block;}
-
-.rank{padding:10px;margin:5px;border-radius:10px;background:#020617;}
 .top1{box-shadow:0 0 12px gold;}
 .top2{box-shadow:0 0 12px silver;}
 .top3{box-shadow:0 0 12px orange;}
+
+button,input{
+padding:10px;
+margin:5px;
+border:none;
+border-radius:10px;
+}
+
+.admin{background:red;color:white;}
 </style>
 </head>
 
 <body>
 
+<div class="nav">
+<button onclick="showPage('home')">Home</button>
+<button onclick="showPage('dashboard')">Dashboard</button>
+<button onclick="showPage('donasi')">Donasi</button>
+<button onclick="showPage('admin')">Admin</button>
+</div>
+
 <div class="container">
 
-<!-- LOGIN -->
-<div id="login" class="page active">
-<div class="card">
-<h3>Pilih Login</h3>
-<button onclick="loginUser()">Login User</button>
-<button onclick="showAdmin()">Login Admin</button>
-</div>
-
-<div id="adminLogin" style="display:none;">
-<input id="adminPass" placeholder="Password">
-<button onclick="loginAdmin()">Masuk</button>
-</div>
-</div>
-
 <!-- HOME -->
-<div id="home" class="page">
+<div id="home" class="page active">
 <div class="card">
-<h2>POWER FIGHTER</h2>
+<h2 onclick="showPage('dashboard')" style="cursor:pointer;">POWER FIGHTER</h2>
 </div>
 
 <div class="card">
 <h3>Leaderboard</h3>
 <div id="leaderboard"></div>
 </div>
-
-<button onclick="showPage('dashboard')">Masuk Dashboard</button>
 </div>
 
 <!-- DASHBOARD -->
@@ -109,7 +146,7 @@ cursor:pointer;
 </div>
 
 <div class="card">
-<h3>Chat</h3>
+<h3>Chat Room</h3>
 
 <div id="replyPreview"></div>
 
@@ -125,28 +162,48 @@ cursor:pointer;
 
 </div>
 
+<!-- DONASI -->
+<div id="donasi" class="page">
+<div class="card">
+<input id="nama" placeholder="Nama">
+<input id="jumlah" type="number" placeholder="Jumlah">
+<input type="file" id="bukti">
+<button onclick="kirimDonasi()">Kirim</button>
+</div>
+
+<div class="card">
+<h3>Pending (Admin Only)</h3>
+<div id="pending"></div>
+</div>
+</div>
+
 <!-- ADMIN -->
 <div id="admin" class="page">
 <div class="card">
-<h3>Admin Panel</h3>
-<button onclick="clearChat()">Hapus Semua Chat</button>
-<button onclick="clearPending()">Hapus Pending</button>
-<button onclick="clearLeaderboard()">Hapus Leaderboard</button>
+<input id="adminPass" type="password" placeholder="Password">
+<button onclick="loginAdmin()">Login</button>
+</div>
+
+<div class="card">
+<button class="admin" onclick="clearChat()">Hapus Semua Chat</button>
+<button class="admin" onclick="clearPending()">Hapus Pending</button>
+<button class="admin" onclick="clearLeaderboard()">Hapus Leaderboard</button>
 </div>
 </div>
 
 </div>
 
 <script>
-// FIREBASE
-const firebaseConfig={
-apiKey:"AIza...",
-authDomain:"miawwquenn.firebaseapp.com",
-databaseURL:"https://miawwquenn-default-rtdb.firebaseio.com",
-projectId:"miawwquenn"
+// FIREBASE CONFIG (SUDAH FIX)
+const firebaseConfig = {
+  apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
+  authDomain: "miawwquenn.firebaseapp.com",
+  databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
+  projectId: "miawwquenn"
 };
+
 firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
+const db = firebase.database();
 
 // NAV
 function showPage(p){
@@ -154,27 +211,21 @@ document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
 document.getElementById(p).classList.add('active');
 }
 
-// LOGIN
+// ADMIN
 let isAdmin=false;
-
-function loginUser(){
-showPage("home");
-}
-
-function showAdmin(){
-document.getElementById("adminLogin").style.display="block";
-}
+const ADMIN_PASSWORD="12345";
 
 function loginAdmin(){
-if(adminPass.value==="12345"){
+if(adminPass.value===ADMIN_PASSWORD){
 isAdmin=true;
-showPage("admin");
-}else alert("Salah");
+alert("Admin aktif");
+}else alert("Password salah");
 }
 
 // LEADERBOARD
 db.ref("donasi").on("value",snap=>{
-let el=leaderboard; el.innerHTML="";
+let el=leaderboard;
+el.innerHTML="";
 let data=[];
 snap.forEach(d=>data.push(d.val()));
 data.sort((a,b)=>b.jumlah-a.jumlah);
@@ -191,19 +242,20 @@ let replyData=null;
 
 function kirimChat(){
 let nama=chatNama.value;
-let msg=msg.value;
+let msgText=msg.value;
 let fotoFile=chatFoto.files[0];
 let imgFile=chatImg.files[0];
 
 if(!nama) return alert("Isi nama");
 
-let reader1=new FileReader();
-reader1.onload=e1=>{
+let r1=new FileReader();
+
+r1.onload=e1=>{
 let foto=e1.target.result;
 
-let send=(imgData)=>{
+let send=(img)=>{
 db.ref("chat").push({
-nama,foto,msg,img:imgData||null,reply:replyData
+nama,foto,msg:msgText,img:img||null,reply:replyData
 });
 replyData=null;
 replyPreview.innerHTML="";
@@ -215,27 +267,27 @@ let r2=new FileReader();
 r2.onload=e2=>send(e2.target.result);
 r2.readAsDataURL(imgFile);
 }else send(null);
-
 };
 
-if(fotoFile) reader1.readAsDataURL(fotoFile);
-else reader1.onload({target:{result:"https://i.imgur.com/4M34hi2.png"}});
+if(fotoFile){
+r1.readAsDataURL(fotoFile);
+}else{
+r1.onload({target:{result:"https://i.imgur.com/4M34hi2.png"}});
+}
 }
 
 db.ref("chat").limitToLast(50).on("child_added",snap=>{
 let d=snap.val(); let id=snap.key;
 
 let div=document.createElement("div");
-div.className="msg";
+div.className="msg "+(d.nama===chatNama.value?"me":"other");
 
 div.innerHTML=`
 <img src="${d.foto}" class="profile">
 <div class="bubble">
 ${d.reply?`<div class="replyBox">${d.reply.msg}</div>`:""}
 <b>${d.nama}</b><br>${d.msg||""}
-
 ${d.img?`<img src="${d.img}" class="thumb" onclick="window.open('${d.img}')">`:""}
-
 <br>
 <button onclick='setReply(${JSON.stringify(d)})'>Reply</button>
 ${d.nama===chatNama.value?`<button onclick="hapusChat('${id}')">Hapus</button>`:""}
@@ -248,14 +300,67 @@ chatBox.scrollTop=chatBox.scrollHeight;
 
 function setReply(data){
 replyData=data;
-replyPreview.innerHTML=`<div class="replyBox">Reply ke: ${data.msg}</div>`;
+replyPreview.innerHTML=`<div class="replyBox">Reply: ${data.msg}</div>`;
 }
 
 function hapusChat(id){
+db.ref("chat/"+id).once("value",snap=>{
+db.ref("chat_deleted").push(snap.val());
 db.ref("chat/"+id).remove();
+});
 }
 
-// GALERI USER
+// DONASI
+function kirimDonasi(){
+let nama=document.getElementById("nama").value;
+let jumlah=document.getElementById("jumlah").value;
+let file=document.getElementById("bukti").files[0];
+
+let reader=new FileReader();
+reader.onload=e=>{
+db.ref("pending").push({nama,jumlah,bukti:e.target.result});
+alert("Terkirim");
+};
+reader.readAsDataURL(file);
+}
+
+// PENDING ADMIN ONLY
+db.ref("pending").on("value",snap=>{
+let el=document.getElementById("pending");
+el.innerHTML="";
+
+if(!isAdmin){
+el.innerHTML="<p>Hanya admin</p>";
+return;
+}
+
+snap.forEach(item=>{
+let id=item.key;
+let d=item.val();
+
+el.innerHTML+=`
+<div class="card">
+<p>${d.nama} - Rp${d.jumlah}</p>
+<img src="${d.bukti}" class="thumb" onclick="window.open('${d.bukti}')">
+<button onclick="acc('${id}','${d.nama}',${d.jumlah})">ACC</button>
+<button onclick="hapusPending('${id}')">Hapus</button>
+</div>`;
+});
+});
+
+function acc(id,nama,jumlah){
+db.ref("donasi").push({nama,jumlah});
+db.ref("pending/"+id).remove();
+}
+
+function hapusPending(id){
+db.ref("pending/"+id).once("value",snap=>{
+db.ref("pending_deleted").push(snap.val());
+db.ref("pending/"+id).remove();
+});
+}
+
+// GALERI
 function uploadGaleriUser(){
 let file=galeriUser.files[0];
 let r=new FileReader();
