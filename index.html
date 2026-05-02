@@ -12,7 +12,7 @@
 body{
 margin:0;
 font-family:Arial;
-background:linear-gradient(135deg,#020617,#0f172a);
+background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
 color:white;
 }
 
@@ -38,7 +38,7 @@ padding:15px;
 border-radius:15px;
 margin-top:10px;
 backdrop-filter:blur(10px);
-box-shadow:0 0 10px rgba(0,0,0,0.5);
+box-shadow:0 0 15px rgba(0,0,0,0.6);
 }
 
 .chat-box{
@@ -57,57 +57,50 @@ border-radius:12px;
 max-width:70%;
 }
 
-.me .bubble{
-background:#22c55e;
-margin-left:auto;
-}
-
-.other .bubble{
-background:#334155;
-}
+.me .bubble{background:#22c55e;margin-left:auto;}
+.other .bubble{background:#334155;}
 
 .profile{
-width:35px;
-height:35px;
-border-radius:50%;
+width:35px;height:35px;border-radius:50%;
 object-fit:cover;
 }
 
 .thumb{
-width:60px;
-height:60px;
+width:60px;height:60px;
 object-fit:cover;
 border-radius:8px;
 cursor:pointer;
 }
 
-.replyBox{
-background:#020617;
-padding:5px;
-font-size:11px;
-border-left:3px solid #22c55e;
-margin-bottom:5px;
-}
-
 .rank{
-padding:10px;
-margin:5px;
-border-radius:10px;
-background:#020617;
+padding:10px;margin:5px;border-radius:10px;background:#020617;
 }
 
 .top1{box-shadow:0 0 12px gold;}
 .top2{box-shadow:0 0 12px silver;}
 .top3{box-shadow:0 0 12px orange;}
 
+.online{
+font-size:12px;
+color:#22c55e;
+}
+
 button,input{
-padding:10px;
-margin:5px;
-border:none;
-border-radius:10px;
+padding:10px;margin:5px;border:none;border-radius:10px;
 }
 
 .admin{background:red;color:white;}
+
+.link-btn{
+display:block;
+text-align:center;
+background:#22c55e;
+margin-top:5px;
+padding:10px;
+border-radius:10px;
+color:black;
+text-decoration:none;
+}
 </style>
 </head>
 
@@ -126,11 +119,17 @@ border-radius:10px;
 <div id="home" class="page active">
 <div class="card">
 <h2 onclick="showPage('dashboard')" style="cursor:pointer;">POWER FIGHTER</h2>
+<p class="online">🟢 Online</p>
 </div>
 
 <div class="card">
 <h3>Leaderboard</h3>
 <div id="leaderboard"></div>
+</div>
+
+<div class="card">
+<a href="https://wa.me/628XXXXXXXXXX" class="link-btn">WhatsApp</a>
+<a href="https://discord.gg/XXXXX" class="link-btn">Discord</a>
 </div>
 </div>
 
@@ -143,13 +142,12 @@ border-radius:10px;
 
 <input type="file" id="galeriUser">
 <button onclick="uploadGaleriUser()">Upload</button>
+
+<button class="admin" onclick="clearGaleri()">Hapus Galeri (Admin)</button>
 </div>
 
 <div class="card">
 <h3>Chat Room</h3>
-
-<div id="replyPreview"></div>
-
 <div class="chat-box" id="chatBox"></div>
 
 <input id="chatNama" placeholder="Nama">
@@ -158,34 +156,47 @@ border-radius:10px;
 <input type="file" id="chatImg">
 
 <button onclick="kirimChat()">Kirim</button>
+
+<button class="admin" onclick="clearChat()">Hapus Room Chat</button>
 </div>
 
 </div>
 
 <!-- DONASI -->
 <div id="donasi" class="page">
+
+<div class="card">
+<h3>Donasi</h3>
+
+<p>No DANA:</p>
+<img src="dana.jpg">
+
+<p>QRIS:</p>
+<img src="qris.jpg">
+</div>
+
 <div class="card">
 <input id="nama" placeholder="Nama">
 <input id="jumlah" type="number" placeholder="Jumlah">
 <input type="file" id="bukti">
-<button onclick="kirimDonasi()">Kirim</button>
+<button onclick="kirimDonasi()">Kirim Bukti</button>
 </div>
 
 <div class="card">
-<h3>Pending (Admin Only)</h3>
+<h3>Pending (Admin)</h3>
 <div id="pending"></div>
 </div>
+
 </div>
 
 <!-- ADMIN -->
 <div id="admin" class="page">
 <div class="card">
-<input id="adminPass" type="password" placeholder="Password">
+<input id="adminPass" placeholder="Password">
 <button onclick="loginAdmin()">Login</button>
 </div>
 
 <div class="card">
-<button class="admin" onclick="clearChat()">Hapus Semua Chat</button>
 <button class="admin" onclick="clearPending()">Hapus Pending</button>
 <button class="admin" onclick="clearLeaderboard()">Hapus Leaderboard</button>
 </div>
@@ -194,14 +205,13 @@ border-radius:10px;
 </div>
 
 <script>
-// FIREBASE CONFIG (SUDAH FIX)
+// FIREBASE
 const firebaseConfig = {
-  apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
-  authDomain: "miawwquenn.firebaseapp.com",
-  databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
-  projectId: "miawwquenn"
+apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
+authDomain: "miawwquenn.firebaseapp.com",
+databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
+projectId: "miawwquenn"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -213,40 +223,19 @@ document.getElementById(p).classList.add('active');
 
 // ADMIN
 let isAdmin=false;
-const ADMIN_PASSWORD="12345";
-
 function loginAdmin(){
-if(adminPass.value===ADMIN_PASSWORD){
+if(adminPass.value==="12345"){
 isAdmin=true;
 alert("Admin aktif");
-}else alert("Password salah");
+}else alert("Salah");
 }
 
-// LEADERBOARD
-db.ref("donasi").on("value",snap=>{
-let el=leaderboard;
-el.innerHTML="";
-let data=[];
-snap.forEach(d=>data.push(d.val()));
-data.sort((a,b)=>b.jumlah-a.jumlah);
-
-data.forEach((d,i)=>{
-let cls=i==0?"top1":i==1?"top2":i==2?"top3":"";
-let badge=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
-el.innerHTML+=`<div class="rank ${cls}">${badge} ${d.nama} - Rp${d.jumlah}</div>`;
-});
-});
-
 // CHAT
-let replyData=null;
-
 function kirimChat(){
 let nama=chatNama.value;
 let msgText=msg.value;
 let fotoFile=chatFoto.files[0];
 let imgFile=chatImg.files[0];
-
-if(!nama) return alert("Isi nama");
 
 let r1=new FileReader();
 
@@ -255,10 +244,8 @@ let foto=e1.target.result;
 
 let send=(img)=>{
 db.ref("chat").push({
-nama,foto,msg:msgText,img:img||null,reply:replyData
+nama,foto,msg:msgText,img:img||null
 });
-replyData=null;
-replyPreview.innerHTML="";
 msg.value="";
 };
 
@@ -276,38 +263,49 @@ r1.onload({target:{result:"https://i.imgur.com/4M34hi2.png"}});
 }
 }
 
-db.ref("chat").limitToLast(50).on("child_added",snap=>{
-let d=snap.val(); let id=snap.key;
+db.ref("chat").limitToLast(50).on("value",snap=>{
+chatBox.innerHTML="";
+snap.forEach(item=>{
+let d=item.val(); let id=item.key;
 
-let div=document.createElement("div");
-div.className="msg "+(d.nama===chatNama.value?"me":"other");
-
-div.innerHTML=`
+chatBox.innerHTML+=`
+<div class="msg">
 <img src="${d.foto}" class="profile">
 <div class="bubble">
-${d.reply?`<div class="replyBox">${d.reply.msg}</div>`:""}
 <b>${d.nama}</b><br>${d.msg||""}
 ${d.img?`<img src="${d.img}" class="thumb" onclick="window.open('${d.img}')">`:""}
-<br>
-<button onclick='setReply(${JSON.stringify(d)})'>Reply</button>
-${d.nama===chatNama.value?`<button onclick="hapusChat('${id}')">Hapus</button>`:""}
+${d.nama===chatNama.value?`<br><button onclick="hapusChat('${id}')">Hapus</button>`:""}
+</div>
 </div>
 `;
-
-chatBox.appendChild(div);
-chatBox.scrollTop=chatBox.scrollHeight;
 });
-
-function setReply(data){
-replyData=data;
-replyPreview.innerHTML=`<div class="replyBox">Reply: ${data.msg}</div>`;
-}
+});
 
 function hapusChat(id){
-db.ref("chat/"+id).once("value",snap=>{
-db.ref("chat_deleted").push(snap.val());
 db.ref("chat/"+id).remove();
+}
+
+// GALERI
+function uploadGaleriUser(){
+let file=galeriUser.files[0];
+let r=new FileReader();
+r.onload=e=>{
+db.ref("galeri").push({img:e.target.result});
+};
+r.readAsDataURL(file);
+}
+
+db.ref("galeri").on("value",snap=>{
+galeri.innerHTML="";
+snap.forEach(d=>{
+galeri.innerHTML+=`
+<img src="${d.val().img}" class="thumb" onclick="window.open('${d.val().img}')">
+`;
 });
+});
+
+function clearGaleri(){
+if(isAdmin) db.ref("galeri").remove();
 }
 
 // DONASI
@@ -330,7 +328,7 @@ let el=document.getElementById("pending");
 el.innerHTML="";
 
 if(!isAdmin){
-el.innerHTML="<p>Hanya admin</p>";
+el.innerHTML="Admin Only";
 return;
 }
 
@@ -354,26 +352,20 @@ db.ref("pending/"+id).remove();
 }
 
 function hapusPending(id){
-db.ref("pending/"+id).once("value",snap=>{
-db.ref("pending_deleted").push(snap.val());
 db.ref("pending/"+id).remove();
-});
 }
 
-// GALERI
-function uploadGaleriUser(){
-let file=galeriUser.files[0];
-let r=new FileReader();
-r.onload=e=>{
-db.ref("galeri").push({img:e.target.result});
-};
-r.readAsDataURL(file);
-}
+// LEADERBOARD
+db.ref("donasi").on("value",snap=>{
+leaderboard.innerHTML="";
+let data=[];
+snap.forEach(d=>data.push(d.val()));
+data.sort((a,b)=>b.jumlah-a.jumlah);
 
-db.ref("galeri").on("value",snap=>{
-galeri.innerHTML="";
-snap.forEach(d=>{
-galeri.innerHTML+=`<img src="${d.val().img}" class="thumb" onclick="window.open('${d.val().img}')">`;
+data.forEach((d,i)=>{
+let cls=i==0?"top1":i==1?"top2":i==2?"top3":"";
+let badge=i==0?"🥇":i==1?"🥈":i==2?"🥉":"";
+leaderboard.innerHTML+=`<div class="rank ${cls}">${badge} ${d.nama} - Rp${d.jumlah}</div>`;
 });
 });
 
@@ -384,4 +376,4 @@ function clearLeaderboard(){ if(isAdmin) db.ref("donasi").remove(); }
 </script>
 
 </body>
-  </html>
+</html>
