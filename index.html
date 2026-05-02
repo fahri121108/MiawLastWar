@@ -37,7 +37,6 @@ background:rgba(30,41,59,0.9);
 padding:15px;
 border-radius:15px;
 margin-top:10px;
-backdrop-filter:blur(10px);
 }
 
 .rank{
@@ -47,28 +46,10 @@ border-radius:10px;
 background:#020617;
 }
 
-/* ===== SULTAN EFFECT ===== */
-.top1{animation:gold 1.5s infinite;border:1px solid gold;}
-.top2{animation:silver 1.5s infinite;border:1px solid silver;}
-.top3{animation:orange 1.5s infinite;border:1px solid orange;}
-
-@keyframes gold{
-0%{box-shadow:0 0 5px gold;}
-50%{box-shadow:0 0 25px gold;}
-100%{box-shadow:0 0 5px gold;}
-}
-
-@keyframes silver{
-0%{box-shadow:0 0 5px silver;}
-50%{box-shadow:0 0 25px silver;}
-100%{box-shadow:0 0 5px silver;}
-}
-
-@keyframes orange{
-0%{box-shadow:0 0 5px orange;}
-50%{box-shadow:0 0 25px orange;}
-100%{box-shadow:0 0 5px orange;}
-}
+/* SULTAN EFFECT */
+.top1{box-shadow:0 0 20px gold;border:1px solid gold;}
+.top2{box-shadow:0 0 20px silver;border:1px solid silver;}
+.top3{box-shadow:0 0 20px orange;border:1px solid orange;}
 
 button,input{
 padding:10px;margin:5px;border:none;border-radius:10px;
@@ -120,18 +101,13 @@ text-decoration:none;
 
 <div class="card">
 <h2>POWER FIGHTER</h2>
-<p>🔥 Aliansi Rank System + Donasi + Chat</p>
+<p>🔥 System Donasi + Chat + Rank</p>
 </div>
 
 <div class="card">
 <h3>Leaderboard</h3>
 <h4>Total Donasi: <span id="total">Rp0</span></h4>
 <div id="board"></div>
-</div>
-
-<div class="card">
-<a class="link-btn" href="https://wa.me/628XXXXXXXXXX">WhatsApp</a>
-<a class="link-btn" href="https://discord.gg/XXXXX">Discord</a>
 </div>
 
 </div>
@@ -163,7 +139,7 @@ text-decoration:none;
 <div class="card">
 <h3>Donasi</h3>
 
-<p><b>No DANA:</b></p>
+<p><b>DANA:</b></p>
 <img src="dana.jpg" style="width:100%;border-radius:10px;">
 
 <p><b>QRIS:</b></p>
@@ -198,11 +174,21 @@ text-decoration:none;
 <div id="pendingAdmin"></div>
 </div>
 
+<div class="card">
+<h3>Admin Tools</h3>
+
+<button class="admin" onclick="hapusChat()">Hapus Chat</button>
+<button class="admin" onclick="hapusLeaderboard()">Hapus Leaderboard</button>
+<button class="admin" onclick="hapusDonasi()">Hapus Semua Donasi</button>
+
+</div>
+
 </div>
 
 </div>
 
 <script>
+
 const fb={
 apiKey:"AIzaSyBnvcyMdTflihDPg68zsLG-9QXiyV36hgg",
 databaseURL:"https://miawwquenn-default-rtdb.firebaseio.com"
@@ -216,7 +202,7 @@ document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
 document.getElementById(x).classList.add('active');
 }
 
-/* ===== ADMIN ===== */
+/* ===== ADMIN LOGIN ===== */
 let admin=false;
 function login(){
 if(pass.value=="12345"){
@@ -226,17 +212,15 @@ loadPending();
 }
 }
 
-/* ===== DONASI (PENDING SYSTEM) ===== */
+/* ===== DONASI (PENDING) ===== */
 function donasi(){
 db.ref("pending").push({
 nama:nama.value,
 jumlah:Number(jumlah.value)
 });
-nama.value="";
-jumlah.value="";
 }
 
-/* ===== ACC ===== */
+/* ===== ACC / REJECT ===== */
 function acc(k,v){
 db.ref("donasi").push(v);
 db.ref("pending/"+k).remove();
@@ -333,7 +317,31 @@ s.forEach(d=>{
 galeri.innerHTML+=`<img src="${d.val().img}" class="thumb">`;
 });
 });
+
+/* ===== ADMIN TOOLS ===== */
+function hapusChat(){
+if(admin){
+db.ref("chat").remove();
+alert("Chat dihapus");
+}
+}
+
+function hapusLeaderboard(){
+if(admin){
+db.ref("donasi").remove();
+alert("Leaderboard dihapus");
+}
+}
+
+function hapusDonasi(){
+if(admin){
+db.ref("donasi").remove();
+db.ref("pending").remove();
+alert("Semua donasi dihapus");
+}
+}
+
 </script>
 
 </body>
-</html>
+  </html>
