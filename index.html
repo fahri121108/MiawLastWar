@@ -1,61 +1,126 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POWER FIGHTER LINK BIO</title><!-- Firebase (compat) --><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script><style>
-body {margin:0;font-family:Arial;background:linear-gradient(135deg,#000428,#004e92);color:white;text-align:center;}
-.container{max-width:420px;margin:auto;padding:20px;}
-.profile img{width:110px;border-radius:50%;border:3px solid #00eaff;}
-.btn{display:block;background:#00eaff;color:black;padding:12px;margin:10px 0;border-radius:12px;text-decoration:none;font-weight:bold;}
-.card{background:rgba(255,255,255,0.1);padding:15px;border-radius:15px;margin-top:15px;}
-input,button{padding:10px;border-radius:8px;border:none;margin:5px;}
-.chat-box{height:200px;overflow:auto;background:#111;padding:10px;border-radius:10px;text-align:left;}
-</style></head>
-<body><div class="container"><!-- PROFILE --><div class="profile">
+<title>POWER FIGHTER</title>
+
+<!-- FIREBASE COMPAT -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<style>
+body {
+    margin:0;
+    font-family: Arial;
+    background: linear-gradient(135deg,#000428,#004e92);
+    color:white;
+    text-align:center;
+}
+.container {max-width:420px;margin:auto;padding:20px;}
+.profile img {width:100px;border-radius:50%;margin-top:20px;}
+.btn {
+    display:block;
+    background:#00eaff;
+    color:black;
+    padding:12px;
+    margin:10px 0;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.card {
+    background:rgba(255,255,255,0.1);
+    padding:15px;
+    border-radius:12px;
+    margin-top:15px;
+}
+input,button {
+    padding:10px;
+    margin:5px;
+    border:none;
+    border-radius:8px;
+}
+.chat-box {
+    height:200px;
+    overflow:auto;
+    background:#111;
+    padding:10px;
+    border-radius:10px;
+    text-align:left;
+}
+img.bukti {
+    width:100%;
+    margin-top:5px;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="profile">
     <img src="poto.jpg">
     <h2>POWER FIGHTER</h2>
-</div><!-- BUTTON --><a href="https://wa.me/628XXXXXXXXXX" class="btn">WhatsApp</a> <a href="https://discord.gg/XXXX" class="btn">Discord</a>
+</div>
 
-<!-- DONASI --><div class="card">
+<a href="#" class="btn">WhatsApp</a>
+<a href="#" class="btn">Discord</a>
+
+<div class="card">
     <h3>Donasi</h3>
     <img src="qris.jpg" width="100%">
-    <p>DANA: 08XXXXXXXXXX</p>
     <input type="text" id="nama" placeholder="Nama">
-    <input type="number" id="jumlah" placeholder="Jumlah Donasi">
-    <button onclick="kirimBukti()">Kirim Bukti</button>
-</div><!-- LEADERBOARD --><div class="card">
-    <h3>Leaderboard Donasi</h3>
+    <input type="number" id="jumlah" placeholder="Jumlah">
+    <input type="file" id="bukti">
+    <button onclick="kirimDonasi()">Kirim Donasi</button>
+</div>
+
+<div class="card">
+    <h3>Pending Donasi</h3>
+    <div id="pending"></div>
+</div>
+
+<div class="card">
+    <h3>Leaderboard</h3>
     <div id="leaderboard"></div>
-</div><!-- CHAT ROOM FIX --><div class="card">
+</div>
+
+<div class="card">
     <h3>Chat Room</h3>
     <div class="chat-box" id="chat"></div>
-    <input type="text" id="chatNama" placeholder="Nama kamu">
-    <input type="text" id="msg" placeholder="Tulis pesan">
+    <input type="text" id="chatNama" placeholder="Nama">
+    <input type="text" id="msg" placeholder="Pesan">
     <button onclick="kirimChat()">Kirim</button>
-</div></div><script>
-// FIREBASE CONFIG
+</div>
+
+</div>
+
+<script>
+// 🔥 CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
   authDomain: "miawwquenn.firebaseapp.com",
   databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
-  projectId: "miawwquenn",
-  storageBucket: "miawwquenn.firebasestorage.app",
-  messagingSenderId: "53904378444",
-  appId: "1:53904378444:web:ca2417dae94dbccd5a82e9",
-  measurementId: "G-FE0QLEJ859"
+  projectId: "miawwquenn"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// ================= CHAT ROOM FIX =================
+// ================= CHAT =================
 function kirimChat(){
-    let msg = document.getElementById('msg').value.trim();
     let nama = document.getElementById('chatNama').value.trim();
+    let msg = document.getElementById('msg').value.trim();
 
-    if(!msg || !nama) return alert('Isi nama & pesan dulu');
+    if(!nama || !msg){
+        alert("Isi nama & pesan!");
+        return;
+    }
 
-    db.ref('chat').push({
+    db.ref("chat").push({
         nama: nama,
         msg: msg,
         time: Date.now()
@@ -64,47 +129,69 @@ function kirimChat(){
     document.getElementById('msg').value='';
 }
 
-// realtime chat update
- db.ref('chat').on('value', snap=>{
-    let el = document.getElementById('chat');
-    el.innerHTML='';
+db.ref("chat").on("value", snap=>{
+    let el = document.getElementById("chat");
+    el.innerHTML = "";
 
-    let data=[];
-    snap.forEach(d=> data.push(d.val()));
+    let data = [];
+    snap.forEach(d => data.push(d.val()));
 
     data.sort((a,b)=>a.time-b.time);
 
     data.forEach(d=>{
-        el.innerHTML += `<p><b>${d.nama}:</b> ${d.msg}</p>`;
+        el.innerHTML += `<p><b>${d.nama}</b>: ${d.msg}</p>`;
     });
 
     el.scrollTop = el.scrollHeight;
 });
 
 // ================= DONASI =================
-function kirimBukti(){
+function kirimDonasi(){
     let nama = document.getElementById('nama').value;
     let jumlah = document.getElementById('jumlah').value;
+    let file = document.getElementById('bukti').files[0];
 
-    if(!nama || !jumlah) return alert('Isi dulu');
+    if(!nama || !jumlah || !file){
+        alert("Isi semua + upload bukti!");
+        return;
+    }
 
-    let pesan = `Halo admin, saya ${nama} sudah donasi Rp${jumlah}, ini bukti saya`;
+    let reader = new FileReader();
+    reader.onload = function(e){
+        db.ref("pendingDonasi").push({
+            nama: nama,
+            jumlah: jumlah,
+            bukti: e.target.result,
+            time: Date.now()
+        });
 
-    window.location.href = `https://wa.me/628XXXXXXXXXX?text=${encodeURIComponent(pesan)}`;
+        alert("Donasi berhasil dikirim!");
+    };
+    reader.readAsDataURL(file);
 }
 
-// ADMIN INPUT
-function tambahDonasi(nama,jumlah){
-    db.ref('donasi').push({nama, jumlah});
-    alert('Donasi masuk dari '+nama);
-}
+// ================= TAMPIL PENDING =================
+db.ref("pendingDonasi").on("value", snap=>{
+    let el = document.getElementById("pending");
+    el.innerHTML = "";
 
-// LEADERBOARD REALTIME
- db.ref('donasi').on('value', snap=>{
-    let el = document.getElementById('leaderboard');
-    el.innerHTML='';
+    snap.forEach(d=>{
+        let data = d.val();
+        el.innerHTML += `
+            <div>
+                <p><b>${data.nama}</b> - Rp${data.jumlah}</p>
+                <img src="${data.bukti}" class="bukti">
+            </div>
+        `;
+    });
+});
 
-    let data=[];
+// ================= LEADERBOARD =================
+db.ref("donasi").on("value", snap=>{
+    let el = document.getElementById("leaderboard");
+    el.innerHTML = "";
+
+    let data = [];
     snap.forEach(d=> data.push(d.val()));
 
     data.sort((a,b)=>b.jumlah-a.jumlah);
@@ -113,5 +200,15 @@ function tambahDonasi(nama,jumlah){
         el.innerHTML += `<p>${d.nama} - Rp${d.jumlah}</p>`;
     });
 });
-</script></body>
+
+// ================= ADMIN =================
+// buka console (F12)
+// contoh:
+// approveDonasi("Fahz",50000)
+function approveDonasi(nama,jumlah){
+    db.ref("donasi").push({nama, jumlah});
+}
+</script>
+
+</body>
 </html>
