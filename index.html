@@ -1,28 +1,24 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>POWER FIGHTER LINK BIO</title><style>
+<title>POWER FIGHTER LINK BIO</title>
+
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+
+<style>
 body {
     margin:0;
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background: linear-gradient(135deg,#000428,#004e92);
     color:white;
     text-align:center;
 }
-
-.container{
-    max-width:420px;
-    margin:auto;
-    padding:20px;
-}
-
-.profile img{
-    width:110px;
-    border-radius:50%;
-    border:3px solid #00eaff;
-}
-
+.container{max-width:420px;margin:auto;padding:20px;}
+.profile img{width:110px;border-radius:50%;border:3px solid #00eaff;}
 .btn{
     display:block;
     background:#00eaff;
@@ -33,40 +29,142 @@ body {
     text-decoration:none;
     font-weight:bold;
 }
-
 .card{
     background:rgba(255,255,255,0.1);
     padding:15px;
     border-radius:15px;
     margin-top:15px;
 }
-
-input, button{
+input,button{
     padding:10px;
     border-radius:8px;
     border:none;
     margin:5px;
 }
-
 .chat-box{
-    height:150px;
+    height:180px;
     overflow:auto;
     background:#111;
     padding:10px;
     border-radius:10px;
     text-align:left;
 }
+</style>
+</head>
+<body>
 
-.leaderboard{
-    text-align:left;
+<div class="container">
+
+<!-- PROFILE -->
+<div class="profile">
+    <img src="poto.jpg">
+    <h2>POWER FIGHTER</h2>
+</div>
+
+<!-- BUTTON -->
+<a href="https://wa.me/628XXXXXXXXXX" class="btn">WhatsApp</a>
+<a href="https://discord.gg/XXXX" class="btn">Discord</a>
+
+<!-- DONASI -->
+<div class="card">
+    <h3>Donasi</h3>
+    <img src="qris.jpg" width="100%">
+    <p>DANA: 08XXXXXXXXXX</p>
+    <input type="text" id="nama" placeholder="Nama">
+    <input type="number" id="jumlah" placeholder="Jumlah Donasi">
+    <button onclick="kirimBukti()">Kirim Bukti</button>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="card">
+    <h3>Leaderboard Donasi</h3>
+    <div id="leaderboard"></div>
+</div>
+
+<!-- CHAT -->
+<div class="card">
+    <h3>Chat Global</h3>
+    <div class="chat-box" id="chat"></div>
+    <input type="text" id="msg" placeholder="Tulis pesan">
+    <button onclick="kirimChat()">Kirim</button>
+</div>
+
+</div>
+
+<script>
+// ================= FIREBASE CONFIG =================
+const firebaseConfig = {
+  apiKey: "AIzaSyBnvcyMdTflihDPg68zsLG-9QxiyV36hgg",
+  authDomain: "miawwquenn.firebaseapp.com",
+  databaseURL: "https://miawwquenn-default-rtdb.firebaseio.com",
+  projectId: "miawwquenn",
+  storageBucket: "miawwquenn.firebasestorage.app",
+  messagingSenderId: "53904378444",
+  appId: "1:53904378444:web:ca2417dae94dbccd5a82e9",
+  measurementId: "G-FE0QLEJ859"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// ================= CHAT REALTIME =================
+function kirimChat(){
+    let msg = document.getElementById('msg').value;
+    let nama = prompt('Nama kamu');
+    if(!msg || !nama) return;
+
+    db.ref('chat').push({nama, msg});
+    document.getElementById('msg').value='';
 }
 
-</style></head>
-<body><div class="container"><div class="profile">
-<img src="poto.jpg">
-<h2>POWER FIGHTER</h2>
-</div><a href="https://wa.me/628xxxx" class="btn">WhatsApp</a> <a href="https://discord.gg/xxxx" class="btn">Discord</a>
+// tampilkan chat realtime
+db.ref('chat').on('value', snap=>{
+    let el = document.getElementById('chat');
+    el.innerHTML='';
+    snap.forEach(data=>{
+        let d = data.val();
+        el.innerHTML += `<p><b>${d.nama}:</b> ${d.msg}</p>`;
+    });
+});
 
+// ================= DONASI =================
+function kirimBukti(){
+    let nama = document.getElementById('nama').value;
+    let jumlah = document.getElementById('jumlah').value;
+
+    if(!nama || !jumlah) return alert('Isi dulu');
+
+    let pesan = `Halo admin, saya ${nama} sudah donasi Rp${jumlah}, ini bukti saya`;
+
+    window.location.href = `https://wa.me/628XXXXXXXXXX?text=${encodeURIComponent(pesan)}`;
+}
+
+// ================= ADMIN INPUT =================
+// buka console (F12) lalu ketik:
+// tambahDonasi("Nama", 10000)
+function tambahDonasi(nama,jumlah){
+    db.ref('donasi').push({nama, jumlah});
+    alert('Donasi masuk dari '+nama);
+}
+
+// ================= LEADERBOARD =================
+db.ref('donasi').on('value', snap=>{
+    let el = document.getElementById('leaderboard');
+    el.innerHTML='';
+
+    let data=[];
+    snap.forEach(d=> data.push(d.val()));
+
+    data.sort((a,b)=>b.jumlah-a.jumlah);
+
+    data.forEach(d=>{
+        el.innerHTML += `<p>${d.nama} - Rp${d.jumlah}</p>`;
+    });
+});
+</script>
+
+</body>
+</html>
 <div class="card">
 <h3>Donasi</h3>
 <img src="qris.jpg" width="100%">
