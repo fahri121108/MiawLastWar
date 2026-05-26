@@ -6,18 +6,23 @@
     <title>Last War Official Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#1685e0',
-                        secondary: '#ffb02e',
-                        darkBlue: '#0f5ba8',
-                        gold: '#f2a60d',
+                        lastwarBlue: '#1574d4',
+                        lastwarDarkBlue: '#0a4b91',
+                        lastwarOrange: '#ff9f1c',
+                        lastwarRed: '#f04848',
+                        lastwarGold: '#ffb82e',
+                        lastwarLightGold: '#ffdd88',
                     },
                     fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
+                        lastwar: ['Roboto', 'sans-serif'],
                     },
                 }
             }
@@ -25,348 +30,299 @@
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            .content-auto {
-                content-visibility: auto;
-            }
-            .text-shadow {
-                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            }
-            .card-gradient {
-                background: linear-gradient(180deg, #ffffff 0%, #f8f0d9 100%);
-            }
-            .btn-gold {
-                background: linear-gradient(180deg, #ffd04b 0%, #f2a60d 100%);
-            }
-            .btn-gold:hover {
-                background: linear-gradient(180deg, #ffdc73 0%, #f7b835 100%);
-            }
+            .content-auto { content-visibility: auto; }
+            .text-shadow-gold { text-shadow: 0 1px 2px rgba(180, 90, 0, 0.3); }
+            .text-shadow-blue { text-shadow: 0 1px 2px rgba(0, 70, 140, 0.3); }
+            .card-bg { background: linear-gradient(180deg, #ffffff 0%, #fff3d9 100%); }
+            .btn-harga { background: linear-gradient(180deg, #ffd15c 0%, #f9a826 100%); box-shadow: inset 0 -3px 0 #d47e00; }
+            .btn-harga:active { background: linear-gradient(180deg, #f9a826 0%, #ffd15c 100%); transform: translateY(1px); }
+            .label-merah { background: linear-gradient(180deg, #ff5c5c 0%, #e03131 100%); box-shadow: inset 0 -2px 0 #b02020; }
+            .scroll-hide { -ms-overflow-style: none; scrollbar-width: none; }
+            .scroll-hide::-webkit-scrollbar { display: none; }
         }
     </style>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-b from-primary to-darkBlue font-sans min-h-screen pb-10">
-    <!-- Header -->
-    <div class="container mx-auto px-4 py-4">
+<body class="bg-gradient-to-b from-lastwarBlue to-lastwarDarkBlue font-lastwar min-h-screen">
+
+    <!-- ==================== HEADER UTAMA (PERSIS ASLI) ==================== -->
+    <div class="container mx-auto px-3 pt-4 pb-2">
         <div class="flex justify-between items-center">
+            <!-- Logo Kiri -->
             <div class="flex items-center gap-2">
-                <h1 class="text-white text-3xl font-extrabold text-shadow">LAST WAR</h1>
-                <div class="bg-white text-primary font-bold px-3 py-1 rounded-lg text-sm">OFFICIAL STORE</div>
-            </div>
-            <div class="flex items-center gap-3">
-                <div class="bg-gray-800 text-white px-3 py-1 rounded-lg flex items-center gap-2">
-                    <i class="fa fa-user-circle-o"></i>
-                    <span class="font-bold">QUENN777</span>
+                <div>
+                    <h1 class="text-white text-[28px] font-black leading-none tracking-tight">LAST<br>WAR</h1>
                 </div>
-                <button class="text-white text-xl"><i class="fa fa-bars"></i></button>
+                <div class="bg-white text-lastwarBlue font-bold px-2 py-1 rounded-md text-xs shadow-md">OFFICIAL<br>STORE</div>
+            </div>
+
+            <!-- ID Akun Kanan -->
+            <div class="flex items-center gap-2">
+                <div class="bg-gray-800/80 text-white px-3 py-1.5 rounded-lg flex items-center gap-2 border border-gray-600">
+                    <i class="fa fa-circle-o text-purple-400"></i>
+                    <span class="font-bold text-base tracking-wide">QUENN777</span>
+                </div>
+                <button class="text-white text-xl bg-black/20 w-9 h-9 rounded-lg flex items-center justify-center">
+                    <i class="fa fa-bars"></i>
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Judul Halaman -->
-    <div class="container mx-auto px-4 mt-4">
-        <div class="bg-secondary text-white font-bold text-center py-3 rounded-xl text-xl text-shadow border-b-4 border-yellow-700">
-            Toko Bata Emas
+    <!-- ==================== JUDUL TOKO BATA EMAS (PERSIS ASLI) ==================== -->
+    <div class="container mx-auto px-3 mt-3">
+        <div class="bg-gradient-to-b from-lastwarGold to-lastwarOrange py-2.5 rounded-lg text-center border-b-4 border-amber-700/60 shadow-md">
+            <h2 class="text-white font-extrabold text-xl tracking-wider text-shadow-gold">TOKO BATA EMAS</h2>
         </div>
     </div>
 
-    <!-- Daftar Produk -->
-    <div class="container mx-auto px-4 mt-6">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            <!-- Produk 1 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +500
+    <!-- ==================== DAFTAR PRODUK (GAMBAR & TATA LETAK SAMA 100%) ==================== -->
+    <div class="container mx-auto px-3 mt-4 pb-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+
+            <!-- PRODUK 1: 500 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +500
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413023.png" class="w-24 h-24 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">500</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/84J5Yqg/1.png" class="w-28 h-28 object-contain" alt="500 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">500</h3>
                 </div>
-                <button onclick="openModal(500, 83000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(500, 83000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp83.000
                 </button>
             </div>
 
-            <!-- Produk 2 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +1000
+            <!-- PRODUK 2: 1000 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +1000
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413023.png" class="w-28 h-28 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">1000</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/4TK5gKk/2.png" class="w-32 h-32 object-contain" alt="1000 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">1000</h3>
                 </div>
-                <button onclick="openModal(1000, 165000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(1000, 165000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp165.000
                 </button>
             </div>
 
-            <!-- Produk 3 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +100
+            <!-- PRODUK 3: 2000 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +100
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1313/1313067.png" class="w-28 h-28 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">2000</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/9yWq5yH/3.png" class="w-36 h-36 object-contain" alt="2000 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">2000</h3>
                 </div>
-                <button onclick="openModal(2000, 330000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(2000, 330000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp330.000
                 </button>
             </div>
 
-            <!-- Produk 4 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +125
+            <!-- PRODUK 4: 2500 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +125
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3073/3073182.png" class="w-28 h-28 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">2500</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/4jG7rVd/4.png" class="w-36 h-36 object-contain" alt="2500 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">2500</h3>
                 </div>
-                <button onclick="openModal(2500, 415000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(2500, 415000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp415.000
                 </button>
             </div>
 
-            <!-- Produk 5 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +250
+            <!-- PRODUK 5: 5000 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +250
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3073/3073182.png" class="w-32 h-32 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">5000</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/7N0H6jY/5.png" class="w-40 h-40 object-contain" alt="5000 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">5000</h3>
                 </div>
-                <button onclick="openModal(5000, 825000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(5000, 825000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp825.000
                 </button>
             </div>
 
-            <!-- Produk 6 -->
-            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
-                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
-                    <i class="fa fa-coins"></i> +500
+            <!-- PRODUK 6: 10000 Bata -->
+            <div class="card-bg rounded-xl overflow-hidden shadow-lg border-2 border-amber-300/70 relative">
+                <div class="label-merah absolute top-0 right-0 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1 text-sm z-10">
+                    <span class="bg-yellow-400 text-amber-800 rounded-sm w-5 h-5 flex items-center justify-center text-xs font-black">★</span> +500
                 </div>
-                <div class="p-6 flex flex-col items-center">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" class="w-32 h-32 mb-3" alt="Bata Emas">
-                    <h3 class="text-3xl font-bold text-gray-800">10000</h3>
+                <div class="px-4 pt-8 pb-3 flex flex-col items-center">
+                    <img src="https://i.ibb.co/5k8m2bD/6.png" class="w-40 h-40 object-contain" alt="10000 Bata Emas">
+                    <h3 class="text-[32px] font-black text-gray-800 mt-2">10000</h3>
                 </div>
-                <button onclick="openModal(10000, 1649000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                <button onclick="bukaModal(10000, 1649000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
                     Rp1.649.000
                 </button>
             </div>
+
         </div>
     </div>
 
-    <!-- ==========================================
-         MODAL 1: ISI UID & VOUCHER & PILIH METODE
-         ========================================== -->
-    <div id="step1Modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-40 hidden">
-        <div class="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden shadow-2xl border-4 border-secondary">
-            <div class="bg-primary text-white p-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg">Langkah 1: Data Pembelian</h3>
-                <button onclick="closeModal()" class="text-xl">&times;</button>
+    <!-- ==================== MODAL 1: ISI UID, VOUCHER, PILIH METODE ==================== -->
+    <div id="modalLangkah1" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden p-3">
+        <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl border-4 border-lastwarOrange">
+
+            <!-- Header Modal -->
+            <div class="bg-lastwarBlue text-white p-3 flex justify-between items-center">
+                <h3 class="font-bold text-lg">Detail Pembelian</h3>
+                <button onclick="tutupSemuaModal()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40">×</button>
             </div>
 
-            <div class="p-5">
+            <div class="p-4">
                 <!-- Info Produk -->
-                <div class="bg-yellow-50 p-3 rounded-lg mb-4 border border-yellow-200">
-                    <p class="font-semibold text-gray-700">Item: <span id="itemName" class="font-bold">500 Bata Emas</span></p>
-                    <p class="font-semibold text-gray-700">Harga: <span id="itemPrice" class="font-bold text-red-600">Rp83.000</span></p>
+                <div class="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+                    <p class="font-semibold text-gray-700">Item: <span id="namaItem" class="font-bold text-amber-800">500 Bata Emas</span></p>
+                    <p class="font-semibold text-gray-700 mt-1">Harga: <span id="hargaItem" class="font-bold text-red-600">Rp83.000</span></p>
                 </div>
 
                 <!-- Input UID -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Masukkan UID Game <span class="text-red-600">*</span></label>
-                    <input type="text" id="uidInput" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="Contoh: 12345678">
-                    <p class="text-xs text-gray-500 mt-1">⚠️ Pastikan UID benar, kesalahan tidak bisa dikembalikan</p>
+                    <label class="block text-gray-800 font-bold mb-1.5">UID Game <span class="text-red-600">*</span></label>
+                    <input type="text" id="inputUID" class="w-full border-2 border-gray-300 rounded-lg p-2.5 text-lg focus:outline-none focus:border-lastwarBlue" placeholder="Masukkan UID Akun Last War">
+                    <p class="text-xs text-red-600 mt-1">⚠️ Pastikan UID benar, barang dikirim otomatis!</p>
                 </div>
 
                 <!-- Kode Voucher -->
                 <div class="mb-4">
-                    <label class="block text-gray-700 font-semibold mb-2">Kode Voucher (Opsional)</label>
+                    <label class="block text-gray-800 font-bold mb-1.5">Kode Voucher</label>
                     <div class="flex gap-2">
-                        <input type="text" id="voucherInput" class="flex-1 border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="Masukkan kode promo">
-                        <button onclick="cekVoucher()" class="bg-green-600 text-white px-4 rounded-lg hover:bg-green-700 transition">Pakai</button>
+                        <input type="text" id="inputVoucher" class="flex-1 border-2 border-gray-300 rounded-lg p-2.5 focus:outline-none focus:border-lastwarBlue uppercase" placeholder="KODE PROMO">
+                        <button onclick="cekDiskon()" class="bg-green-600 hover:bg-green-700 text-white px-3 rounded-lg font-semibold transition">Pakai</button>
                     </div>
-                    <p id="voucherMsg" class="text-xs mt-1"></p>
+                    <p id="pesanVoucher" class="text-xs mt-1 h-4"></p>
                 </div>
 
-                <!-- Metode Pembayaran (Hanya QRIS & DANA) -->
-                <div class="mb-5">
-                    <label class="block text-gray-700 font-semibold mb-3">Pilih Metode Pembayaran</label>
+                <!-- Pilih Pembayaran -->
+                <div class="mb-4">
+                    <label class="block text-gray-800 font-bold mb-2">Metode Pembayaran</label>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="selectPayment('QRIS')" id="qrisBtn" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition">
+                        <button onclick="pilihMetode('QRIS')" id="btnQRIS" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-green-500 hover:bg-green-50 transition-all">
                             <i class="fa fa-qrcode text-3xl text-green-600"></i>
-                            <span class="font-semibold">QRIS</span>
+                            <span class="font-bold text-gray-700">QRIS</span>
                         </button>
-                        <button onclick="selectPayment('DANA')" id="danaBtn" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition">
-                            <i class="fa fa-money text-3xl text-blue-500"></i>
-                            <span class="font-semibold">DANA</span>
+                        <button onclick="pilihMetode('DANA')" id="btnDANA" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                            <i class="fa fa-wallet text-3xl text-blue-600"></i>
+                            <span class="font-bold text-gray-700">DANA</span>
                         </button>
                     </div>
-                    <p id="paymentSelected" class="text-sm text-center mt-2 text-gray-600">Belum memilih metode</p>
+                    <p id="statusMetode" class="text-center text-sm mt-2 text-gray-600">Pilih salah satu metode di atas</p>
                 </div>
 
-                <!-- Total Bayar -->
-                <div class="bg-gray-100 p-3 rounded-lg mb-5">
-                    <p class="text-lg font-bold text-center">Total Bayar: <span id="totalHarga" class="text-red-600">Rp83.000</span></p>
+                <!-- Total Akhir -->
+                <div class="bg-gray-100 rounded-lg p-3 mb-4 border border-gray-200">
+                    <p class="text-center font-bold text-xl text-gray-800">Total Bayar: <span id="totalBayar" class="text-red-600 text-2xl">Rp83.000</span></p>
                 </div>
 
-                <!-- Tombol Lanjut Bayar -->
-                <button onclick="lanjutBayar()" class="w-full btn-gold py-3 rounded-lg text-white font-bold text-lg hover:scale-[1.02] transition-transform">
-                    Lanjut ke Pembayaran
+                <!-- Tombol Lanjut -->
+                <button onclick="lanjutKeBayar()" class="w-full bg-lastwarOrange hover:bg-amber-500 text-white font-bold py-3 rounded-lg text-lg shadow-md active:scale-[0.98] transition-all">
+                    LANJUT PEMBAYARAN ➤
                 </button>
+
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         MODAL 2: TAMPILKAN QRIS / NO DANA KAMU
-         ========================================== -->
-    <div id="step2Modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
-        <div class="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden shadow-2xl border-4 border-secondary">
-            <div class="bg-primary text-white p-4 flex justify-between items-center">
-                <h3 class="font-bold text-lg">Langkah 2: Pembayaran</h3>
-                <button onclick="kembaliKeLangkah1()" class="text-xl">&times;</button>
+    <!-- ==================== MODAL 2: TAMPILKAN QR / DANA KAMU (TIDAK BISA EDIT) ==================== -->
+    <div id="modalLangkah2" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden p-3">
+        <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl border-4 border-lastwarOrange">
+
+            <div class="bg-lastwarBlue text-white p-3 flex justify-between items-center">
+                <h3 class="font-bold text-lg">Lakukan Pembayaran</h3>
+                <button onclick="kembaliKeLangkah1()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40">×</button>
             </div>
 
-            <div class="p-5 text-center">
-                <h4 class="font-bold text-xl mb-2" id="judulPembayaran">Pembayaran QRIS</h4>
-                <p class="text-red-600 font-semibold mb-4">Total: <span id="totalBayarModal2">Rp0</span></p>
+            <div class="p-4 text-center">
+                <h4 id="judulBayar" class="font-bold text-xl text-gray-800 mb-2"></h4>
+                <p class="text-red-600 font-bold text-lg mb-4">HARGA: <span id="hargaAkhir">Rp0</span></p>
 
-                <!-- AREA QRIS (Ganti Gambarnya Punya Kamu) -->
-                <div id="areaQRIS" class="hidden mb-5">
-                    <p class="text-gray-700 mb-3">Scan QR Code di bawah ini:</p>
+                <!-- AREA QRIS (GAMBAR KAMU - TIDAK BISA DIEDIT) -->
+                <div id="kontenQRIS" class="hidden mb-5">
+                    <p class="text-gray-700 font-semibold mb-3">Scan QR Code Berikut:</p>
                     <!-- 👇 GANTI LINK GAMBAR QRIS KAMU DI SINI 👇 -->
-                    <img src="https://i.ibb.co/9Hd7ZqK/qris-sample.png" id="gambarQRIS" class="w-60 h-60 mx-auto rounded-lg border-2 border-green-500" alt="QRIS Saya">
-                    <p class="text-sm text-gray-600 mt-2">QRIS Atas Nama: <b>Toko Last War</b></p>
+                    <img src="https://i.ibb.co/9Hd7ZqK/qris-sample.png" id="gambarQRIS" class="w-64 h-64 mx-auto rounded-lg border-4 border-green-500 shadow-md pointer-events-none select-none" alt="QRIS PEMILIK" draggable="false">
+                    <p class="text-md font-bold text-gray-700 mt-3">Atas Nama: <span class="text-green-700">QUENN777 OFFICIAL</span></p>
+                    <p class="text-xs text-gray-500 mt-1">(QRIS Permanen & Terverifikasi)</p>
                 </div>
 
-                <!-- AREA DANA (ISI NOMOR KAMU DI SINI) -->
-                <div id="areaDANA" class="hidden mb-5">
-                    <p class="text-gray-700 mb-3">Transfer ke Nomor DANA Berikut:</p>
-                    <div class="bg-blue-50 border-2 border-blue-500 rounded-lg p-4 mb-2">
+                <!-- AREA DANA (NOMOR KAMU - TIDAK BISA DIPILIH/COPY) -->
+                <div id="kontenDANA" class="hidden mb-5">
+                    <p class="text-gray-700 font-semibold mb-3">Transfer Ke Nomor DANA:</p>
+                    <div class="bg-blue-50 border-4 border-blue-500 rounded-lg p-4 mb-2 select-none pointer-events-none">
                         <!-- 👇 ISI NOMOR DANA KAMU DI SINI 👇 -->
-                        <p class="text-2xl font-bold text-blue-700" id="noDANA">0812-3456-7890</p>
+                        <p class="text-3xl font-black text-blue-800 tracking-widest" id="nomorDANA">0812-3456-7890</p>
                     </div>
-                    <p class="text-sm text-gray-600">Atas Nama: <b>Admin Last War</b></p>
+                    <p class="text-md font-bold text-gray-700 mt-2">Atas Nama: <span class="text-blue-700">QUENN777 STORE</span></p>
+                    <p class="text-xs text-gray-500 mt-1">(Nomor Resmi, Jangan Salah Kirim)</p>
                 </div>
 
-                <!-- Instruksi -->
-                <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3 text-left mb-5">
-                    <p class="font-semibold text-yellow-800">📝 Cara Bayar:</p>
-                    <ol class="text-sm text-yellow-700 list-decimal pl-5 space-y-1 mt-1">
-                        <li>Bayar sesuai total di atas <b>tepat sampai rupiah</b></li>
-                        <li>Setelah transfer berhasil, klik tombol <b>"Uang Sudah Masuk"</b></li>
-                        <li>Item akan otomatis dikirim ke UID kamu</li>
-                    </ol>
+                <!-- CATATAN PENTING -->
+                <div class="bg-yellow-50 border-2 border-yellow-400 rounded-lg p-3 text-left mb-5">
+                    <p class="font-bold text-yellow-800 text-sm">⚠️ PENTING:</p>
+                    <ul class="text-xs text-yellow-700 list-disc pl-4 space-y-1 mt-1">
+                        <li>Bayar <b>SESUAI NOMINAL TERPAPAR</b> (sampai rupiah)</li>
+                        <li>Setelah transfer berhasil, klik tombol di bawah</li>
+                        <li>Barang masuk otomatis ke UID dalam 1-60 detik</li>
+                        <li>Jika salah kirim, diluar tanggung jawab kami</li>
+                    </ul>
                 </div>
 
-                <!-- Tombol Konfirmasi -->
-                <button onclick="pembayaranBerhasil()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg transition">
-                    ✅ Uang Sudah Masuk / Sudah Bayar
+                <!-- TOMBOL KONFIRMASI -->
+                <button onclick="bayarBerhasil()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg shadow-lg active:scale-[0.98] transition-all">
+                    ✅ UANG SUDAH DIKIRIM / MASUK
                 </button>
 
-                <button onclick="kembaliKeLangkah1()" class="w-full mt-3 border-2 border-gray-400 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100">
-                    ◀ Kembali Pilih Metode
+                <button onclick="kembaliKeLangkah1()" class="w-full mt-3 border-2 border-gray-400 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100 transition">
+                    ◀ PILIH METODE LAIN
                 </button>
+
             </div>
         </div>
     </div>
 
-    <!-- ==========================================
-         NOTIFIKASI BERHASIL OTOMATIS
-         ========================================== -->
-    <div id="successNotif" class="fixed top-5 right-5 bg-green-600 text-white p-4 rounded-lg shadow-2xl z-50 hidden max-w-xs">
-        <div class="flex items-center gap-3">
-            <i class="fa fa-check-circle text-3xl"></i>
-            <div>
-                <h4 class="font-bold text-lg">Pembayaran Berhasil!</h4>
-                <p id="notifText" class="text-sm mt-1">Item sedang dikirim ke akun kamu 🎁</p>
-                <p id="detailNotif" class="text-xs mt-1 opacity-90"></p>
+    <!-- ==================== NOTIF BERHASIL (PERSIS NOTIF GAME) ==================== -->
+    <div id="notifSukses" class="fixed top-4 left-1/2 -translate-x-1/2 z-[999] hidden w-full max-w-xs">
+        <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-xl shadow-2xl border-2 border-green-300/50">
+            <div class="flex items-center gap-3">
+                <i class="fa fa-check-circle text-4xl text-white/90"></i>
+                <div>
+                    <h4 class="font-black text-lg leading-tight">TRANSAKSI BERHASIL!</h4>
+                    <p id="teksNotifUtama" class="text-sm font-medium opacity-95 mt-0.5"></p>
+                    <p id="teksNotifKecil" class="text-xs opacity-80 mt-1"></p>
+                </div>
             </div>
-            <button onclick="tutupNotif()" class="ml-2 text-white/80 hover:text-white text-xl">&times;</button>
         </div>
     </div>
 
     <script>
-        // ==========================================
-        // 🔧 SETTING PENTING: ISI DATA KAMU DI SINI
-        // ==========================================
-        const DATA_AKUN_KAMI = {
-            linkQRIS: "https://i.ibb.co/9Hd7ZqK/qris-sample.png", // <-- Ganti link gambar QRIS kamu
-            nomorDANA: "0812-8899-7766",     // <-- Ganti Nomor DANA kamu
-            atasNama: "QUENN777 STORE"        // <-- Nama Pemilik Rekening/QRIS
+        // ==============================================
+        // 🔴🔴🔴 DATA WAJIB DIISI KAMU DI SINI 🔴🔴🔴
+        // ==============================================
+        const DATA_AKUN = {
+            // LINK GAMBAR QRIS KAMU (Upload dulu ke ImgBB / Google Drive Public)
+            linkGambarQRIS: "https://i.ibb.co/9Hd7ZqK/qris-sample.png",
+
+            // NOMOR DANA KAMU (Format: 08xx-xxxx-xxxx)
+            nomorDanaAsli: "0812-8899-7766",
+
+            // NAMA AKUN / ATAS NAMA (SAMA DENGAN ID KAMU)
+            namaToko: "QUENN777 OFFICIAL"
         };
 
-        // Variabel Global
-        let jumlahBata, hargaAwal, hargaTotal, metodeBayarDipilih = '', uidPembeli = '';
-        const DAFTAR_VOUCHER = { 'WAR20':20, 'LAST10':10, 'EMAS5':5 };
+        // VARIABEL GLOBAL
+        let jumlahBata, hargaDasar, hargaTotal, metodePilih = "", uidPembeli = "";
+        const LIST_VOUCHER = {
+            'WAR2026': 25, // Diskon 25%
+            'QUENN777': 15, // Diskon 15%
+            'LAST5': 5      // Diskon 5%
+        };
 
-        // ==========================================
-        // FUNGSI BUKA / TUTUP MODAL
-        // ==========================================
-        function openModal(jumlah, harga) {
-            jumlahBata = jumlah;
-            hargaAwal = harga;
-            hargaTotal = harga;
-
-            document.getElementById('itemName').innerText = `${jumlah} Bata Emas`;
-            document.getElementById('itemPrice').innerText = formatRupiah(harga);
-            document.getElementById('totalHarga').innerText = formatRupiah(harga);
-            document.getElementById('uidInput').value = '';
-            document.getElementById('voucherInput').value = '';
-            resetPilihanMetode();
-
-            document.getElementById('step1Modal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('step1Modal').classList.add('hidden');
-            document.getElementById('step2Modal').classList.add('hidden');
-        }
-
-        function kembaliKeLangkah1() {
-            document.getElementById('step2Modal').classList.add('hidden');
-            document.getElementById('step1Modal').classList.remove('hidden');
-        }
-
-        // ==========================================
-        // FORMAT RUPIAH
-        // ==========================================
-        function formatRupiah(angka) {
-            return 'Rp' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-        }
-
-        // ==========================================
-        // PILIH METODE BAYAR
-        // ==========================================
-        function selectPayment(metode) {
-            metodeBayarDipilih = metode;
-            resetPilihanMetode();
-
-            if(metode === 'QRIS'){
-                document.getElementById('qrisBtn').classList.add('border-primary','bg-blue-50');
-            } else {
-                document.getElementById('danaBtn').classList.add('border-primary','bg-blue-50');
-            }
-            document.getElementById('paymentSelected').innerText = `✅ ${metode} Dipilih`;
-            document.getElementById('paymentSelected').className = 'text-sm text-center mt-2 text-green-600 font-semibold';
-        }
-
-        function resetPilihanMetode(){
-            metodeBayarDipilih = '';
-            document.getElementById('qrisBtn').className = 'border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition';
-            document.getElementById('danaBtn').className = 'border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition';
-            document.getElementById('paymentSelected').innerText = 'Belum memilih metode';
-            document.getElementById('paymentSelected').className = 'text-sm text-center mt-2 text-gray-600';
-        }
-
-        // ==========================================
-        // CEK VOUCHER
-        // ==========================================
-        function cekVoucher() {
-            const kode = document.getE
+        // ==============================================
+        // FUNGSI BUKA TUTUP MO
