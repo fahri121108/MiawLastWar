@@ -75,7 +75,7 @@
         </div>
     </div>
 
-    <!-- ==================== DAFTAR PRODUK (GAMBAR & TATA LETAK SAMA 100%) ==================== -->
+    <!-- ==================== DAFTAR PRODUK (GAMBAR & TATA LETAK 100% SAMA) ==================== -->
     <div class="container mx-auto px-3 mt-4 pb-10">
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
 
@@ -88,7 +88,8 @@
                     <img src="https://i.ibb.co/84J5Yqg/1.png" class="w-28 h-28 object-contain" alt="500 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">500</h3>
                 </div>
-                <button onclick="bukaModal(500, 83000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <!-- ✅ TOMBOL DIPERBAIKI -->
+                <button onclick="bukaModal(500, 83000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp83.000
                 </button>
             </div>
@@ -102,7 +103,7 @@
                     <img src="https://i.ibb.co/4TK5gKk/2.png" class="w-32 h-32 object-contain" alt="1000 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">1000</h3>
                 </div>
-                <button onclick="bukaModal(1000, 165000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <button onclick="bukaModal(1000, 165000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp165.000
                 </button>
             </div>
@@ -116,7 +117,7 @@
                     <img src="https://i.ibb.co/9yWq5yH/3.png" class="w-36 h-36 object-contain" alt="2000 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">2000</h3>
                 </div>
-                <button onclick="bukaModal(2000, 330000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <button onclick="bukaModal(2000, 330000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp330.000
                 </button>
             </div>
@@ -130,7 +131,7 @@
                     <img src="https://i.ibb.co/4jG7rVd/4.png" class="w-36 h-36 object-contain" alt="2500 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">2500</h3>
                 </div>
-                <button onclick="bukaModal(2500, 415000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <button onclick="bukaModal(2500, 415000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp415.000
                 </button>
             </div>
@@ -144,7 +145,7 @@
                     <img src="https://i.ibb.co/7N0H6jY/5.png" class="w-40 h-40 object-contain" alt="5000 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">5000</h3>
                 </div>
-                <button onclick="bukaModal(5000, 825000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <button onclick="bukaModal(5000, 825000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp825.000
                 </button>
             </div>
@@ -158,7 +159,7 @@
                     <img src="https://i.ibb.co/5k8m2bD/6.png" class="w-40 h-40 object-contain" alt="10000 Bata Emas">
                     <h3 class="text-[32px] font-black text-gray-800 mt-2">10000</h3>
                 </div>
-                <button onclick="bukaModal(10000, 1649000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform">
+                <button onclick="bukaModal(10000, 1649000)" class="w-full btn-harga py-3 text-white font-bold text-lg tracking-wide active:scale-[0.98] transition-transform cursor-pointer">
                     Rp1.649.000
                 </button>
             </div>
@@ -166,14 +167,14 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL 1: ISI UID, VOUCHER, PILIH METODE ==================== -->
+    <!-- ==================== MODAL 1: ISI UID, VOUCHER, PILIH METODE ✅ DIPERBAIKI ==================== -->
     <div id="modalLangkah1" class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 hidden p-3">
         <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl border-4 border-lastwarOrange">
 
             <!-- Header Modal -->
             <div class="bg-lastwarBlue text-white p-3 flex justify-between items-center">
                 <h3 class="font-bold text-lg">Detail Pembelian</h3>
-                <button onclick="tutupSemuaModal()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40">×</button>
+                <button onclick="tutupSemuaModal()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 cursor-pointer">×</button>
             </div>
 
             <div class="p-4">
@@ -195,7 +196,7 @@
                     <label class="block text-gray-800 font-bold mb-1.5">Kode Voucher</label>
                     <div class="flex gap-2">
                         <input type="text" id="inputVoucher" class="flex-1 border-2 border-gray-300 rounded-lg p-2.5 focus:outline-none focus:border-lastwarBlue uppercase" placeholder="KODE PROMO">
-                        <button onclick="cekDiskon()" class="bg-green-600 hover:bg-green-700 text-white px-3 rounded-lg font-semibold transition">Pakai</button>
+                        <button onclick="cekDiskon()" class="bg-green-600 hover:bg-green-700 text-white px-3 rounded-lg font-semibold transition cursor-pointer">Pakai</button>
                     </div>
                     <p id="pesanVoucher" class="text-xs mt-1 h-4"></p>
                 </div>
@@ -204,11 +205,11 @@
                 <div class="mb-4">
                     <label class="block text-gray-800 font-bold mb-2">Metode Pembayaran</label>
                     <div class="grid grid-cols-2 gap-3">
-                        <button onclick="pilihMetode('QRIS')" id="btnQRIS" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-green-500 hover:bg-green-50 transition-all">
+                        <button onclick="pilihMetode('QRIS')" id="btnQRIS" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-green-500 hover:bg-green-50 transition-all cursor-pointer">
                             <i class="fa fa-qrcode text-3xl text-green-600"></i>
                             <span class="font-bold text-gray-700">QRIS</span>
                         </button>
-                        <button onclick="pilihMetode('DANA')" id="btnDANA" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-blue-500 hover:bg-blue-50 transition-all">
+                        <button onclick="pilihMetode('DANA')" id="btnDANA" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-blue-500 hover:bg-blue-50 transition-all cursor-pointer">
                             <i class="fa fa-wallet text-3xl text-blue-600"></i>
                             <span class="font-bold text-gray-700">DANA</span>
                         </button>
@@ -222,7 +223,7 @@
                 </div>
 
                 <!-- Tombol Lanjut -->
-                <button onclick="lanjutKeBayar()" class="w-full bg-lastwarOrange hover:bg-amber-500 text-white font-bold py-3 rounded-lg text-lg shadow-md active:scale-[0.98] transition-all">
+                <button onclick="lanjutKeBayar()" class="w-full bg-lastwarOrange hover:bg-amber-500 text-white font-bold py-3 rounded-lg text-lg shadow-md active:scale-[0.98] transition-all cursor-pointer">
                     LANJUT PEMBAYARAN ➤
                 </button>
 
@@ -230,20 +231,20 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL 2: TAMPILKAN QR / DANA KAMU (TIDAK BISA EDIT) ==================== -->
+    <!-- ==================== MODAL 2: TAMPILKAN QR / DANA KAMU (AMAN TIDAK BISA COPY) ✅ DIPERBAIKI ==================== -->
     <div id="modalLangkah2" class="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 hidden p-3">
         <div class="bg-white rounded-xl w-full max-w-md overflow-hidden shadow-2xl border-4 border-lastwarOrange">
 
             <div class="bg-lastwarBlue text-white p-3 flex justify-between items-center">
                 <h3 class="font-bold text-lg">Lakukan Pembayaran</h3>
-                <button onclick="kembaliKeLangkah1()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40">×</button>
+                <button onclick="kembaliKeLangkah1()" class="text-xl w-7 h-7 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/40 cursor-pointer">×</button>
             </div>
 
             <div class="p-4 text-center">
                 <h4 id="judulBayar" class="font-bold text-xl text-gray-800 mb-2"></h4>
                 <p class="text-red-600 font-bold text-lg mb-4">HARGA: <span id="hargaAkhir">Rp0</span></p>
 
-                <!-- AREA QRIS (GAMBAR KAMU - TIDAK BISA DIEDIT) -->
+                <!-- AREA QRIS (GAMBAR KAMU - AMAN 100%) -->
                 <div id="kontenQRIS" class="hidden mb-5">
                     <p class="text-gray-700 font-semibold mb-3">Scan QR Code Berikut:</p>
                     <!-- 👇 GANTI LINK GAMBAR QRIS KAMU DI SINI 👇 -->
@@ -252,7 +253,7 @@
                     <p class="text-xs text-gray-500 mt-1">(QRIS Permanen & Terverifikasi)</p>
                 </div>
 
-                <!-- AREA DANA (NOMOR KAMU - TIDAK BISA DIPILIH/COPY) -->
+                <!-- AREA DANA (NOMOR KAMU - AMAN 100%) -->
                 <div id="kontenDANA" class="hidden mb-5">
                     <p class="text-gray-700 font-semibold mb-3">Transfer Ke Nomor DANA:</p>
                     <div class="bg-blue-50 border-4 border-blue-500 rounded-lg p-4 mb-2 select-none pointer-events-none">
@@ -275,11 +276,11 @@
                 </div>
 
                 <!-- TOMBOL KONFIRMASI -->
-                <button onclick="bayarBerhasil()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg shadow-lg active:scale-[0.98] transition-all">
+                <button onclick="bayarBerhasil()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg shadow-lg active:scale-[0.98] transition-all cursor-pointer">
                     ✅ UANG SUDAH DIKIRIM / MASUK
                 </button>
 
-                <button onclick="kembaliKeLangkah1()" class="w-full mt-3 border-2 border-gray-400 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100 transition">
+                <button onclick="kembaliKeLangkah1()" class="w-full mt-3 border-2 border-gray-400 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100 transition cursor-pointer">
                     ◀ PILIH METODE LAIN
                 </button>
 
@@ -287,8 +288,8 @@
         </div>
     </div>
 
-    <!-- ==================== NOTIF BERHASIL (PERSIS NOTIF GAME) ==================== -->
-    <div id="notifSukses" class="fixed top-4 left-1/2 -translate-x-1/2 z-[999] hidden w-full max-w-xs">
+    <!-- ==================== NOTIF BERHASIL (PERSIS GAME) ✅ DIPERBAIKI ==================== -->
+    <div id="notifSukses" class="fixed top-4 left-1/2 -translate-x-1/2 z-[999] hidden w-full max-w-xs transition-all duration-300">
         <div class="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4 rounded-xl shadow-2xl border-2 border-green-300/50">
             <div class="flex items-center gap-3">
                 <i class="fa fa-check-circle text-4xl text-white/90"></i>
@@ -317,12 +318,4 @@
         };
 
         // VARIABEL GLOBAL
-        let jumlahBata, hargaDasar, hargaTotal, metodePilih = "", uidPembeli = "";
-        const LIST_VOUCHER = {
-            'WAR2026': 25, // Diskon 25%
-            'QUENN777': 15, // Diskon 15%
-            'LAST5': 5      // Diskon 5%
-        };
-
-        // ==============================================
-        // FUNGSI BUKA TUTUP MO
+        let jumlahBata, hargaDasar, harg
