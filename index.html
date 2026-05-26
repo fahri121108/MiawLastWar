@@ -1,347 +1,372 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QuennMF last war</title>
-
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:linear-gradient(135deg,#020617,#0f172a,#1e293b);
-color:white;
-}
-
-.container{max-width:420px;margin:auto;padding:15px;}
-
-.nav{
-display:flex;
-justify-content:space-around;
-background:#020617;
-padding:10px;
-}
-
-.nav button{
-background:none;border:none;color:white;font-weight:bold;
-}
-
-.page{display:none;}
-.active{display:block;}
-
-.card{
-background:rgba(30,41,59,0.9);
-padding:15px;
-border-radius:15px;
-margin-top:10px;
-}
-
-.rank{
-padding:10px;
-margin:5px;
-border-radius:10px;
-background:#020617;
-}
-
-/* SULTAN EFFECT */
-.top1{box-shadow:0 0 20px gold;border:1px solid gold;}
-.top2{box-shadow:0 0 20px silver;border:1px solid silver;}
-.top3{box-shadow:0 0 20px orange;border:1px solid orange;}
-
-button,input{
-padding:10px;margin:5px;border:none;border-radius:10px;
-}
-
-.admin{background:red;color:white;}
-
-.thumb{
-width:60px;height:60px;object-fit:cover;border-radius:8px;
-}
-
-.chat-box{
-height:220px;
-overflow:auto;
-background:#020617;
-padding:10px;
-border-radius:10px;
-}
-
-.msg{margin:5px 0;}
-.bubble{background:#1e293b;padding:8px;border-radius:10px;}
-
-.link-btn{
-display:block;
-background:#22c55e;
-padding:10px;
-text-align:center;
-margin-top:5px;
-border-radius:10px;
-color:black;
-text-decoration:none;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last War Official Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1685e0',
+                        secondary: '#ffb02e',
+                        darkBlue: '#0f5ba8',
+                        gold: '#f2a60d',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            .card-gradient {
+                background: linear-gradient(180deg, #ffffff 0%, #f8f0d9 100%);
+            }
+            .btn-gold {
+                background: linear-gradient(180deg, #ffd04b 0%, #f2a60d 100%);
+            }
+            .btn-gold:hover {
+                background: linear-gradient(180deg, #ffdc73 0%, #f7b835 100%);
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+<body class="bg-gradient-to-b from-primary to-darkBlue font-sans min-h-screen pb-10">
+    <!-- Header -->
+    <div class="container mx-auto px-4 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <h1 class="text-white text-3xl font-extrabold text-shadow">LAST WAR</h1>
+                <div class="bg-white text-primary font-bold px-3 py-1 rounded-lg text-sm">OFFICIAL STORE</div>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="bg-gray-800 text-white px-3 py-1 rounded-lg flex items-center gap-2">
+                    <i class="fa fa-user-circle-o"></i>
+                    <span class="font-bold">QUENN777</span>
+                </div>
+                <button class="text-white text-xl"><i class="fa fa-bars"></i></button>
+            </div>
+        </div>
+    </div>
 
-<body>
+    <!-- Judul Halaman -->
+    <div class="container mx-auto px-4 mt-4">
+        <div class="bg-secondary text-white font-bold text-center py-3 rounded-xl text-xl text-shadow border-b-4 border-yellow-700">
+            Toko Bata Emas
+        </div>
+    </div>
 
-<div class="nav">
-<button onclick="show('home')">Home</button>
-<button onclick="show('dash')">Dashboard</button>
-<button onclick="show('donasi')">Donasi</button>
-<button onclick="show('admin')">Admin</button>
-</div>
+    <!-- Daftar Produk -->
+    <div class="container mx-auto px-4 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+            <!-- Produk 1 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +500
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413023.png" class="w-24 h-24 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">500</h3>
+                </div>
+                <button onclick="openModal(500, 83000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp83.000
+                </button>
+            </div>
 
-<div class="container">
+            <!-- Produk 2 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +1000
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3413/3413023.png" class="w-28 h-28 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">1000</h3>
+                </div>
+                <button onclick="openModal(1000, 165000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp165.000
+                </button>
+            </div>
 
-<!-- HOME -->
-<div id="home" class="page active">
+            <!-- Produk 3 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +100
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/1313/1313067.png" class="w-28 h-28 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">2000</h3>
+                </div>
+                <button onclick="openModal(2000, 330000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp330.000
+                </button>
+            </div>
 
-<div class="card">
-<h2>SUPPORT QUENN</h2>
-<p>🔥 System Donasi + Chat + Rank</p>
-</div>
+            <!-- Produk 4 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +125
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3073/3073182.png" class="w-28 h-28 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">2500</h3>
+                </div>
+                <button onclick="openModal(2500, 415000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp415.000
+                </button>
+            </div>
 
-<div class="card">
-<h3>Leaderboard</h3>
-<h4>Total Donasi: <span id="total">Rp0</span></h4>
-<div id="board"></div>
-</div>
+            <!-- Produk 5 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +250
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3073/3073182.png" class="w-32 h-32 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">5000</h3>
+                </div>
+                <button onclick="openModal(5000, 825000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp825.000
+                </button>
+            </div>
 
-</div>
+            <!-- Produk 6 -->
+            <div class="card-gradient rounded-xl overflow-hidden shadow-lg border-2 border-yellow-300 relative">
+                <div class="absolute top-0 right-0 bg-red-600 text-white font-bold px-4 py-1 rounded-bl-lg flex items-center gap-1">
+                    <i class="fa fa-coins"></i> +500
+                </div>
+                <div class="p-6 flex flex-col items-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2897/2897785.png" class="w-32 h-32 mb-3" alt="Bata Emas">
+                    <h3 class="text-3xl font-bold text-gray-800">10000</h3>
+                </div>
+                <button onclick="openModal(10000, 1649000)" class="w-full btn-gold py-3 text-white font-bold text-lg hover:scale-105 transition-transform">
+                    Rp1.649.000
+                </button>
+            </div>
+        </div>
+    </div>
 
-<!-- DASHBOARD -->
-<div id="dash" class="page">
+    <!-- ==========================================
+         MODAL 1: ISI UID & VOUCHER & PILIH METODE
+         ========================================== -->
+    <div id="step1Modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-40 hidden">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden shadow-2xl border-4 border-secondary">
+            <div class="bg-primary text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold text-lg">Langkah 1: Data Pembelian</h3>
+                <button onclick="closeModal()" class="text-xl">&times;</button>
+            </div>
 
-<div class="card">
-<h3>Chat Room</h3>
-<div class="chat-box" id="chat"></div>
+            <div class="p-5">
+                <!-- Info Produk -->
+                <div class="bg-yellow-50 p-3 rounded-lg mb-4 border border-yellow-200">
+                    <p class="font-semibold text-gray-700">Item: <span id="itemName" class="font-bold">500 Bata Emas</span></p>
+                    <p class="font-semibold text-gray-700">Harga: <span id="itemPrice" class="font-bold text-red-600">Rp83.000</span></p>
+                </div>
 
-<input id="namaChat" placeholder="Nama">
-<input id="msg" placeholder="Pesan">
-<button onclick="sendChat()">Kirim</button>
-</div>
+                <!-- Input UID -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Masukkan UID Game <span class="text-red-600">*</span></label>
+                    <input type="text" id="uidInput" class="w-full border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="Contoh: 12345678">
+                    <p class="text-xs text-gray-500 mt-1">⚠️ Pastikan UID benar, kesalahan tidak bisa dikembalikan</p>
+                </div>
 
-<div class="card">
-<h3>Galeri</h3>
-<div id="galeri"></div>
-<input type="file" id="imgGal">
-<button onclick="upload()">Upload</button>
-</div>
+                <!-- Kode Voucher -->
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-semibold mb-2">Kode Voucher (Opsional)</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="voucherInput" class="flex-1 border-2 border-gray-300 rounded-lg p-3 focus:outline-none focus:border-primary" placeholder="Masukkan kode promo">
+                        <button onclick="cekVoucher()" class="bg-green-600 text-white px-4 rounded-lg hover:bg-green-700 transition">Pakai</button>
+                    </div>
+                    <p id="voucherMsg" class="text-xs mt-1"></p>
+                </div>
 
-</div>
+                <!-- Metode Pembayaran (Hanya QRIS & DANA) -->
+                <div class="mb-5">
+                    <label class="block text-gray-700 font-semibold mb-3">Pilih Metode Pembayaran</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="selectPayment('QRIS')" id="qrisBtn" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition">
+                            <i class="fa fa-qrcode text-3xl text-green-600"></i>
+                            <span class="font-semibold">QRIS</span>
+                        </button>
+                        <button onclick="selectPayment('DANA')" id="danaBtn" class="border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition">
+                            <i class="fa fa-money text-3xl text-blue-500"></i>
+                            <span class="font-semibold">DANA</span>
+                        </button>
+                    </div>
+                    <p id="paymentSelected" class="text-sm text-center mt-2 text-gray-600">Belum memilih metode</p>
+                </div>
 
-<!-- DONASI -->
-<div id="donasi" class="page">
+                <!-- Total Bayar -->
+                <div class="bg-gray-100 p-3 rounded-lg mb-5">
+                    <p class="text-lg font-bold text-center">Total Bayar: <span id="totalHarga" class="text-red-600">Rp83.000</span></p>
+                </div>
 
-<div class="card">
-<h3>Donasi</h3>
+                <!-- Tombol Lanjut Bayar -->
+                <button onclick="lanjutBayar()" class="w-full btn-gold py-3 rounded-lg text-white font-bold text-lg hover:scale-[1.02] transition-transform">
+                    Lanjut ke Pembayaran
+                </button>
+            </div>
+        </div>
+    </div>
 
-<p><b>DANA:089610921722</b></p>
-<img src="dana.jpg" style="width:100%;border-radius:10px;">
+    <!-- ==========================================
+         MODAL 2: TAMPILKAN QRIS / NO DANA KAMU
+         ========================================== -->
+    <div id="step2Modal" class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl w-full max-w-md mx-4 overflow-hidden shadow-2xl border-4 border-secondary">
+            <div class="bg-primary text-white p-4 flex justify-between items-center">
+                <h3 class="font-bold text-lg">Langkah 2: Pembayaran</h3>
+                <button onclick="kembaliKeLangkah1()" class="text-xl">&times;</button>
+            </div>
 
-<p><b>QRIS:</b></p>
-<img src="qris.jpg" style="width:100%;border-radius:10px;">
-</div>
+            <div class="p-5 text-center">
+                <h4 class="font-bold text-xl mb-2" id="judulPembayaran">Pembayaran QRIS</h4>
+                <p class="text-red-600 font-semibold mb-4">Total: <span id="totalBayarModal2">Rp0</span></p>
 
-<div class="card">
-<h3>Kirim Donasi (Pending ACC)</h3>
+                <!-- AREA QRIS (Ganti Gambarnya Punya Kamu) -->
+                <div id="areaQRIS" class="hidden mb-5">
+                    <p class="text-gray-700 mb-3">Scan QR Code di bawah ini:</p>
+                    <!-- 👇 GANTI LINK GAMBAR QRIS KAMU DI SINI 👇 -->
+                    <img src="https://i.ibb.co/9Hd7ZqK/qris-sample.png" id="gambarQRIS" class="w-60 h-60 mx-auto rounded-lg border-2 border-green-500" alt="QRIS Saya">
+                    <p class="text-sm text-gray-600 mt-2">QRIS Atas Nama: <b>Toko Last War</b></p>
+                </div>
 
-<input id="nama" placeholder="Nama">
-<input id="jumlah" type="number" placeholder="Jumlah">
-<button onclick="donasi()">Kirim Donasi</button>
-</div>
+                <!-- AREA DANA (ISI NOMOR KAMU DI SINI) -->
+                <div id="areaDANA" class="hidden mb-5">
+                    <p class="text-gray-700 mb-3">Transfer ke Nomor DANA Berikut:</p>
+                    <div class="bg-blue-50 border-2 border-blue-500 rounded-lg p-4 mb-2">
+                        <!-- 👇 ISI NOMOR DANA KAMU DI SINI 👇 -->
+                        <p class="text-2xl font-bold text-blue-700" id="noDANA">0812-3456-7890</p>
+                    </div>
+                    <p class="text-sm text-gray-600">Atas Nama: <b>Admin Last War</b></p>
+                </div>
 
-<div class="card">
-<h3>Status Pending</h3>
-<div id="pendingUser"></div>
-</div>
+                <!-- Instruksi -->
+                <div class="bg-yellow-50 border border-yellow-300 rounded-lg p-3 text-left mb-5">
+                    <p class="font-semibold text-yellow-800">📝 Cara Bayar:</p>
+                    <ol class="text-sm text-yellow-700 list-decimal pl-5 space-y-1 mt-1">
+                        <li>Bayar sesuai total di atas <b>tepat sampai rupiah</b></li>
+                        <li>Setelah transfer berhasil, klik tombol <b>"Uang Sudah Masuk"</b></li>
+                        <li>Item akan otomatis dikirim ke UID kamu</li>
+                    </ol>
+                </div>
 
-</div>
+                <!-- Tombol Konfirmasi -->
+                <button onclick="pembayaranBerhasil()" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg text-lg transition">
+                    ✅ Uang Sudah Masuk / Sudah Bayar
+                </button>
 
-<!-- ADMIN -->
-<div id="admin" class="page">
+                <button onclick="kembaliKeLangkah1()" class="w-full mt-3 border-2 border-gray-400 text-gray-700 font-semibold py-2 rounded-lg hover:bg-gray-100">
+                    ◀ Kembali Pilih Metode
+                </button>
+            </div>
+        </div>
+    </div>
 
-<div class="card">
-<input id="pass" placeholder="Password">
-<button onclick="login()">Login</button>
-</div>
+    <!-- ==========================================
+         NOTIFIKASI BERHASIL OTOMATIS
+         ========================================== -->
+    <div id="successNotif" class="fixed top-5 right-5 bg-green-600 text-white p-4 rounded-lg shadow-2xl z-50 hidden max-w-xs">
+        <div class="flex items-center gap-3">
+            <i class="fa fa-check-circle text-3xl"></i>
+            <div>
+                <h4 class="font-bold text-lg">Pembayaran Berhasil!</h4>
+                <p id="notifText" class="text-sm mt-1">Item sedang dikirim ke akun kamu 🎁</p>
+                <p id="detailNotif" class="text-xs mt-1 opacity-90"></p>
+            </div>
+            <button onclick="tutupNotif()" class="ml-2 text-white/80 hover:text-white text-xl">&times;</button>
+        </div>
+    </div>
 
-<div class="card">
-<h3>Pending Donasi</h3>
-<div id="pendingAdmin"></div>
-</div>
+    <script>
+        // ==========================================
+        // 🔧 SETTING PENTING: ISI DATA KAMU DI SINI
+        // ==========================================
+        const DATA_AKUN_KAMI = {
+            linkQRIS: "https://i.ibb.co/9Hd7ZqK/qris-sample.png", // <-- Ganti link gambar QRIS kamu
+            nomorDANA: "0812-8899-7766",     // <-- Ganti Nomor DANA kamu
+            atasNama: "QUENN777 STORE"        // <-- Nama Pemilik Rekening/QRIS
+        };
 
-<div class="card">
-<h3>Admin Tools</h3>
+        // Variabel Global
+        let jumlahBata, hargaAwal, hargaTotal, metodeBayarDipilih = '', uidPembeli = '';
+        const DAFTAR_VOUCHER = { 'WAR20':20, 'LAST10':10, 'EMAS5':5 };
 
-<button class="admin" onclick="hapusChat()">Hapus Chat</button>
-<button class="admin" onclick="hapusLeaderboard()">Hapus Leaderboard</button>
-<button class="admin" onclick="hapusDonasi()">Hapus Semua Donasi</button>
+        // ==========================================
+        // FUNGSI BUKA / TUTUP MODAL
+        // ==========================================
+        function openModal(jumlah, harga) {
+            jumlahBata = jumlah;
+            hargaAwal = harga;
+            hargaTotal = harga;
 
-</div>
+            document.getElementById('itemName').innerText = `${jumlah} Bata Emas`;
+            document.getElementById('itemPrice').innerText = formatRupiah(harga);
+            document.getElementById('totalHarga').innerText = formatRupiah(harga);
+            document.getElementById('uidInput').value = '';
+            document.getElementById('voucherInput').value = '';
+            resetPilihanMetode();
 
-</div>
+            document.getElementById('step1Modal').classList.remove('hidden');
+        }
 
-</div>
+        function closeModal() {
+            document.getElementById('step1Modal').classList.add('hidden');
+            document.getElementById('step2Modal').classList.add('hidden');
+        }
 
-<script>
+        function kembaliKeLangkah1() {
+            document.getElementById('step2Modal').classList.add('hidden');
+            document.getElementById('step1Modal').classList.remove('hidden');
+        }
 
-const fb={
-apiKey:"AIzaSyBnvcyMdTflihDPg68zsLG-9QXiyV36hgg",
-databaseURL:"https://miawwquenn-default-rtdb.firebaseio.com"
-};
+        // ==========================================
+        // FORMAT RUPIAH
+        // ==========================================
+        function formatRupiah(angka) {
+            return 'Rp' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
 
-firebase.initializeApp(fb);
-const db=firebase.database();
+        // ==========================================
+        // PILIH METODE BAYAR
+        // ==========================================
+        function selectPayment(metode) {
+            metodeBayarDipilih = metode;
+            resetPilihanMetode();
 
-function show(x){
-document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
-document.getElementById(x).classList.add('active');
-}
+            if(metode === 'QRIS'){
+                document.getElementById('qrisBtn').classList.add('border-primary','bg-blue-50');
+            } else {
+                document.getElementById('danaBtn').classList.add('border-primary','bg-blue-50');
+            }
+            document.getElementById('paymentSelected').innerText = `✅ ${metode} Dipilih`;
+            document.getElementById('paymentSelected').className = 'text-sm text-center mt-2 text-green-600 font-semibold';
+        }
 
-/* ===== ADMIN LOGIN ===== */
-let admin=false;
-function login(){
-if(pass.value=="12345"){
-admin=true;
-alert("Admin aktif");
-loadPending();
-}
-}
+        function resetPilihanMetode(){
+            metodeBayarDipilih = '';
+            document.getElementById('qrisBtn').className = 'border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition';
+            document.getElementById('danaBtn').className = 'border-2 border-gray-300 rounded-lg p-3 flex flex-col items-center gap-2 hover:border-primary transition';
+            document.getElementById('paymentSelected').innerText = 'Belum memilih metode';
+            document.getElementById('paymentSelected').className = 'text-sm text-center mt-2 text-gray-600';
+        }
 
-/* ===== DONASI (PENDING) ===== */
-function donasi(){
-db.ref("pending").push({
-nama:nama.value,
-jumlah:Number(jumlah.value)
-});
-}
-
-/* ===== ACC / REJECT ===== */
-function acc(k,v){
-db.ref("donasi").push(v);
-db.ref("pending/"+k).remove();
-}
-
-function reject(k){
-db.ref("pending/"+k).remove();
-}
-
-/* ===== PENDING ADMIN ===== */
-function loadPending(){
-db.ref("pending").on("value",s=>{
-pendingAdmin.innerHTML="";
-s.forEach(d=>{
-let k=d.key;
-let v=d.val();
-
-pendingAdmin.innerHTML+=`
-<div class="rank">
-${v.nama} - Rp${v.jumlah}
-<button onclick='acc("${k}",${JSON.stringify(v)})'>ACC</button>
-<button onclick='reject("${k}")'>X</button>
-</div>`;
-});
-});
-}
-
-/* ===== USER PENDING ===== */
-db.ref("pending").on("value",s=>{
-pendingUser.innerHTML="";
-s.forEach(d=>{
-let v=d.val();
-pendingUser.innerHTML+=`<div class="rank">${v.nama} - Rp${v.jumlah} (pending)</div>`;
-});
-});
-
-/* ===== LEADERBOARD ===== */
-let data=[];
-db.ref("donasi").on("value",s=>{
-data=[];let total=0;
-
-s.forEach(d=>{
-let v=d.val();
-data.push(v);
-total+=v.jumlah;
-});
-
-data.sort((a,b)=>b.jumlah-a.jumlah);
-
-total.innerText="Rp"+total.toLocaleString("id-ID");
-
-board.innerHTML="";
-data.forEach((d,i)=>{
-let c=i==0?"top1":i==1?"top2":i==2?"top3":"";
-board.innerHTML+=`
-<div class="rank ${c}">
-${i+1}. ${d.nama} - Rp${d.jumlah}
-</div>`;
-});
-});
-
-/* ===== CHAT ===== */
-function sendChat(){
-db.ref("chat").push({
-nama:namaChat.value,
-msg:msg.value
-});
-}
-
-db.ref("chat").on("value",s=>{
-chat.innerHTML="";
-s.forEach(d=>{
-let v=d.val();
-chat.innerHTML+=`
-<div class="msg">
-<div class="bubble"><b>${v.nama}</b><br>${v.msg}</div>
-</div>`;
-});
-});
-
-/* ===== GALERI ===== */
-function upload(){
-let f=imgGal.files[0];
-let r=new FileReader();
-r.onload=e=>{
-db.ref("galeri").push({img:e.target.result});
-};
-r.readAsDataURL(f);
-}
-
-db.ref("galeri").on("value",s=>{
-galeri.innerHTML="";
-s.forEach(d=>{
-galeri.innerHTML+=`<img src="${d.val().img}" class="thumb">`;
-});
-});
-
-/* ===== ADMIN TOOLS ===== */
-function hapusChat(){
-if(admin){
-db.ref("chat").remove();
-alert("Chat dihapus");
-}
-}
-
-function hapusLeaderboard(){
-if(admin){
-db.ref("donasi").remove();
-alert("Leaderboard dihapus");
-}
-}
-
-function hapusDonasi(){
-if(admin){
-db.ref("donasi").remove();
-db.ref("pending").remove();
-alert("Semua donasi dihapus");
-}
-}
-
-</script>
-
-</body>
-  </html>
+        // ==========================================
+        // CEK VOUCHER
+        // ==========================================
+        function cekVoucher() {
+            const kode = document.getE
