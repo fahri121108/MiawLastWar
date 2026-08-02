@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp</title>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        html, body { height: 100%; overflow: hidden; }
+
+        .page { display: none; height: 100vh; overflow: hidden; }
+        .page.active { display: flex; }
+
+        .chat-bg {
+            background-color: #e5ddd5;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4d4d4' fill-opacity='0.25'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .message {
+            position: relative;
+            max-width: 75%;
+            padding: 6px 7px 5px 9px;
+            margin-bottom: 8px;
+            border-radius: 7.5px;
+            font-size: 14.2px;
+            line-height: 19px;
+            word-wrap: break-word;
+        }
+        .message.sent { background-color: #d9fdd3; margin-left: auto; border-top-right-radius: 0; }
+        .message.received { background-color: #ffffff; margin-right: auto; border-top-left-radius: 0; }
+        .time { font-size: 11px; color: rgba(0,0,0,0.45); text-align: right; margin-top: -2px; margin-bottom: -3px; }
+        .check { color: #4fc3f7; margin-left: 2px; font-size: 13px; }
+        .check.double { color: #039be5; }
+
+        .sidebar { background-color: #ffffff; border-right: 1px solid #e6e6e6; }
+        .header-bar { background-color: #f0f2f5; padding: 10px 16px; }
+        .chat-item:hover, .contact-item:hover { background-color: #f5f5f5; cursor: pointer; }
+        .chat-item.active { background-color: #ebebeb; }
+
+        .input-area { background-color: #f0f2f5; padding: 8px 16px; }
+        .send-btn { background-color: #25d366; color: white; border-radius: 50%; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; }
+        .send-btn:hover { background-color: #20bd5a; }
+        .input-msg { border: none; border-radius: 22px; padding: 10px 16px; font-size: 15px; outline: none; background: #fff; box-shadow: 0 1px 1px rgba(0,0,0,0.08); width: 100%; }
+        .input-field { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 4px; font-size: 15px; outline: none; margin-bottom: 14px; }
+        .input-field:focus { border-color: #25d366; }
+        .btn { padding: 10px 20px; border-radius: 4px; border: none; font-size: 15px; cursor: pointer; font-weight: 500; width: 100%; }
+        .btn-green { background-color: #25d366; color: white; }
+        .btn-green:hover { background-color: #20bd5a; }
+        .btn-blue { background-color: #128c7e; color: white; }
+        .btn-blue:hover { background-color: #0f7a6e; }
+        .btn-red { background-color: #ed4245; color: white; }
+        .btn-red:hover { background-color: #d93d40; }
+        .btn-link { background: transparent; color: #008891; border: none; width: auto; }
+
+        .foto-profil { width: 200px; height: 200px; border-radius: 50%; object-fit: cover; background: #ddd; cursor: pointer; }
+        .foto-mini { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; background: #ddd; cursor: pointer; pointer-events: auto; position: relative; z-index: 10; }
+        .foto-kecil { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: #ddd; }
+
+        .row, .contact-item { padding: 14px 18px; border-bottom: 1px solid #f0f0f0; }
+        .row:hover, .contact-item:hover { background: #f9f9f9; }
+        .label { font-size: 14px; color: #666; margin-bottom: 3px; }
+        .nilai { font-size: 16px; color: #111; }
+
+        .notifikasi { position: fixed; top: 12px; right: 12px; background: #25d366; color: white; padding: 12px 18px; border-radius: 8px; box-shadow: 0 3px 12px rgba(0,0,0,0.15); z-index: 9999; transform: translateY(-80px); transition: transform 0.3s ease; max-width: 300px; pointer-events: none; }
+        .notifikasi.tampil { transform: translateY(0); }
+
+        .chat-content::-webkit-scrollbar { width: 5px; }
+        .chat-content::-webkit-scrollbar-thumb { background: #ccc; }
+        .page-content::-webkit-scrollbar { width: 4px; }
+        .page-content::-webkit-scrollbar-thumb { background: #ccc; }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .message { animation: fadeInUp 0.2s ease-out; }
+
+        @media (max-width: 767px) {
+            .sidebar { position: absolute; left: 0; top: 0; bottom: 0; width: 100%; z-index: 10; transition: transform 0.25s; }
+            .sidebar.hidden { transform: translateX(-100%); }
+            .halaman-pengaturan, .halaman-kontak, .halaman-tambah-kontak, .halaman-profil-kontak { position: absolute; inset: 0; background: #fff; z-index: 20; transform: translateX(100%); transition: transform 0.25s; overflow-y: auto; }
+            .halaman-pengaturan.buka, .halaman-kontak.buka, .halaman-tambah-kontak.buka, .halaman-profil-kontak.buka { transform: translateX(0); }
+        }
+
+        .pointer-auto { pointer-events: auto; position: relative; z-index: 5; }
+        .teks-error { color: #ed4245; font-size: 14px; margin: -8px 0 10px 0; }
+        .sedang-memuat { opacity: 0.7; pointer-events: none; }
+        .kembali { color: #128c7e; cursor: pointer; font-size: 14px; display: inline-block; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+<!-- NOTIFIKASI -->
+<div id="notifikasi" class="notifikasi">
+    <div class="font-semibold text-sm" id="notifJudul"></div>
+    <div class="text-xs opacity-90" id="notifIsi"></div>
+</div>
+
+<!-- HALAMAN AWAL: PILIH DAFTAR ATAU LOGIN -->
+<div id="pageAwal" class="page active items-center justify-center bg-gray-100">
+    <div class="bg-white rounded-xl shadow-md p-6 w-[90%] max-w-[380px] text-center">
+        <img src="poto.jpg" alt="Logo" class="w-20 h-20 rounded-full mx-auto mb-4 object-cover" onerror="this.src='https://via.placeholder.com/80'">
+        <h2 class="text-xl font-bold mb-2">Selamat Datang</h2>
+        <p class="text-gray-500 text-sm mb-6">Pilih salah satu untuk mulai</p>
+
+        <button id="btnBukaDaftar" class="btn btn-green w-full mb-3 pointer-auto">Daftar Akun Baru</button>
+        <button id="btnBukaLogin" class="btn btn-blue w-full pointer-auto">Masuk / Login</button>
+    </div>
+</div>
+
+<!-- HALAMAN DAFTAR -->
+<div id="pageDaftar" class="page items-center justify-center bg-gray-100">
+    <div class="bg-white rounded-xl shadow-md p-6 w-[90%] max-w-[380px]">
+        <span class="kembali" onclick="kembaliKeAwal()"><i class="fa fa-arrow-left"></i> Kembali</span>
+        <h2 class="text-xl font-bold mb-4 text-center">Daftar Akun Baru</h2>
+
+        <label class="block text-left text-sm font-medium">Nama Lengkap</label>
+        <input type="text" id="namaDaftar" class="input-field mt-1" placeholder="Masukkan nama kamu">
+
+        <label class="block text-left text-sm font-medium">Nomor Telepon</label>
+        <input type="tel" id="nomorDaftar" class="input-field mt-1" placeholder="Contoh: +62 8123456789">
+
+        <button id="btnDaftar" class="btn btn-green w-full mt-2 pointer-auto">Daftar Sekarang</button>
+        <p id="teksMemuatDaftar" class="text-sm text-gray-500 mt-3 hidden">Sedang memuat...</p>
+    </div>
+</div>
+
+<!-- HALAMAN LOGIN -->
+<div id="pageLogin" class="page items-center justify-center bg-gray-100">
+    <div class="bg-white rounded-xl shadow-md p-6 w-[90%] max-w-[380px]">
+        <span class="kembali" onclick="kembaliKeAwal()"><i class="fa fa-arrow-left"></i> Kembali</span>
+        <h2 class="text-xl font-bold mb-4 text-center">Masuk ke Akun</h2>
+
+        <label class="block text-left text-sm font-medium">Nomor Telepon</label>
+        <input type="tel" id="nomorLogin" class="input-field mt-1" placeholder="Masukkan nomor yang sudah terdaftar">
+
+        <button id="btnLogin" class="btn btn-blue w-full mt-2 pointer-auto">Masuk</button>
+        <p id="teksMemuatLogin" class="text-sm text-gray-500 mt-3 hidden">Sedang memuat...</p>
+        <p id="nomorTidakDaftar" class="text-sm text-red-500 mt-2 hidden">Nomor belum terdaftar, silakan daftar dulu</p>
+    </div>
+</div>
+
+<!-- HALAMAN UTAMA -->
+<div id="pageUtama" class="page chat-bg flex">
+    <!-- SIDEBAR -->
+    <div id="sidebar" class="sidebar w-full md:w-[380px] flex flex-col">
+        <div class="header-bar flex items-center justify-between">
+            <img id="fotoProfilNav" src="poto.jpg" class="foto-mini" onclick="bukaPengaturan()" alt="Profil">
+            <span class="font-semibold text-lg">WhatsApp</span>
+            <div class="flex gap-4 text-gray-600 items-center pointer-auto">
+                <i class="fa fa-search cursor-pointer pointer-auto"></i>
+                <i class="fa fa-plus cursor-pointer pointer-auto" onclick="bukaHalamanTambahKontak()"></i>
+                <i class="fa fa-ellipsis-v cursor-pointer pointer-auto" onclick="bukaPengaturan()"></i>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto page-content">
+            <div class="p-3 text-gray-500 text-sm cursor-pointer hover:bg-gray-100 border-b pointer-auto" onclick="bukaHalamanKontak()">
+                <i class="fa fa-users mr-2"></i> Daftar Kontak
+            </div>
+            <div id="daftarObrolan" class="mt-1"></div>
+        </div>
+    </div>
+
+    <!-- AREA OBROLAN -->
+    <div id="areaObrolan" class="flex-1 flex flex-col hidden md:flex">
+        <div class="header-bar flex items-center gap-3">
+            <button onclick="tutupObrolan()" class="md:hidden text-gray-600 pointer-auto"><i class="fa fa-arrow-left fa-lg"></i></button>
+            <img id="fotoObrolan" src="poto.jpg" class="foto-kecil cursor-pointer pointer-auto" onclick="bukaProfilKontakSekarang()" alt="Foto">
+            <div class="cursor-pointer pointer-auto" onclick="bukaProfilKontakSekarang()">
+                <div class="font-medium text-[16px]" id="namaObrolan">—</div>
+                <div class="text-xs text-gray-500" id="statusObrolan">online</div>
+            </div>
+            <div class="ml-auto flex gap-5 text-gray-600 pointer-auto">
+                <i class="fa fa-phone cursor-pointer pointer-auto"></i>
+                <i class="fa fa-video-camera cursor-pointer pointer-auto"></i>
+                <i class="fa fa-ellipsis-v cursor-pointer pointer-auto" onclick="menuObrolan()"></i>
+            </div>
+        </div>
+
+        <div id="isiObrolan" class="chat-content flex-1 overflow-y-auto p-4"></div>
+
+        <div id="areaInputPesan" class="input-area flex items-center gap-3">
+            <i class="fa fa-smile-o text-gray-500 text-xl cursor-pointer pointer-auto"></i>
+            <i class="fa fa-paperclip text-gray-500 text-xl cursor-pointer pointer-auto"></i>
+            <input type="text" id="kolomPesan" class="input-msg flex-1" placeholder="Ketik pesan...">
+            <button id="btnKirim" class="send-btn pointer-auto"><i class="fa fa-paper-plane"></i></button>
+        </div>
+        <div id="diblokirInfo" class="hidden p-4 text-center text-gray-500 bg-gray-50">Anda telah memblokir kontak ini</div>
+    </div>
+
+    <!-- HALAMAN PENGATURAN -->
+    <div id="halamanPengaturan" class="halaman-pengaturan fixed inset-0 bg-white z-50 overflow-y-auto page-content">
+        <div class="header-bar flex items-center gap-4 sticky top-0 bg-white">
+            <button onclick="tutupPengaturan()" class="text-gray-600 pointer-auto"><i class="fa fa-arrow-left fa-lg"></i></button>
+            <span class="font-semibold text-lg">Pengaturan</span>
+        </div>
+
+        <div class="pt-6 pb-8 flex flex-col items-center bg-[#f0f2f5]">
+            <div class="relative pointer-auto" onclick="document.getElementById('fileFotoProfil').click()">
+                <img id="fotoProfilPengaturan" src="poto.jpg" class="foto-profil" alt="Foto Profil" onerror="this.src='https://via.placeholder.com/200'">
+                <div class="absolute bottom-2 right-2 bg-[#25d366] text-white w-10 h-10 rounded-full flex items-center justify-center cursor-pointer pointer-auto">
+                    <i class="fa fa-camera"></i>
+                </div>
+            </div>
+            <input type="file" id="fileFotoProfil" accept="image/*" class="hidden">
+        </div>
+
+        <div class="px-4">
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Nama</div>
+            <div class="row flex justify-between items-center pointer-auto" onclick="mulaiEditNama()">
+                <div><div class="nilai" id="tampilNama">—</div></div>
+                <i class="fa fa-pencil text-gray-400"></i>
+            </div>
+
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Nomor Telepon</div>
+            <div class="row"><div class="nilai" id="tampilNomor">—</div></div>
+
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Tentang</div>
+            <div class="row flex justify-between items-center pointer-auto" onclick="mulaiEditStatus()">
+                <div><div class="nilai" id="tampilStatus">—</div></div>
+                <i class="fa fa-pencil text-gray-400"></i>
+            </div>
+
+            <div class="mt-8 p-3 text-center">
+                <button class="btn btn-red w-full pointer-auto" onclick="keluarAkun()">Keluar / Ganti Akun</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- HALAMAN DAFTAR KONTAK -->
+    <div id="halamanKontak" class="halaman-kontak fixed inset-0 bg-white z-50 overflow-y-auto page-content">
+        <div class="header-bar flex items-center gap-4 sticky top-0 bg-white">
+            <button onclick="tutupHalamanKontak()" class="text-gray-600 pointer-auto"><i class="fa fa-arrow-left fa-lg"></i></button>
+            <span class="font-semibold text-lg">Daftar Kontak</span>
+            <span class="ml-auto text-sm text-gray-500" id="jumlahKontak">(0)</span>
+        </div>
+        <div class="p-3 text-center">
+            <button class="btn btn-green w-full max-w-xs pointer-auto" onclick="bukaHalamanTambahKontak()">
+                <i class="fa fa-plus mr-2"></i> Tambah Kontak Baru
+            </button>
+        </div>
+        <div id="daftarKontakIsi"></div>
+    </div>
+
+    <!-- HALAMAN TAMBAH KONTAK -->
+    <div id="halamanTambahKontak" class="halaman-tambah-kontak fixed inset-0 bg-white z-50 overflow-y-auto page-content">
+        <div class="header-bar flex items-center gap-4 sticky top-0 bg-white">
+            <button onclick="tutupHalamanTambahKontak()" class="text-gray-600 pointer-auto"><i class="fa fa-arrow-left fa-lg"></i></button>
+            <span class="font-semibold text-lg">Kontak Baru</span>
+        </div>
+        <div class="p-5">
+            <label class="block text-sm font-medium mb-1">Nama Kontak</label>
+            <input type="text" id="kontakNama" class="input-field" placeholder="Nama orang">
+
+            <label class="block text-sm font-medium mb-1">Nomor Telepon</label>
+            <input type="tel" id="kontakNomor" class="input-field" placeholder="Nomor telepon orang">
+            <div id="pesanErrorNomor" class="teks-error hidden"></div>
+
+            <button class="btn btn-green w-full pointer-auto" onclick="cekDanSimpanKontak()">Simpan Kontak</button>
+        </div>
+    </div>
+
+    <!-- HALAMAN PROFIL KONTAK -->
+    <div id="halamanProfilKontak" class="halaman-profil-kontak fixed inset-0 bg-white z-50 overflow-y-auto page-content">
+        <div class="header-bar flex items-center gap-4 sticky top-0 bg-white">
+            <button onclick="tutupProfilKontak()" class="text-gray-600 pointer-auto"><i class="fa fa-arrow-left fa-lg"></i></button>
+            <span class="font-semibold text-lg">Profil</span>
+        </div>
+        <div class="pt-6 pb-8 flex flex-col items-center bg-[#f0f2f5]">
+            <img id="profilKontakFoto" src="poto.jpg" class="foto-profil" alt="Foto Kontak" onerror="this.src='https://via.placeholder.com/200'">
+        </div>
+        <div class="px-4">
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Nama</div>
+            <div class="row"><div class="nilai" id="profilKontakNama">—</div></div>
+
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Nomor Telepon</div>
+            <div class="row"><div class="nilai" id="profilKontakNomor">—</div></div>
+
+            <div class="mt-5 mb-1 text-sm text-gray-500 px-2">Tentang</div>
+            <div class="row"><div class="nilai" id="profilKontakStatus">—</div></div>
+
+            <div class="mt-8">
+                <button id="tombolBlokir" class="btn btn-red w-full pointer-auto" onclick="aksiBlokirKontak()">Blokir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP EDIT NAMA -->
+    <div id="popupEditNama" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-5 w-[90%] max-w-[340px]">
+            <h3 class="font-semibold mb-3">Ubah Nama</h3>
+            <input type="text" id="inputEditNama" class="input-field" maxlength="25">
+            <div class="flex justify-end gap-3">
+                <button onclick="tutupEditNama()" class="btn btn-link pointer-auto">Batal</button>
+                <button onclick="simpanNama()" class="btn btn-green pointer-auto">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP EDIT STATUS -->
+    <div id="popupEditStatus" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-5 w-[90%] max-w-[340px]">
+            <h3 class="font-semibold mb-3">Ubah Tentang / Status</h3>
+            <input type="text" id="inputEditStatus" class="input-field" maxlength="100">
+            <div class="flex justify-end gap-3">
+                <button onclick="tutupEditStatus()" class="btn btn-link pointer-auto">Batal</button>
+                <button onclick="simpanStatus()" class="btn btn-green pointer-auto">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POPUP MENU OBROLAN -->
+    <div id="popupMenuObrolan" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50" onclick="tutupMenuObrolan()">
+        <div class="bg-white rounded-lg p-3 w-[80%] max-w-[300px]" onclick="event.stopPropagation()">
+            <div class="p-3 hover:bg-gray-100 cursor-pointer pointer-auto" onclick="bukaProfilKontakSekarang(); tutupMenuObrolan();">
+                <i class="fa fa-user mr-3"></i> Lihat profil
+            </div>
+            <div class="p-3 hover:bg-gray-100 cursor-pointer text-red-500 pointer-auto" onclick="aksiBlokirKontak(); tutupMenuObrolan();">
+                <i class="fa fa-ban mr-3"></i> <span id="txtBlokirMenu">Blokir</span>
+            </div>
+            <div class="p-3 hover:bg-gray-100 cursor-pointer pointer-auto" onclick="hapusSemuaPesan(); tutupMenuObrolan();">
+                <i class="fa fa-trash mr-3"></i> Hapus obrolan
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== FIREBASE CONFIG =====
+const firebaseConfig = {
+    apiKey: "AIzaSyDuQmsUHotG-lW9tm5LKabUyw_ARwt_W2I",
+    authDomain: "fashion-fahri-39262.firebaseapp.com",
+    databaseURL: "https://fashion-fahri-39262-default-rtdb.firebaseio.com",
+    projectId: "fashion-fahri-39262",
+    storageBucket: "fashion-fahri-39262.firebasestorage.app",
+    messagingSenderId: "647011821518",
+    appId: "1:647011821518:web:f8b5c7d6e5f4a3b2c1d0e1f2"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const storage = firebase.storage();
+const auth = firebase.auth();
+
+// Data Pengguna
+let uid = localStorage.getItem("uid") || null;
+let namaSaya = localStorage.getItem("namaSaya") || null;
+let nomorSaya = localStorage.getItem("nomorSaya") || null;
+let statusSaya = localStorage.getItem("statusSaya") || "Tersedia";
+let fotoUrl = localStorage.getItem("fotoUrl") || null;
+let kontakSaya = JSON.parse(localStorage.getItem("kontakSaya") || "[]");
+let uidDipilih = null;
+let namaDipilih = null;
+let nomorDipilih = null;
+let fotoDipilih = null;
+let diblokir = false;
+
+// ===== PINDAH HALAMAN =====
+function tampilHalaman(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function kembaliKeAwal() {
+    tampilHalaman("pageAwal");
+}
+
+// ===== NOTIFIKASI =====
+function tampilNotifikasi(judul, isi) {
+    const el = document.getElementById("notifikasi");
+    document.getElementById("notifJudul").textContent = judul;
+    document.getElementById("notifIsi").textContent = isi;
+    el.classList.add("tampil");
+    setTimeout(() => el.classList.remove("tampil"), 3500);
+}
+
+// ===== CEK SUDAH LOGIN → LANGSUNG MASUK =====
+function cekLogin() {
+    if (uid && namaSaya && nomorSaya) {
+        db.ref("pengguna/" + uid).once("value").then(snapshot => {
+            if (snapshot.exists()) {
+                tampilHalaman("pageUtama");
+                muatDataProfil();
+                muatDaftarKontak();
+            } else {
+                localStorage.clear();
+                uid = namaSaya = nomorSaya = statusSaya = fotoUrl = null;
+                kontakSaya = [];
+                tampilHalaman("pageAwal");
+            }
+        }).catch(() => {
+            tampilHalaman("pageUtama");
+            muatDataProfil();
+            muatDaftarKontak();
+        });
+    } else {
+        tampilHalaman("pageAwal");
+    }
+}
+
+// ===== KELUAR / GANTI AKUN =====
+function keluarAkun() {
+    if (confirm("Yakin ingin keluar? Data di HP ini akan dihapus, kamu bisa daftar ulang kapan saja.")) {
+        localStorage.clear();
+        uid = namaSaya = nomorSaya = statusSaya = fotoUrl = null;
+        kontakSaya = [];
+        tampilHalaman("pageAwal");
+    }
+}
+
+// ===== BUKA HALAMAN DAFTAR & LOGIN =====
+document.getElementById("btnBukaDaftar").addEventListener("click", () => tampilHalaman("pageDaftar"));
+document.getElementById("btnBukaLogin").addEventListener("click", () => tampilHalaman("pageLogin"));
+
+// ===== DAFTAR AKUN BARU =====
+document.getElementById("btnDaftar").addEventListener("click", () => {
+    const nama = document.getElementById("namaDaftar").value.trim();
+    const nomor = document.getElementById("nomorDaftar").value.trim();
+
+    if (!nama || !nomor) return alert("Isi nama dan nomor terlebih dahulu!");
+
+    const btn = document.getElementById("btnDaftar");
+    const teksMemuat = document.getElementById("teksMemuatDaftar");
+    btn.classList.add("sedang-memuat");
+    teksMemuat.classList.remove("hidden");
+
+    // Cek nomor sudah dipakai belum
+    db.ref("pengguna").orderByChild("nomor").equalTo(nomor).once("value").then(snapshot => {
+        if (snapshot.exists()) {
+            btn.classList.remove("sedang-memuat");
+            teksMemuat.classList.add("hidden");
+            return alert("Nomor ini sudah terdaftar! Silakan gunakan fitur Masuk/Login.");
+        }
+
+        // Daftar akun baru
+        return auth.signInAnonymously();
+    }).then(userCred => {
+        if (!userCred) return;
+        uid = userCred.user.uid;
+        namaSaya = nama;
+        nomorSaya = nomor;
+
+        // Simpan permanen ke HP
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("namaSaya", nama);
+        localStorage.setItem("nomorSaya", nomor);
+        localStorage.setItem("statusSaya", statusSaya);
+
+        // Simpan ke database global
+        return db.ref("pengguna/" + uid).set({
+            nama: nama,
+            nomor: nomor,
+            status: statusSaya,
+            foto: fotoUrl || "",
+            bergabung: Date.now()
+        });
+    }).then(() => {
+        btn.classList.remove("sedang-memuat");
+        teksMemuat.classList.add("hidden");
+        muatDataProfil();
+        muatDaftarKontak();
+        tampilHalaman("pageUtama");
+        tampilNotifikasi("Berhasil Daftar", "Selamat datang, " + nama + "!");
+    }).catch(err => {
+        btn.classList.remove("sedang-memuat");
+        teksMemuat.classList.add("hidden");
+        alert("Error: " + err.message);
+    });
+});
+
+// ===== LOGIN / MASUK =====
+document.getElementById("btnLogin").addEventListener("click", () => {
+    const nomor = document.getElementById("nomorLogin").value.trim();
+    if (!nomor) return alert("Masukkan nomor telepon!");
+
+    const btn = document.getElementById("btnLogin");
+    const teksMemuat = document.getElementById("teksMemuatLogin");
+    const teksTidakDaftar = document.getElementById("nomorTidakDaftar");
+    btn.classList.add("sedang-memuat");
+    teksMemuat.classList.remove("hidden");
+    teksTidakDaftar.classList.add("hidden");
+
+    // Cek nomor ada di database
+    db.ref("pengguna").orderByChild("nomor").equalTo(nomor).once("value").then(snapshot => {
+        if (!snapshot.exists()) {
+            btn.classList.remove("sedang-memuat");
+            teksMemuat.classList.add("hidden");
+            teksTidakDaftar.classList.remove("hidden");
+            return;
+        }
+
+        // Ambil data akun
+        snapshot.forEach(child => {
+            uid = child.key;
+            namaSaya = child.val().nama;
+            nomorSaya = child.val().nomor;
+            statusSaya = child.val().status || "Tersedia";
+            fotoUrl = child.val().foto || null;
+        });
+
+        // Simpan ke HP
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("namaSaya", namaSaya);
+        localStorage.setItem("nomorSaya", nomorSaya);
+        localStorage.setItem("statusSaya", statusSaya);
+        if (fotoUrl) localStorage.setItem("fotoUrl", fotoUrl);
+
+        // Login otomatis
+        return auth.signInAnonymously();
+    }).then(() => {
+        if (!uid) return;
+        btn.classList.remove("sedang-memuat");
+        teksMemuat.classList.add("hidden");
+        muatDataProfil();
+        muatDaftarKontak();
+        tampilHalaman("pageUtama");
+        tampilNotifikasi("Berhasil Masuk", "Selamat datang kembali, " + namaSaya + "!");
+    }).catch(err => {
+        btn.classList.remove("sedang-memuat");
+        teksMemuat.classList.add("hidden");
+        alert("Error: " + err.message);
+    });
+});
+
+// ===== MUAT DATA PROFIL =====
+function muatDataProfil() {
+    document.getElementById("tampilNama").textContent = namaSaya;
+    document.getElementById("tampilNomor").textContent = nomorSaya;
+    document.getElementById("tampilStatus").textContent = statusSaya;
+    if (fotoUrl) {
+        document.getElementById("fotoProfilNav").src = fotoUrl;
+        document.getElementById("fotoProfilPengaturan").src = fotoUrl;
+    }
+}
+
+// ===== GANTI FOTO PROFIL =====
+document.getElementById("fileFotoProfil").addEventListener("change", e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => document.getElementById("fotoProfilPengaturan").src = ev.target.result;
+    reader.readAsDataURL(file);
+
+    storage.ref("profil/" + uid + ".jpg").put(file).then(() => 
+        storage.ref("profil/" + uid + ".jpg").getDownloadURL()
+    ).then(url => {
+        fotoUrl = url;
+        localStorage.setItem("fotoUrl", url);
+        document.getElementById("fotoProfilNav").src = url;
+        db.ref("pengguna/" + uid + "/foto").set(url);
+        tampilNotifikasi("Foto Diperbarui", "Foto profil berhasil diubah!");
+    });
+});
+
+// ===== UBAH NAMA =====
+function mulaiEditNama() {
+    document.getElementById("inputEditNama").value = namaSaya;
+    document.getElementById("popupEditNama").classList.remove("hidden");
+    document.getElementById("popupEditNama").classList.add("flex");
+}
+function tutupEditNama() {
+    document.getElementById("popupEditNama").classList.add("hidden");
+    document.getElementById("popupEditNama").classList.remove("flex");
+}
+function simpanNama() {
+    const v = document.getElementById("inputEditNama").value.trim();
+    if (!v) return alert("Nama tidak boleh kosong!");
+    namaSaya = v;
+    localStorage.setItem("namaSaya", namaSaya);
+    document.getElementById("tampilNama").textContent = namaSaya;
+    db.ref("pengguna/" + uid + "/nama").set(namaSaya);
+    tutupEditNama();
+    tampilNotifikasi("Nama Diubah", "Nama berhasil diperbarui!");
+}
+
+// ===== UBAH STATUS =====
+function mulaiEditStatus() {
+    document.getElementById("inputEditStatus").value = statusSaya;
+    document.getElementById("popupEditStatus").classList.remove("hidden");
+    document.getElementById("popupEditStatus").classList.add("flex");
+}
+function tutupEditStatus() {
+    document.getElementById("popupEditStatus").classList.add("hidden");
+    document.getElementById("popupEditStatus").classList.remove("flex");
+}
+function simpanStatus() {
+    const v = document.getElementById("inputEditStatus").value.trim();
+    if (!v) return alert("Status tidak boleh kosong!");
+    statusSaya = v;
+    localStorage.setItem("statusSaya", statusSaya);
+    document.getElementById("tampilStatus").textContent = statusSaya;
+    db.ref("pengguna/" + uid + "/status").set(statusSaya);
+    tutupEditStatus();
+    tampilNotifikasi("Status Diubah", "Status berhasil diperbarui!");
+}
+
+// ===== HALAMAN PENGATURAN =====
+function bukaPengaturan() { document.getElementById("halamanPengaturan").classList.add("buka"); }
+function tutupPengaturan() { document.getElementById("halamanPengaturan").classList.remove("buka"); }
+
+// ===== HALAMAN KONTAK =====
+function bukaHalamanKontak() { document.getElementById("halamanKontak").classList.add("buka"); muatDaftarKontak(); }
+function tutupHalamanKontak() { document.getElementById("halamanKontak").classList.remove("buka"); }
+
+// ===== HALAMAN TAMBAH KONTAK =====
+function bukaHalamanTambahKontak() {
+    document.getElementById("halamanTambahKontak").classList.add("buka");
+    document.getElementById("kontakNama").value = "";
+    document.getElementById("kontakNomor").value = "";
+    document.getElementById("pesanErrorNomor").classList.add("hidden");
+}
+function tutupHalamanTambahKontak() { document.getElementById("halamanTambahKontak").classList.remove("buka"); }
+
+// ===== CEK NOMOR TERDAFTAR & SIMPAN KONTAK =====
+function cekDanSimpanKontak() {
+    const nama = document.getElementById("kontakNama").value.trim();
+    const nomor = document.getElementById("kontakNomor").value.trim();
+    const errorEl = document.getElementById("pesanErrorNomor");
+    errorEl.classList.add("hidden");
+
+    if (!nama || !nomor) return alert("Isi nama dan nomor telepon terlebih dahulu!");
+    if (nomor === nomorSaya) return alert("Itu nomor kamu sendiri!");
+
+    // Cek nomor terdaftar
+    db.ref("pengguna").orderByChild("nomor").equalTo(nomor).once("value").then(snapshot => {
+        if (!snapshot.exists()) {
+            errorEl.textContent = "Nomor tidak terdaftar";
+            errorEl.classList.remove("hidden");
+            return;
+        }
+
+        let uidOrang = null, dataOrang = null;
+        snapshot.forEach(child => {
+            uidOrang = child.key;
+            dataOrang = child.val();
+        });
+
+        const ada = kontakSaya.find(k => k.nomor === nomor);
+        if (ada) return alert("Kontak ini sudah ada!");
+
+        kontakSaya.push({
+            id: uidOrang,
+            nama: nama,
+            nomor: nomor,
+            foto: dataOrang.foto || null,
+            diblokir: false
+        });
+        localStorage.setItem("kontakSaya", JSON.stringify(kontakSaya));
+
+        tutupHalamanTambahKontak();
+        muatDaftarKontak();
+        tampilNotifikasi("Kontak Disimpan", nama + " berhasil ditambahkan!");
+    });
+}
+
+// ===== MUAT DAFTAR KONTAK =====
+function muatDaftarKontak() {
+    const el = document.getElementById("daftarKontakIsi");
+    el.innerHTML = "";
+    document.getElementById("jumlahKontak").textContent = "(" + kontakSaya.length + ")";
+
+    kontakSaya.forEach(k => {
+        const div = document.createElement("div");
+        div.className = "contact-item p-3 flex gap-3 pointer-auto";
+        div.innerHTML = `
+            <img src="${k.foto || 'poto.jpg'}" class="foto-kecil" onerror="this.src='https://via.placeholder.com/50'">
+            <div class="flex-1 border-b border-gray-100 pb-1">
+                <div class="font-medium text-[16px]">${k.nama} ${k.diblokir ? '<span class="text-red-500 text-xs ml-2">(Diblokir)</span>' : ''}</div>
+                <div class="text-sm text-gray-500">${k.nomor}</div>
+            </div>
+        `;
+        div.onclick = () => bukaObrolanDariKontak(k);
+        el.appendChild(div);
+    });
+    muatDaftarObrolan();
+}
+
+// ===== BUKA OBROLAN =====
+function bukaObrolanDariKontak(kontak) {
+    namaDipilih = kontak.nama;
+    nomorDipilih = kontak.nomor;
+    uidDipilih = kontak.id;
+    fotoDipilih = kontak.foto;
+    diblokir = kontak.diblokir || false;
+
+    document.getElementById("namaObrolan").textContent = namaDipilih;
+    document.getElementById("fotoObrolan").src = fotoDipilih || "poto.jpg";
+    tutupHalamanKontak();
+    document.getElementById("sidebar").classList.add("hidden");
+    document.getElementById("areaObrolan").classList.remove("hidden");
+    perbaruiTampilanBlokir();
+}
+
+// ===== PROFIL KONTAK =====
+function bukaProfilKontakSekarang() {
+    if (!namaDipilih) return;
+    db.ref("pengguna/" + uidDipilih).once("value").then(snap => {
+        const data = snap.val() || {};
+        document.getElementById("profilKontakNama").textContent = namaDipilih;
+        document.getElementById("profilKontakNomor").textContent = nomorDipilih;
+        document.getElementById("profilKontakStatus").textContent = data.status || "Tersedia";
+        document.getElementById("profilKontakFoto").src = data.foto || fotoDipilih || "poto.jpg";
+    });
+    perbaruiTombolBlokir();
+    document.getElementById("halamanProfilKontak").classList.add("buka");
+}
+function tutupProfilKontak() { document.getElementById("halamanProfilKontak").classList.remove("buka"); }
+
+// ===== BLOKIR =====
+function aksiBlokirKontak() {
+    if (!uidDipilih) return;
+    const i = kontakSaya.findIndex(x => x.id === uidDipilih);
+    if (i === -1) return;
+
+    if (kontakSaya[i].diblokir) {
+        kontakSaya[i].diblokir = false;
+        tampilNotifikasi("Dibuka Blokir", namaDipilih + " sudah tidak diblokir lagi");
+    } else {
+        kontakSaya[i].diblokir = true;
+        tampilNotifikasi("Diblokir", namaDipilih + " telah diblokir");
+    }
+
+    diblokir = kontakSaya[i].diblokir;
+    localStorage.setItem("kontakSaya", JSON.stringify(kontakSaya));
+    perbaruiTombolBlokir();
+    perbaruiTampilanBlokir();
+    muatDaftarKontak();
+}
+function perbaruiTombolBlokir() {
+    const btn = document.getElementById("tombolBlokir");
+    const txt = document.getElementById("txtBlokirMenu");
+    if (diblokir) {
+        btn.textContent = "Buka Blokir";
+        btn.classList.remove("btn-red");
+        btn.classList.add("btn-green");
+        txt.textContent = "Buka Blokir";
+    } else {
+        btn.textContent = "Blokir";
+        btn.classList.remove("btn-green");
+        btn.classList.add("btn-red");
+        txt.textContent = "Blokir";
+    }
+}
+function perbaruiTampilanBlokir() {
+    if (diblokir) {
+        document.getElementById("areaInputPesan").classList.add("hidden");
+        document.getElementById("diblokirInfo").classList.remove("hidden");
+    } else {
+        document.getElementById("areaInputPesan").classList.remove("hidden");
+        document.getElementById("diblokirInfo").classList.add("hidden");
+    }
+}
+
+// ===== MENU OBROLAN =====
+function menuObrolan() { document.getElementById("popupMenuObrolan").classList.remove("hidden"); document.getElementById("popupMenuObrolan").classList.add("flex"); }
+function tutupMenuObrolan() { document.getElementById("popupMenuObrolan").classList.add("hidden"); document.getElementById("popupMenuObrolan").classList.remove("flex"); }
+function hapusSemuaPesan() { if (!namaDipilih) return; if (confirm("Hapus semua pesan dengan " + namaDipilih + "?")) { document.getElementById("isiObrolan").innerHTML = ""; tampilNotifikasi("Dihapus", "Semua pesan telah dihapus"); } }
+
+// ===== DAFTAR OBROLAN =====
+function muatDaftarObrolan() {
+    const el = document.getElementById("daftarObrolan");
+    el.innerHTML = "";
+    kontakSaya.forEach(k => {
+        const div = document.createElement("div");
+        div.className = "chat-item p-3 flex gap-3 pointer-auto";
+        div.innerHTML = `
+            <img src="${k.foto || 'poto.jpg'}" class="foto-kecil" onerror="this.src='https://via.placeholder.com/50'">
+            <div class="flex-1 border-b border-gray-100 pb-1">
+                <div class="flex justify-between">
+                    <span class="font-medium text-[17px]">${k.nama} ${k.diblokir ? '<span class="text-red-500 text-xs ml-1">🔒</span>' : ''}</span>
+                    <span class="text-xs text-gray-500">Hari Ini</span>
+                </div>
+                <div class="flex justify-between mt-0.5">
+                    <span class="text-sm text-gray-500 truncate">Klik untuk mengobrol...</span>
+                </div>
+            </div>
+        `;
+        div.onclick = () => bukaObrolanDariKontak(k);
+        el.appendChild(div);
+    });
+}
+
+// ===== OBROLAN =====
+function jamSekarang() {
+    const d = new Date();
+    return d.getHours().toString().padStart(2,'0') + ":" + d.getMinutes().toString().padStart(2,'0');
+}
+function tutupObrolan() {
+    document.getElementById("sidebar").classList.remove("hidden");
+    document.getElementById("areaObrolan").classList.add("hidden");
+}
+
+function tambahPesan(pesan) {
+    const el = document.createElement("div");
+    el.className = "message " + (pesan.dari === uid ? "sent" : "received");
+    el.innerHTML = `
+        <div>${pesan.teks}</div>
+        <div class="time">${pesan.jam}
+            ${pesan.dari === uid ? '<span class="check double"><i class="fa fa-check"></i><i class="fa fa-check" style="margin-left:-9px"></i></span>' : ''}
+        </div>
+    `;
+    document.getElementById("isiObrolan").
